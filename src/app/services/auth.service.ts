@@ -12,7 +12,6 @@ export class AuthService {
     response_type: `&response_type=token`,
     redirect_uri: `&redirect_uri=${REDIRECT_URI}`
   }
-  token: string; // TODO: Temporary solution
 
   constructor() {}
 
@@ -23,9 +22,4 @@ export class AuthService {
     this.params.response_type +
     this.params.redirect_uri;
   }
-
-  saveToken(token: string): void {
-    this.token = token;
-  }
-
 }

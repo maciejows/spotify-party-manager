@@ -12,15 +12,16 @@ export class DataService {
   httpHeaders: HttpHeaders;
 
   constructor(
-    private http: HttpClient,
-    private authService: AuthService
+    private http: HttpClient
     ) { 
-    this.httpHeaders = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.authService.token
-    })
+    
   }
 
-  getData(): Observable<any> {
+  getData(token: string): Observable<any> {
+    this.httpHeaders = new HttpHeaders({
+      'Authorization': 'Bearer ' + token
+    })
+
     return this.http.get(this.api_url, {
       headers: this.httpHeaders
     })
