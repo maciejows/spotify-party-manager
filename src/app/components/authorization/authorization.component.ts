@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component} from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
@@ -6,12 +6,12 @@ import { AuthService } from '../../services/auth.service';
   templateUrl: './authorization.component.html',
   styleUrls: ['./authorization.component.scss']
 })
-export class AuthorizationComponent implements OnInit {
+export class AuthorizationComponent {
   constructor(
     private _authService: AuthService,
     ) { }
 
-  ngOnInit(): void {
-    setTimeout(()=>this._authService.getSpotifyAuthToken() , 1000);
+  startApp(): void {
+    this._authService.getSpotifyAuthToken();
   }
 }

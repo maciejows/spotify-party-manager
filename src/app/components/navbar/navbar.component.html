@@ -1,0 +1,36 @@
+<!--Navbar-->
+<mdb-navbar SideClass="navbar navbar-expand-lg dark-bg-surface" [containerInside]="true">
+    <!-- Navbar brand -->
+    <mdb-navbar-brand><a class="navbar-brand text-white" href="#">Spotify Genius</a></mdb-navbar-brand>
+  
+    <!-- Collapsible content -->
+  
+      <!-- Links -->
+      <ul class="navbar-nav mr-auto">
+        <!--
+        <li class="nav-item active">
+          <a class="nav-link waves-light" mdbWavesEffect>About<span class="sr-only">(current)</span></a>
+        </li>
+        
+        -->
+        <li class="nav-item">
+          <a class="nav-link waves-light" mdbWavesEffect href="https://github.com/maciejows/spotify-party-manager"><mdb-icon fab icon="github" size="lg"></mdb-icon></a>
+        </li>
+      </ul>
+      <!-- Links -->
+  <!-- TODO: Update for account-->
+      <ul class="navbar-nav ml-auto nav-flex-icons">
+        
+        <li class="nav-item avatar dropdown" dropdown>
+          <a dropdownToggle mdbWavesEffect type="button" class="nav-link dropdown-toggle waves-light" mdbWavesEffect>
+            <img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-2.jpg" style="height:50px"alt="" class="img-fluid rounded-circle z-depth-0"></a>
+          <div *dropdownMenu class="dropdown-menu dropdown-menu-right dropdown dropdown-primary" role="menu">
+            <a class="dropdown-item waves-light" mdbWavesEffect >My account</a>
+            <a class="dropdown-item waves-light" mdbWavesEffect >Log out</a>
+          </div>
+        </li>
+      </ul>
+
+  
+  </mdb-navbar>
+  <!--/.Navbar-->

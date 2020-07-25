@@ -1,4 +1,4 @@
-import { Component, OnInit, SystemJsNgModuleLoader } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { DataService } from '../../services/data.service';
 import { SpotifyToken } from '../../models/SpotifyToken';
 import { Store } from '@ngrx/store';
