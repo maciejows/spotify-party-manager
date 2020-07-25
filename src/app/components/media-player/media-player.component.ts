@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { SpotifyToken } from '../../models/SpotifyToken';
 import { get } from 'scriptjs';
+import { DataService } from '../../services/data.service';
 
 @Component({
   selector: 'app-media-player',
@@ -9,10 +10,17 @@ import { get } from 'scriptjs';
 })
 export class MediaPlayerComponent implements OnInit {
   @Input() token: SpotifyToken
-  constructor() { }
+  deviceId: string;
+  constructor(private dataService: DataService) { }
 
   ngOnInit(): void {
     this.loadSpotifySdk();
+  }
+
+  playSpotifyUri(): void {
+    this.dataService.playUri('spotify:track:7xGfFoTpQ2E7fRF5lN10tr', this.deviceId, this.token.value).subscribe(
+      res => console.log(res)
+    );
   }
 
   loadSpotifySdk(): void {
@@ -35,6 +43,7 @@ export class MediaPlayerComponent implements OnInit {
       
         // Ready
         player.addListener('ready', ({ device_id }) => {
+          this.deviceId = device_id;
           console.log('Ready with Device ID', device_id);
         });
       
