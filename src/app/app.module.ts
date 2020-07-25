@@ -8,6 +8,7 @@ import { AppComponent } from './app.component';
 import { AuthorizationComponent } from './components/authorization/authorization.component';
 import { CallbackComponent } from './components/callback/callback.component';
 import { AppCoreComponent } from './components/app-core/app-core.component';
+import { MediaPlayerComponent } from './components/media-player/media-player.component';
 
 const routes: Routes = [
   { path: '', component: AuthorizationComponent},
@@ -21,7 +22,8 @@ const routes: Routes = [
     AppComponent,
     AuthorizationComponent,
     CallbackComponent,
-    AppCoreComponent
+    AppCoreComponent,
+    MediaPlayerComponent
   ],
   imports: [
     BrowserModule,

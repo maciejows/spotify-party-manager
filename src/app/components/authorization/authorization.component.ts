@@ -12,6 +12,6 @@ export class AuthorizationComponent implements OnInit {
     ) { }
 
   ngOnInit(): void {
-    this._authService.getSpotifyAuthToken()
+    setTimeout(()=>this._authService.getSpotifyAuthToken() , 1000);
   }
 }
