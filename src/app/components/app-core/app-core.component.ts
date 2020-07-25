@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, SystemJsNgModuleLoader } from '@angular/core';
 import { DataService } from '../../services/data.service';
 import { SpotifyToken } from '../../models/SpotifyToken';
 import { Store } from '@ngrx/store';
@@ -10,9 +10,7 @@ import { Store } from '@ngrx/store';
 })
 export class AppCoreComponent implements OnInit {
 
-  tokenValue: string;
-  expiresIn: number;
-  tokenType: string;
+  token: SpotifyToken;
 
   constructor(
     private dataService: DataService,
@@ -22,15 +20,13 @@ export class AppCoreComponent implements OnInit {
   ngOnInit(): void {
     this.store.select(state => state.auth).subscribe(
       token => {
-        this.tokenValue = token.value;
-        this.expiresIn = token.expiresIn;
-        this.tokenType = token.tokenType;
+        this.token = token;
       }
     )
   }
 
   getData() {
-    this.dataService.getData(this.tokenValue).subscribe(
+    this.dataService.getData(this.token.value).subscribe(
       data => console.log(data)
     )
   }
