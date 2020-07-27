@@ -3,7 +3,8 @@ import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { SpotifyToken } from '../../models/SpotifyToken';
-import { storeSpotifyToken } from '../../store/auth.actions';
+import { storeSpotifyToken, loadUserData } from '../../store/auth.actions';
+
 
 @Component({
   selector: 'app-callback',
@@ -26,8 +27,9 @@ export class CallbackComponent implements OnInit {
       tokenType: params['token_type'],
       expiresIn: params['expires_in']
     };
-    this.store.dispatch(storeSpotifyToken({token: spotifyToken}))
-    this._router.navigateByUrl('/app')
+    this.store.dispatch(storeSpotifyToken({token: spotifyToken}));
+    this.store.dispatch(loadUserData({token: spotifyToken.value}));
+    this._router.navigateByUrl('/app');
   }
 
   getParamsFromHash(hash: string){

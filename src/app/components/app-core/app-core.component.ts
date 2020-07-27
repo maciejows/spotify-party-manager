@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { DataService } from '../../services/data.service';
+import { AuthState } from '../../models/AuthState';
 import { SpotifyToken } from '../../models/SpotifyToken';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
@@ -15,12 +16,12 @@ export class AppCoreComponent implements OnInit, OnDestroy {
   tokenSubscription: Subscription;
   constructor(
     private dataService: DataService,
-    private store: Store<{auth: SpotifyToken}>
+    private store: Store<{auth: AuthState}>
   ) { }
 
   ngOnInit(): void {
-    this.tokenSubscription = this.store.select(state => state.auth).subscribe(
-      token => {
+    this.tokenSubscription = this.store.select(state => state.auth.token).subscribe(
+      (token) => {
         this.token = token;
       }
     )
@@ -31,9 +32,6 @@ export class AppCoreComponent implements OnInit, OnDestroy {
   }
 
   getData() {
-    this.dataService.getData(this.token.value).subscribe(
-      data => console.log(data)
-    )
   }
 
 }
