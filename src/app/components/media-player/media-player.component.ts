@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { SpotifyToken } from '../../models/SpotifyToken';
 import { get } from 'scriptjs';
-import { DataService } from '../../services/data.service';
+import { MusicService } from '../../services/music.service';
 
 @Component({
   selector: 'app-media-player',
@@ -12,16 +12,20 @@ export class MediaPlayerComponent implements OnInit {
   @Input() token: SpotifyToken
   deviceId: string;
   player: any;
+  volume: number = 0.5;
 
-  constructor(private dataService: DataService) { }
+  constructor(private musicService: MusicService) { }
 
   ngOnInit(): void {
     this.loadSpotifySdk();
   }
 
   playSpotifyUri(): void {
-    this.dataService.playUri('spotify:track:7xGfFoTpQ2E7fRF5lN10tr', this.deviceId, this.token.value).subscribe(
-      res => console.log(res)
+    this.musicService.playUri('spotify:track:2UkLrrYuDlnVTWPOqVt5uI', this.deviceId, this.token.value).subscribe(
+      res => {
+        this.pause()
+        console.log(res)
+      }
     );
   }
 
@@ -37,6 +41,12 @@ export class MediaPlayerComponent implements OnInit {
     );
   }
 
+  setVolume(){
+    this.player.setVolume(this.volume).then(() => {
+      console.log('Volume updated!');
+    });
+  }
+
   loadSpotifySdk(): void {
     get('https://sdk.scdn.co/spotify-player.js', ()=>{
       (window as any).onSpotifyWebPlaybackSDKReady = () => {
@@ -44,7 +54,8 @@ export class MediaPlayerComponent implements OnInit {
         // @ts-ignore
         this.player = new Spotify.Player({
           name: 'Spotify Genius',
-          getOAuthToken: cb => { cb(token); }
+          getOAuthToken: cb => { cb(token); },
+          volume: 0.5
         });
         // Error handling
         this.player.addListener('initialization_error', ({ message }) => { console.error(message); });
@@ -58,6 +69,7 @@ export class MediaPlayerComponent implements OnInit {
         // Ready
         this.player.addListener('ready', ({ device_id }) => {
           this.deviceId = device_id;
+          this.playSpotifyUri();
           console.log('Ready with Device ID', device_id);
         });
       
@@ -70,10 +82,6 @@ export class MediaPlayerComponent implements OnInit {
         this.player.connect();
       };
     });
-  }
-
-  check(): void {
-    console.log(this.token);
   }
 
 }
