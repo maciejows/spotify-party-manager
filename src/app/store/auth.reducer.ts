@@ -1,20 +1,15 @@
-import { storeSpotifyToken } from './auth.actions';
+import { storeSpotifyToken, storeUserData } from './auth.actions';
 import { createReducer, on } from '@ngrx/store';
-import { SpotifyToken } from '../models/SpotifyToken';
+import { AuthState } from '../models/AuthState';
 
-export const initialState: SpotifyToken = {
-    value: "",
-    tokenType: "",
-    expiresIn: 0
+export const initialState: AuthState = {
+    token: {value:"", expiresIn: 0, tokenType:""},
+    user: {name: "", imgUrl: ""}
 };
 
 const _authReducer = createReducer(initialState, 
-    on(storeSpotifyToken, (state, {token}) => ({
-        ...state,
-        value: token.value,
-        tokenType: token.tokenType,
-        expiresIn: token.expiresIn    
-    }))
+    on(storeSpotifyToken, (state, {token}) => ({...state, token: token })),
+    on(storeUserData, (state, {user}) => ({...state, user: user}))
 );
 
 export function authReducer(state, action){

@@ -4,6 +4,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { RouterModule, Routes } from '@angular/router';
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
 import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { AuthEffects } from './store/auth.effects';
 import { authReducer } from './store/auth.reducer';
 import { AppComponent } from './app.component';
 import { AuthorizationComponent } from './components/authorization/authorization.component';
@@ -33,6 +35,7 @@ const routes: Routes = [
     HttpClientModule,
     RouterModule.forRoot(routes),
     StoreModule.forRoot({auth: authReducer}),
+    EffectsModule.forRoot([AuthEffects]),
     MDBBootstrapModule.forRoot()
   ],
   providers: [],

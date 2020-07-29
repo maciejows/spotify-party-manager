@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { AuthService } from './auth.service';
+import { map } from 'rxjs/operators';
+import { User } from '../models/User';
 
 @Injectable({
   providedIn: 'root'
@@ -17,14 +18,21 @@ export class DataService {
     
   }
 
-  getData(token: string): Observable<any> {
+  getUserData(token: string): Observable<User> {
     this.httpHeaders = new HttpHeaders({
       'Authorization': 'Bearer ' + token
     })
-
-    return this.http.get(this.api_url, {
+    console.log("Getting user data with token: " + token)
+    return this.http.get<User>(this.api_url, {
       headers: this.httpHeaders
-    })
+    }).pipe(
+      map( user => this.objectToUser(user))
+    );
+  }
+
+  objectToUser(object: any): User {
+    console.log("Object to user: " + object)
+    return {name: object.display_name, imgUrl: object.images[0].url}
   }
 
   playUri(uri: string, deviceId: string, token: string): Observable<any> {

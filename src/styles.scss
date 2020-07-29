@@ -7,6 +7,11 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     padding:0;
     margin:0;
 }
+
+.border-rounded {
+    border-radius: 5px;
+}
+
 // Dark theme
 $dark-bg: #19191A;
 $dark-surface: #303031;
