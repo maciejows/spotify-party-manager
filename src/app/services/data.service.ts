@@ -17,7 +17,6 @@ export class DataService {
     this.httpHeaders = new HttpHeaders({
       'Authorization': 'Bearer ' + token
     })
-    console.log("Getting user data with token: " + token)
     return this.http.get<User>(this.api_url, {
       headers: this.httpHeaders
     }).pipe(
@@ -26,7 +25,6 @@ export class DataService {
   }
 
   objectToUser(object: any): User {
-    console.log("Object to user: " + object)
     return {name: object.display_name, imgUrl: object.images[0].url}
   }
 

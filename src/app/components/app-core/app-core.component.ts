@@ -31,7 +31,4 @@ export class AppCoreComponent implements OnInit, OnDestroy {
     this.tokenSubscription.unsubscribe();
   }
 
-  getData() {
-  }
-
 }

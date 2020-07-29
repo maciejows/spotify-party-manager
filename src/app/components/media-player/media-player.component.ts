@@ -1,7 +1,11 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { SpotifyToken } from '../../models/SpotifyToken';
+import { MediaState } from '../../models/MediaState';
+import { CurrentTrack } from '../../models/CurrentTrack';
 import { get } from 'scriptjs';
 import { MusicService } from '../../services/music.service';
+import { Store } from '@ngrx/store';
+import { storeCurrentPlayingTrack } from 'src/app/store/media.actions';
 
 @Component({
   selector: 'app-media-player',
@@ -14,7 +18,10 @@ export class MediaPlayerComponent implements OnInit {
   player: any;
   volume: number = 0.5;
 
-  constructor(private musicService: MusicService) { }
+  constructor(
+    private musicService: MusicService,
+    private store: Store<{media: MediaState}>
+    ) { }
 
   ngOnInit(): void {
     this.loadSpotifySdk();
@@ -23,8 +30,8 @@ export class MediaPlayerComponent implements OnInit {
   playSpotifyUri(): void {
     this.musicService.playUri('spotify:track:2UkLrrYuDlnVTWPOqVt5uI', this.deviceId, this.token.value).subscribe(
       res => {
-        this.pause()
-        console.log(res)
+        //this.resume();
+        //this.pause();
       }
     );
   }
@@ -47,6 +54,23 @@ export class MediaPlayerComponent implements OnInit {
     });
   }
 
+  getState(){
+    this.player.getCurrentState().then(state => {
+      if (!state) {
+        console.error('User is not playing music through the Web Playback SDK');
+        return;
+      }
+    
+      let {
+        current_track,
+        next_tracks: [next_track]
+      } = state.track_window;
+    
+      console.log('Currently Playing', current_track);
+      console.log('Playing Next', next_track);
+    });
+  }
+
   loadSpotifySdk(): void {
     get('https://sdk.scdn.co/spotify-player.js', ()=>{
       (window as any).onSpotifyWebPlaybackSDKReady = () => {
@@ -64,12 +88,16 @@ export class MediaPlayerComponent implements OnInit {
         this.player.addListener('playback_error', ({ message }) => { console.error(message); });
       
         // Playback status updates
-        this.player.addListener('player_state_changed', state => { console.log(state); });
+        this.player.addListener('player_state_changed', state => {
+          let currentTrack: CurrentTrack = this.musicService.objectToCurrentTrack(state);
+          this.store.dispatch(storeCurrentPlayingTrack({track: currentTrack}));
+         });
       
         // Ready
         this.player.addListener('ready', ({ device_id }) => {
           this.deviceId = device_id;
           this.playSpotifyUri();
+          // TODO: Change to api CALL Get State: and dispatch this.getState();
           console.log('Ready with Device ID', device_id);
         });
       
