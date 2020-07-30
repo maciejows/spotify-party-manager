@@ -4,10 +4,11 @@ import { MediaState } from '../models/MediaState';
 
 export const initialState: MediaState = {
     track: {
-        name: "",
+        name: "No track",
         id: "",
         uri: "",
         duration: 0,
+        progress: 0,
         album: {
             name:"",
             image: "",

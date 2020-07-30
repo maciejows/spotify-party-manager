@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Subscription, Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { MediaState } from 'src/app/models/MediaState';
 import { CurrentTrack } from 'src/app/models/CurrentTrack';

@@ -5,5 +5,6 @@ export interface CurrentTrack {
     id: string;
     uri: string;
     duration: number;
+    progress: number;
     album: Album;
 }

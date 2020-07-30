@@ -27,13 +27,44 @@ export class MediaPlayerComponent implements OnInit {
     this.loadSpotifySdk();
   }
 
-  playSpotifyUri(): void {
-    this.musicService.playUri('spotify:track:2UkLrrYuDlnVTWPOqVt5uI', this.deviceId, this.token.value).subscribe(
+  addItemToPlayback(): void {
+    console.log("Play uri")
+    this.musicService.addItemToPlayback('spotify:track:2UkLrrYuDlnVTWPOqVt5uI', this.deviceId, this.token.value).subscribe(
       res => {
-        //this.resume();
-        //this.pause();
+        console.log(res);
       }
     );
+  }
+
+  transferPlayback(): void {
+    this.musicService.transferPlayback(this.deviceId, this.token.value).subscribe(
+      _ => { 
+        this.getCurrentlyPlaying();
+      }
+    );
+  }
+
+  startPlayback(): void {
+    this.musicService.startPlayback('spotify:track:2UkLrrYuDlnVTWPOqVt5uI', this.deviceId, this.token.value).subscribe(
+      res => {
+        console.log(res);
+      }
+    );
+  }
+
+  getCurrentPlaybackInfo(): void {
+    this.musicService.getCurrentPlaybackInfo('2UkLrrYuDlnVTWPOqVt5uI', this.token.value).subscribe(
+      data => console.log(data)
+    )
+  }
+
+  getCurrentlyPlaying(): void {
+    this.musicService.getCurrentlyPlaying(this.token.value).subscribe(
+      data => {
+        console.log(data);
+        this.store.dispatch(storeCurrentPlayingTrack({track: data}));
+      }
+    )
   }
 
   pause(): void {
@@ -60,14 +91,10 @@ export class MediaPlayerComponent implements OnInit {
         console.error('User is not playing music through the Web Playback SDK');
         return;
       }
-    
-      let {
-        current_track,
-        next_tracks: [next_track]
-      } = state.track_window;
-    
-      console.log('Currently Playing', current_track);
-      console.log('Playing Next', next_track);
+
+      let currentTrack: CurrentTrack = this.musicService.objectToCurrentTrack(state);
+      console.log("Got current track: " + currentTrack +" ..dispatching..")
+      this.store.dispatch(storeCurrentPlayingTrack({track: currentTrack}));
     });
   }
 
@@ -89,16 +116,14 @@ export class MediaPlayerComponent implements OnInit {
       
         // Playback status updates
         this.player.addListener('player_state_changed', state => {
-          let currentTrack: CurrentTrack = this.musicService.objectToCurrentTrack(state);
-          this.store.dispatch(storeCurrentPlayingTrack({track: currentTrack}));
          });
       
         // Ready
         this.player.addListener('ready', ({ device_id }) => {
           this.deviceId = device_id;
-          this.playSpotifyUri();
-          // TODO: Change to api CALL Get State: and dispatch this.getState();
           console.log('Ready with Device ID', device_id);
+          this.transferPlayback();
+          console.log('Loading playback')
         });
       
         // Not Ready
