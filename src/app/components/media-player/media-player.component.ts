@@ -5,7 +5,7 @@ import { CurrentTrack } from '../../models/CurrentTrack';
 import { get } from 'scriptjs';
 import { MusicService } from '../../services/music.service';
 import { Store } from '@ngrx/store';
-import { storeCurrentPlayingTrack } from 'src/app/store/media.actions';
+import { storeCurrentPlayingTrack, changeIsPlayingValue } from 'src/app/store/media.actions';
 
 @Component({
   selector: 'app-media-player',
@@ -69,13 +69,13 @@ export class MediaPlayerComponent implements OnInit {
 
   pause(): void {
     this.player.pause().then( () =>
-      console.log(`Paused`)
+      this.store.dispatch(changeIsPlayingValue({isPlaying: false}))
     );
   }
 
   resume(): void {
     this.player.resume().then( ()=>
-      console.log(`Resumed`)
+    this.store.dispatch(changeIsPlayingValue({isPlaying: true}))
     );
   }
 

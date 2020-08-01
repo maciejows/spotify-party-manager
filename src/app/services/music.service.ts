@@ -65,6 +65,7 @@ export class MusicService {
       uri: track.uri,
       duration: track.duration_ms,
       progress: state.progress_ms,
+      isPlaying: state.is_playing,
       album: {
         name: album.name,
         image: album.images[1].url,

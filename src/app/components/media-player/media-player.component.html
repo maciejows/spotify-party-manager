@@ -5,9 +5,11 @@
     <div class="col-8">
         <button mdbBtn class="dark-bg-surface" (click)="pause()"> <mdb-icon fas icon="stop"></mdb-icon> </button>
         <button mdbBtn class="dark-bg-surface" (click)="resume()"> <mdb-icon fas icon="play"></mdb-icon></button> 
+    </div>
+    <div class="col-1">
         <input type="range" min="0" max="1" step="0.01" class="custom-range pl-2 pr-2" 
         id="volume" #salaryMin="ngModel" [(ngModel)]="volume" (change)="setVolume()"> {{volume}}
     </div>
 </div>
-
-<button (click)="addItemToPlayback()"> addItemToPlayback </button>
+<button (click)="getCurrentPlaybackInfo()"> getCurrentPlaybackInfo </button>
+<button (click)="getCurrentlyPlaying()"> getCurrentlyPlaying </button>

@@ -7,4 +7,5 @@ export interface CurrentTrack {
     duration: number;
     progress: number;
     album: Album;
+    isPlaying: boolean;
 }
