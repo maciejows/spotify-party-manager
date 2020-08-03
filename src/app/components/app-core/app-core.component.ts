@@ -1,7 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { DataService } from '../../services/data.service';
 import { AuthState } from '../../models/AuthState';
+import { PlayerState } from '../../models/PlayerState';
 import { SpotifyToken } from '../../models/SpotifyToken';
+import { CurrentTrack } from 'src/app/models/CurrentTrack';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 
@@ -13,10 +15,14 @@ import { Subscription } from 'rxjs';
 export class AppCoreComponent implements OnInit, OnDestroy {
 
   token: SpotifyToken;
+  currentTrack: CurrentTrack;
+  playerState: PlayerState;
+
   tokenSubscription: Subscription;
+  mediaSubscription: Subscription;
+
   constructor(
-    private dataService: DataService,
-    private store: Store<{auth: AuthState}>
+    private store: Store<{auth: AuthState, media: PlayerState}>
   ) { }
 
   ngOnInit(): void {
@@ -25,13 +31,20 @@ export class AppCoreComponent implements OnInit, OnDestroy {
         this.token = token;
       }
     )
+    this.mediaSubscription = this.store.select(state => state.media).subscribe(
+      media => {
+        this.playerState = media
+      }
+    )
   }
 
   ngOnDestroy(): void {
     this.tokenSubscription.unsubscribe();
+    this.mediaSubscription.unsubscribe();
   }
 
-  getData() {
+  log(): void {
+    console.log(this.playerState);
   }
 
 }

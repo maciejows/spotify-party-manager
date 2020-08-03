@@ -1,3 +1,2 @@
-<app-media-player [token]="token"></app-media-player>
-
-<button (click)="getData()"> Api call test </button> 
+<app-media-player [token]="token" [currentTrack]="playerState.track"></app-media-player>
+<button (click)="log()"> Log </button>
