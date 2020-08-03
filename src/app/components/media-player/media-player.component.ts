@@ -1,11 +1,11 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { SpotifyToken } from '../../models/SpotifyToken';
-import { MediaState } from '../../models/MediaState';
+import { PlayerState } from '../../models/PlayerState';
 import { CurrentTrack } from '../../models/CurrentTrack';
 import { get } from 'scriptjs';
 import { MusicService } from '../../services/music.service';
 import { Store } from '@ngrx/store';
-import { storeCurrentPlayingTrack, changeIsPlayingValue } from 'src/app/store/media.actions';
+import { storePlayerState } from 'src/app/store/player.actions';
 
 @Component({
   selector: 'app-media-player',
@@ -13,14 +13,16 @@ import { storeCurrentPlayingTrack, changeIsPlayingValue } from 'src/app/store/me
   styleUrls: ['./media-player.component.scss']
 })
 export class MediaPlayerComponent implements OnInit {
-  @Input() token: SpotifyToken
+  @Input() token: SpotifyToken;
+  @Input() currentTrack: CurrentTrack;
   deviceId: string;
   player: any;
   volume: number = 0.5;
+  position: number = 500;
 
   constructor(
     private musicService: MusicService,
-    private store: Store<{media: MediaState}>
+    private store: Store<{media: PlayerState}>
     ) { }
 
   ngOnInit(): void {
@@ -38,9 +40,7 @@ export class MediaPlayerComponent implements OnInit {
 
   transferPlayback(): void {
     this.musicService.transferPlayback(this.deviceId, this.token.value).subscribe(
-      _ => { 
-        this.getCurrentlyPlaying();
-      }
+      () => {}
     );
   }
 
@@ -58,43 +58,39 @@ export class MediaPlayerComponent implements OnInit {
     )
   }
 
-  getCurrentlyPlaying(): void {
-    this.musicService.getCurrentlyPlaying(this.token.value).subscribe(
-      data => {
-        console.log(data);
-        this.store.dispatch(storeCurrentPlayingTrack({track: data}));
-      }
-    )
-  }
-
   pause(): void {
-    this.player.pause().then( () =>
-      this.store.dispatch(changeIsPlayingValue({isPlaying: false}))
-    );
-  }
-
-  resume(): void {
-    this.player.resume().then( ()=>
-    this.store.dispatch(changeIsPlayingValue({isPlaying: true}))
-    );
-  }
-
-  setVolume(){
-    this.player.setVolume(this.volume).then(() => {
-      console.log('Volume updated!');
+    this.player.pause().then( () => { 
+      console.log('Paused');
     });
   }
 
-  getState(){
-    this.player.getCurrentState().then(state => {
-      if (!state) {
-        console.error('User is not playing music through the Web Playback SDK');
-        return;
-      }
+  resume(): void {
+    this.player.resume().then( () => { 
+      console.log('Resumed');
+    });
+  }
 
-      let currentTrack: CurrentTrack = this.musicService.objectToCurrentTrack(state);
-      console.log("Got current track: " + currentTrack +" ..dispatching..")
-      this.store.dispatch(storeCurrentPlayingTrack({track: currentTrack}));
+  nextTrack(): void {
+    this.player.nextTrack().then( () => {
+      console.log('Next');
+    }); 
+  }
+
+  previousTrack(): void {
+    this.player.previousTrack().then( () => {
+      console.log('Previous');
+    }); 
+  }
+
+  seek(): void {
+    this.player.seek(60 * this.position).then(() => {
+      console.log('Changed position!');
+    });
+  }
+  
+  setVolume(){
+    this.player.setVolume(this.volume).then(() => {
+      console.log('Volume updated!');
     });
   }
 
@@ -116,6 +112,11 @@ export class MediaPlayerComponent implements OnInit {
       
         // Playback status updates
         this.player.addListener('player_state_changed', state => {
+          console.log(state);
+          // Convert object here
+          let currentPlayerState: PlayerState = this.musicService.stateToPlayerObject(state);
+
+          this.store.dispatch(storePlayerState({playerState: currentPlayerState}));
          });
       
         // Ready

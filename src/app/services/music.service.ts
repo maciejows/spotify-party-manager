@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { CurrentTrack } from '../models/CurrentTrack';
-import { map } from 'rxjs/operators';
+import { PlayerState } from '../models/PlayerState';
+import { Track } from '../models/Track';
 
 @Injectable({
   providedIn: 'root'
@@ -46,31 +46,46 @@ export class MusicService {
     })
     return this.http.get<any>('https://api.spotify.com/v1/me/player/', {headers: httpHeaders});
   }
+  
+  stateToPlayerObject(state: any): PlayerState {
+    let trackWindow = state.track_window;
+    let currentTrack = trackWindow.current_track;
+    let track = this.spotifyTrackToTrackObject(currentTrack);
+    let nextTracks: Track[] = [];
+    let previousTracks: Track[] = [];
 
-  getCurrentlyPlaying(token: string): Observable<CurrentTrack> {
-    let httpHeaders = new HttpHeaders({
-      'Authorization': 'Bearer ' + token,
-    })
-    return this.http.get<CurrentTrack>('https://api.spotify.com/v1/me/player/currently-playing', {headers: httpHeaders}).pipe(
-      map( track => this.objectToCurrentTrack(track))
-    );
+    (trackWindow.next_tracks).forEach(element => {
+      nextTracks.push(this.spotifyTrackToTrackObject(element));
+    });
+
+    (trackWindow.previous_tracks).forEach(element => {
+      previousTracks.push(this.spotifyTrackToTrackObject(element));
+    });
+
+    return {
+      track: {
+        progress: state.position,
+        paused: state.paused,
+        ...track
+      },
+      nextTracks: nextTracks,
+      previousTracks: previousTracks
+    }
   }
 
-  objectToCurrentTrack(state: any): CurrentTrack {
-    let track = state.item
+  spotifyTrackToTrackObject(track): Track {
     let album = track.album;
     return {
-      name: track.name,
-      id: track.id,
-      uri: track.uri,
       duration: track.duration_ms,
-      progress: state.progress_ms,
-      isPlaying: state.is_playing,
+      id: track.id,
+      name: track.name,
+      uri: track.uri,
       album: {
+        image: album.images[0].url,
         name: album.name,
-        image: album.images[1].url,
         uri: album.uri
       }
     }
   }
+
 }

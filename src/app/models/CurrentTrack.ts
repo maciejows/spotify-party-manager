@@ -1,11 +1,6 @@
-import { Album } from './Album';
+import { Track } from './Track';
 
-export interface CurrentTrack {
-    name: string;
-    id: string;
-    uri: string;
-    duration: number;
-    progress: number;
-    album: Album;
-    isPlaying: boolean;
+export interface CurrentTrack extends Track {
+  progress: number;
+  paused: boolean;
 }

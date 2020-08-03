@@ -1,7 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Subscription, Observable } from 'rxjs';
-import { Store } from '@ngrx/store';
-import { MediaState } from 'src/app/models/MediaState';
+import { Component, Input } from '@angular/core';
 import { CurrentTrack } from 'src/app/models/CurrentTrack';
 
 @Component({
@@ -9,22 +6,10 @@ import { CurrentTrack } from 'src/app/models/CurrentTrack';
   templateUrl: './current-track-info.component.html',
   styleUrls: ['./current-track-info.component.scss']
 })
-export class CurrentTrackInfoComponent implements OnInit, OnDestroy {
+export class CurrentTrackInfoComponent {
 
-  currentTrack: CurrentTrack;
-  mediaSubscription: Subscription;
+  @Input() currentTrack: CurrentTrack;
 
-  constructor(private store: Store<{media: MediaState}>) { }
+  constructor() { }
 
-  ngOnInit(): void {
-    this.mediaSubscription = this.store.select(state => state.media.track).subscribe(
-      media => {
-        this.currentTrack = media
-      }
-    )
-  }
-
-  ngOnDestroy(): void {
-    this.mediaSubscription.unsubscribe();
-  }
 }

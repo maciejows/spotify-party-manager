@@ -9,7 +9,7 @@ import { MDBBootstrapModule } from 'angular-bootstrap-md';
 // NgRx store
 import { StoreModule } from '@ngrx/store';
 import { authReducer } from './store/auth.reducer';
-import { mediaReducer } from './store/media.reducer';
+import { mediaReducer } from './store/player.reducer';
 // NgRx Effects
 import { EffectsModule } from '@ngrx/effects';
 import { AuthEffects } from './store/auth.effects';
