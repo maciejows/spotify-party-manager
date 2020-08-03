@@ -21,6 +21,7 @@ import { AppCoreComponent } from './components/app-core/app-core.component';
 import { MediaPlayerComponent } from './components/media-player/media-player.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { CurrentTrackInfoComponent } from './components/current-track-info/current-track-info.component';
+import { TrackQueueComponent } from './components/track-queue/track-queue.component';
 
 const routes: Routes = [
   { path: '', component: AuthorizationComponent},
@@ -37,7 +38,8 @@ const routes: Routes = [
     AppCoreComponent,
     MediaPlayerComponent,
     NavbarComponent,
-    CurrentTrackInfoComponent
+    CurrentTrackInfoComponent,
+    TrackQueueComponent
   ],
   imports: [
     BrowserModule,

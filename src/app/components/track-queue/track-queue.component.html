@@ -1,0 +1,10 @@
+<div class="row">
+    <div class="col-12"> Previous: </div>
+    <div *ngFor="let track of previousTracks" class="col-12 clickable" >
+        <h3>{{track.name}}</h3>
+    </div>
+    <div class="col-12"> Next: </div>
+    <div *ngFor="let track of nextTracks" class="col-12 clickable" >
+        <h3>{{track.name}}</h3>
+    </div>
+</div>
