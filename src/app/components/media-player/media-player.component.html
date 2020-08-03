@@ -1,19 +1,25 @@
 <div class="row justify-content-center mt-5 rmpm">
-    <div class="col-12">
-        <app-current-track-info [currentTrack]="currentTrack"></app-current-track-info>
+    <div class="col-4">
+
     </div>
-    <div class="col-8 text-center">
-        <button mdbBtn class="dark-bg-surface" (click)="pause()"> <mdb-icon fas icon="stop"></mdb-icon> </button>
-        <button mdbBtn class="dark-bg-surface" (click)="resume()"> <mdb-icon fas icon="play"></mdb-icon></button> 
-        <button mdbBtn class="dark-bg-surface" (click)="previousTrack()"> <mdb-icon fas icon="backward"></mdb-icon></button> 
-        <button mdbBtn class="dark-bg-surface" (click)="nextTrack()"> <mdb-icon fas icon="forward"></mdb-icon></button> 
+    <div class="col-4">
+        <app-current-track-info [currentTrack]="playerState.track"></app-current-track-info>
+        <div class="col-12 text-center">
+            <input type="range" min="1" max="1000" step="10" class="custom-range pl-2 pr-2" 
+                id="position" [(ngModel)]="position" (change)="seek()">
+            <div class="col-12"></div>
+            <button mdbBtn class="dark-bg-surface" (click)="pause()"> <mdb-icon fas icon="stop"></mdb-icon> </button>
+            <button mdbBtn class="dark-bg-surface" (click)="resume()"> <mdb-icon fas icon="play"></mdb-icon></button> 
+            <button mdbBtn class="dark-bg-surface" (click)="previousTrack()"> <mdb-icon fas icon="backward"></mdb-icon></button> 
+            <button mdbBtn class="dark-bg-surface" (click)="nextTrack()"> <mdb-icon fas icon="forward"></mdb-icon></button> 
+            <input type="range" min="0" max="1" step="0.01" class="custom-range horizontal pl-2 pr-2" 
+                id="volume" [(ngModel)]="volume" (change)="setVolume()">
+        </div>
     </div>
-    <div class="col-1">
-        <input type="range" min="1" max="1000" step="10" class="custom-range pl-2 pr-2" 
-        id="position" #salaryMin="ngModel" [(ngModel)]="position" (change)="seek()"> {{position}}
-    </div>
-    <div class="col-1">
-        <input type="range" min="0" max="1" step="0.01" class="custom-range horizontal pl-2 pr-2" 
-        id="volume" #salaryMin="ngModel" [(ngModel)]="volume" (change)="setVolume()"> {{volume}}
+    <div class="col-4">
+        <app-track-queue [nextTracks]="playerState.nextTracks" [previousTracks]="playerState.previousTracks"></app-track-queue>
     </div>
 </div>
+
+<button (click)="addItemToPlayback()"> Item to playback </button>
+<button (click)="getCurrentPlaybackInfo()"> getCurrentPlaybackInfo </button>

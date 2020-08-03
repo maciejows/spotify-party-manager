@@ -14,7 +14,7 @@ import { storePlayerState } from 'src/app/store/player.actions';
 })
 export class MediaPlayerComponent implements OnInit {
   @Input() token: SpotifyToken;
-  @Input() currentTrack: CurrentTrack;
+  @Input() playerState: PlayerState;
   deviceId: string;
   player: any;
   volume: number = 0.5;
