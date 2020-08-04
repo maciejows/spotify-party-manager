@@ -22,13 +22,13 @@ export class MusicService {
     return this.http.post(`${this.apiUrl}/queue?uri=${uri}&device_id=${deviceId}`,{}, {headers: httpHeaders})
   }
 
-  startPlayback(uri: string, deviceId: string, token: string): Observable<any> {
-    let body = JSON.stringify({uris: [uri]});
+  startPlayback(uri: string, token: string): Observable<any> {
+    let body = JSON.stringify({context_uri: uri, offset: {position: 2}});
     let httpHeaders = new HttpHeaders({
       'Authorization': 'Bearer ' + token,
       'Content-Type': 'application/json'
     })
-    return this.http.put(`${this.apiUrl}/play?device_id=${deviceId}`,body, {headers: httpHeaders})
+    return this.http.put(`${this.apiUrl}/play`,body, {headers: httpHeaders})
   }
 
   transferPlayback(deviceId: string, token: string): Observable<any> {

@@ -10,9 +10,11 @@ import { MDBBootstrapModule } from 'angular-bootstrap-md';
 import { StoreModule } from '@ngrx/store';
 import { authReducer } from './store/auth.reducer';
 import { mediaReducer } from './store/player.reducer';
+import { playlistReducer } from './store/playlist.reducer';
 // NgRx Effects
 import { EffectsModule } from '@ngrx/effects';
 import { AuthEffects } from './store/auth.effects';
+import { PlaylistEffects } from './store/playlist.effects';
 // Components
 import { AppComponent } from './app.component';
 import { AuthorizationComponent } from './components/authorization/authorization.component';
@@ -48,8 +50,8 @@ const routes: Routes = [
     HttpClientModule,
     FormsModule,
     RouterModule.forRoot(routes),
-    StoreModule.forRoot({auth: authReducer, media: mediaReducer}),
-    EffectsModule.forRoot([AuthEffects]),
+    StoreModule.forRoot({auth: authReducer, media: mediaReducer, playlist: playlistReducer}),
+    EffectsModule.forRoot([AuthEffects, PlaylistEffects]),
     MDBBootstrapModule.forRoot()
   ],
   providers: [],
