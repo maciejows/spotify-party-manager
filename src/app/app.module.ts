@@ -22,6 +22,7 @@ import { MediaPlayerComponent } from './components/media-player/media-player.com
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { CurrentTrackInfoComponent } from './components/current-track-info/current-track-info.component';
 import { TrackQueueComponent } from './components/track-queue/track-queue.component';
+import { PlaylistsComponent } from './components/playlists/playlists.component';
 
 const routes: Routes = [
   { path: '', component: AuthorizationComponent},
@@ -39,7 +40,8 @@ const routes: Routes = [
     MediaPlayerComponent,
     NavbarComponent,
     CurrentTrackInfoComponent,
-    TrackQueueComponent
+    TrackQueueComponent,
+    PlaylistsComponent
   ],
   imports: [
     BrowserModule,

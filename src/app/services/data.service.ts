@@ -25,7 +25,7 @@ export class DataService {
   }
 
   objectToUser(object: any): User {
-    return {name: object.display_name, imgUrl: object.images[0].url}
+    return {name: object.display_name, imgUrl: object.images[0].url, id: object.id}
   }
 
 }

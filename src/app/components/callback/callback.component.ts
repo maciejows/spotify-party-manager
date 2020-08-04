@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { SpotifyToken } from '../../models/SpotifyToken';
@@ -14,7 +13,6 @@ import { storeSpotifyToken, loadUserData } from '../../store/auth.actions';
 export class CallbackComponent implements OnInit {
 
   constructor(
-    private _authService: AuthService,
     private _router: Router,
     private store: Store<{auth: SpotifyToken}>
     ) { }
