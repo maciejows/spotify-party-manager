@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { PlaylistService } from '../services/playlist.service';
-import { loadUserPlaylists, storePlaylists} from './playlist.actions';
+import { loadUserPlaylists, storePlaylists, storePlaylistTracks, loadPlaylistTracks} from './playlist.actions';
 import { mergeMap, map } from 'rxjs/operators';
+import { PlaylistState } from '../models/PlaylistState';
 import { Playlist } from '../models/Playlist';
 
 @Injectable()
@@ -23,14 +24,24 @@ export class PlaylistEffects {
             )
         )
     );
+
+    loadPlaylistTracks$ = createEffect(() => 
+        this.actions$.pipe(
+            ofType(loadPlaylistTracks),
+            mergeMap( (action) =>
+                this.playlistService.getPlaylistTracks(action.href, action.token).pipe(
+                    map( tracks => storePlaylistTracks({tracks: tracks, id: action.id}))
+                )
+            )
+        )
+    );
     
-    mapDataToPlaylistArray(data): Playlist[]{
+    mapDataToPlaylistArray(data): PlaylistState{
         let arr = data.items;
-        let playlistArray: Playlist[] = [];
+        let playlists: PlaylistState = {playlists: {}};
         arr.forEach(element => {
-          playlistArray.push(new Playlist(element));
+            playlists.playlists[element.id] = new Playlist(element);
         });
-        console.log("Mapping data: ");
-        return playlistArray;
+        return playlists;
       }
 }

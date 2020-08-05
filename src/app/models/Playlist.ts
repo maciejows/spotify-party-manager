@@ -1,5 +1,6 @@
 import { Track } from './Track';
 export class Playlist {
+    id: string;
     name: string;
     description: string;
     uri: string;
@@ -12,6 +13,7 @@ export class Playlist {
 
     constructor(object: any){
         this.name = object.name;
+        this.id = object.id;
         this.description = object.description;
         this.uri = object.uri;
         this.collaborative = object.collaborative;
@@ -19,6 +21,7 @@ export class Playlist {
         this.ownerId = object.owner.id;
         this.tracksTotal = object.tracks.total;
         this.tracksHref = object.tracks.href;
+        this.items = [];
     }
 
     setProperties(object){

@@ -1,13 +1,14 @@
 import { createReducer, on } from '@ngrx/store';
-import { storePlaylists } from './playlist.actions';
+import { storePlaylists, storePlaylistTracks } from './playlist.actions';
 import { PlaylistState } from '../models/PlaylistState';
 
 export const initialState: PlaylistState = {
-    playlists: []
+    playlists: {}
 }
 
 const _playlistReducer = createReducer(initialState, 
-    on(storePlaylists, (state, {playlists}) => ({playlists: playlists}))
+    on(storePlaylists, (state, {playlists}) => ({playlists: playlists.playlists})),
+    on(storePlaylistTracks, (state, {tracks, id}) => ({playlists: {...state.playlists, [id]: {...state.playlists[id], items: tracks}}}))
     );
 
 export function playlistReducer(state, action) {

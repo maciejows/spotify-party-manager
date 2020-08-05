@@ -1,5 +1,5 @@
 import { Playlist } from './Playlist';
 
 export interface PlaylistState {
-    playlists: Playlist[];
+    playlists: {[id: string]: Playlist};
  }

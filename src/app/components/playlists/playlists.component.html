@@ -1,6 +1,8 @@
-<div *ngFor="let playlist of playlists">
-    {{playlist.name}}
+<div *ngFor="let playlist of playlistState.playlists | keyvalue" (click)="getTracks(playlist.key, playlist.value)">
+    {{playlist.value.name}}
+    <div *ngFor="let track of playlist.value.items; index as i " (click)="playPlaylistTrack(playlist.value.uri, i)">
+        {{i}} {{track.name}}
+    </div>
 </div>
 
 <button (click)="testPlaylistPlay()"> Play </button>
-<button (click)="log()"> Log playlists </button>

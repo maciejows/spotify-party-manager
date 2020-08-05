@@ -43,14 +43,6 @@ export class MediaPlayerComponent implements OnInit {
     );
   }
 
-  startPlayback(): void {
-    this.musicService.startPlayback('spotify:track:2UkLrrYuDlnVTWPOqVt5uI', this.token.value).subscribe(
-      res => {
-        console.log(res);
-      }
-    );
-  }
-
   getCurrentPlaybackInfo(): void {
     this.musicService.getCurrentPlaybackInfo('2UkLrrYuDlnVTWPOqVt5uI', this.token.value).subscribe(
       data => console.log(data)
