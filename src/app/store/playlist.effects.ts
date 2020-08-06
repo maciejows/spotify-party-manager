@@ -38,7 +38,7 @@ export class PlaylistEffects {
     
     mapDataToPlaylistArray(data): PlaylistState{
         let arr = data.items;
-        let playlists: PlaylistState = {playlists: {}};
+        let playlists: PlaylistState = {playlists: {}, currentPlaylist: "", show: false};
         arr.forEach(element => {
             playlists.playlists[element.id] = new Playlist(element);
         });

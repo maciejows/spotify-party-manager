@@ -1,10 +1,8 @@
 <div class="row justify-content-center mt-5 rmpm">
     <div class="col-4">
-        <app-playlists [token]="token.value"></app-playlists>
+        <app-playlists [token]="token.value" [currentTrack]="playerState.track"></app-playlists>
     </div>
     <div class="col-8">
         <app-media-player [token]="token" [playerState]="playerState"></app-media-player>
     </div>
 </div>
-
-<button (click)="log()"> Log </button>

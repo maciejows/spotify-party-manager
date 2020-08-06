@@ -5,7 +5,8 @@ import { PlaylistState } from 'src/app/models/PlaylistState';
 import { loadUserPlaylists } from '../../store/playlist.actions';
 import { MusicService } from 'src/app/services/music.service';
 import { Store } from '@ngrx/store';
-import { loadPlaylistTracks } from '../../store/playlist.actions';
+import { loadPlaylistTracks, selectPlaylist } from '../../store/playlist.actions';
+import { CurrentTrack } from 'src/app/models/CurrentTrack';
 
 @Component({
   selector: 'app-playlists',
@@ -14,7 +15,8 @@ import { loadPlaylistTracks } from '../../store/playlist.actions';
 })
 export class PlaylistsComponent implements OnInit {
   @Input() token: string;
-  playlistState: PlaylistState = {playlists: {}};
+  @Input() currentTrack: CurrentTrack;
+  playlistState: PlaylistState = {playlists: {}, currentPlaylist: "", show: false};
 
   constructor(
     private store: Store<{playlist: PlaylistState}>,
@@ -24,9 +26,12 @@ export class PlaylistsComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.dispatch(loadUserPlaylists({token: this.token}));
-    this.store.select( (state) => state.playlist.playlists).subscribe(
-      data => this.playlistState.playlists = data
-    )
+    this.store.select( (state) => state.playlist).subscribe(
+      data => {
+        console.log(data);
+        this.playlistState = data;
+      }
+    );
   }
 
   testPlaylistPlay(){
@@ -41,14 +46,15 @@ export class PlaylistsComponent implements OnInit {
     );
   }
 
-  getTracks(key: string, value: Playlist): void {
+  selectPlaylist(key: string, value: Playlist): void {
     console.log(key, value);
-    this.store.dispatch(loadPlaylistTracks({token: this.token, href: value.tracksHref, id: key}));
-    console.log(this.playlistState);
+    this.getTracks(key, value);
+    //let show = this.playlistState.currentPlaylist === key ? false : true;
+    this.store.dispatch(selectPlaylist({selected: key, show: true}));
   }
 
-  log(object) {
-    console.log(object);
+  getTracks(key: string, value: Playlist): void {
+    this.store.dispatch(loadPlaylistTracks({token: this.token, href: value.tracksHref, id: key}));
   }
 
 }

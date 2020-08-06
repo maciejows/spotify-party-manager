@@ -26,6 +26,11 @@ $color-primary: #1DB955;
     opacity: 70%;
 }
 
+.clickable:hover {
+    cursor: pointer;
+    opacity: 80%;
+}
+
 .color-primary {
     color: $color-primary !important;
 }
@@ -48,6 +53,12 @@ a.bg-primary:hover, a.bg-primary:focus, button.bg-primary:hover, button.bg-prima
 .dark-bg {
   background-color: $dark-bg !important;
   color: #fff !important;
+}
+
+.list-group-item {
+    background-color: $dark-bg !important;
+    color: #fff !important;
+    border-color: $dark-surface;
 }
 
 .text-white {
