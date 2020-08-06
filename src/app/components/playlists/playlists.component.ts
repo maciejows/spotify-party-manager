@@ -49,8 +49,10 @@ export class PlaylistsComponent implements OnInit {
   selectPlaylist(key: string, value: Playlist): void {
     console.log(key, value);
     this.getTracks(key, value);
-    //let show = this.playlistState.currentPlaylist === key ? false : true;
-    this.store.dispatch(selectPlaylist({selected: key, show: true}));
+    let currentPlaylist = this.playlistState.currentPlaylist;
+    let show = this.playlistState.show;
+    show = currentPlaylist === key? !show : true;
+    this.store.dispatch(selectPlaylist({selected: key, show: show}));
   }
 
   getTracks(key: string, value: Playlist): void {
