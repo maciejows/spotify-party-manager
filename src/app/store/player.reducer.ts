@@ -9,7 +9,7 @@ export const initialState: PlayerState = {
         uri: "",
         duration: 0,
         progress: 0,
-        paused: false,
+        paused: true,
         album: {
             name:"",
             image: "",

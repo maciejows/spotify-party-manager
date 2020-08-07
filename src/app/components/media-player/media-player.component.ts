@@ -16,8 +16,10 @@ export class MediaPlayerComponent implements OnInit {
   @Input() playerState: PlayerState;
   deviceId: string;
   player: any;
-  volume: number = 0.5;
+  volume: number = 0.2;
   position: number = 500;
+  togglePlayIcon: "play" | "stop" = "play";
+  volumeIcon: "volume-mute" | "volume-down" | "volume-up" = "volume-down";
 
   constructor(
     private musicService: MusicService,
@@ -49,15 +51,9 @@ export class MediaPlayerComponent implements OnInit {
     )
   }
 
-  pause(): void {
-    this.player.pause().then( () => { 
-      console.log('Paused');
-    });
-  }
-
-  resume(): void {
-    this.player.resume().then( () => { 
-      console.log('Resumed');
+  togglePlay(): void {
+    this.player.togglePlay().then( () => { 
+      console.log('Toggle play');
     });
   }
 
@@ -81,7 +77,8 @@ export class MediaPlayerComponent implements OnInit {
   
   setVolume(){
     this.player.setVolume(this.volume).then(() => {
-      console.log('Volume updated!');
+      console.log("VOlume");
+      this.volumeIcon = this.volume === 0? "volume-mute" : (this.volume < 0.40? "volume-down" : "volume-up");
     });
   }
 
@@ -103,12 +100,11 @@ export class MediaPlayerComponent implements OnInit {
       
         // Playback status updates
         this.player.addListener('player_state_changed', state => {
-          console.log(state);
-          // Convert object here
           let currentPlayerState: PlayerState = this.musicService.stateToPlayerObject(state);
-
           this.store.dispatch(storePlayerState({playerState: currentPlayerState}));
-         });
+          console.log(currentPlayerState);
+          this.togglePlayIcon = currentPlayerState.track.paused? "play" : "stop";
+        });
       
         // Ready
         this.player.addListener('ready', ({ device_id }) => {
