@@ -1,6 +1,6 @@
-<div *ngFor="let playlist of playlistState.playlists | keyvalue" 
-    (click)="selectPlaylist(playlist.key, playlist.value)">
-    <p class="clickable font-weight-bolder playlist-text">{{playlist.value.name}}</p>
+<div *ngFor="let playlist of playlistState.playlists | keyvalue">
+    <p class="clickable font-weight-bolder playlist-text"
+    (click)="selectPlaylist(playlist.key, playlist.value)">{{playlist.value.name}}</p>
     <ul *ngIf="playlistState.currentPlaylist === playlist.key && playlistState.show" class="list-group w-50 mt-1 mb-2" >
         <li *ngFor="let track of playlist.value.items; index as i"
         (click)="playPlaylistTrack(playlist.value.uri, i)"
