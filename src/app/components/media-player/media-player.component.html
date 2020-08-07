@@ -1,8 +1,5 @@
-<div class="row justify-content-center mt-5 rmpm">
-    <div class="col-4">
-
-    </div>
-    <div class="col-4">
+<div class="row">
+    <div class="col-6">
         <app-current-track-info [currentTrack]="playerState.track"></app-current-track-info>
         <div class="col-12 text-center">
             <input type="range" min="1" max="1000" step="10" class="custom-range pl-2 pr-2" 
@@ -16,10 +13,8 @@
                 id="volume" [(ngModel)]="volume" (change)="setVolume()">
         </div>
     </div>
-    <div class="col-4">
+    <div class="col-6">
         <app-track-queue [nextTracks]="playerState.nextTracks" [previousTracks]="playerState.previousTracks"></app-track-queue>
     </div>
 </div>
 
-<button (click)="addItemToPlayback()"> Item to playback </button>
-<button (click)="getCurrentPlaybackInfo()"> getCurrentPlaybackInfo </button>

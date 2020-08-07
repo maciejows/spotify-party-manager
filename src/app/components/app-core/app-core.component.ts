@@ -1,9 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { DataService } from '../../services/data.service';
 import { AuthState } from '../../models/AuthState';
 import { PlayerState } from '../../models/PlayerState';
 import { SpotifyToken } from '../../models/SpotifyToken';
-import { CurrentTrack } from 'src/app/models/CurrentTrack';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 
@@ -15,7 +13,6 @@ import { Subscription } from 'rxjs';
 export class AppCoreComponent implements OnInit, OnDestroy {
 
   token: SpotifyToken;
-  currentTrack: CurrentTrack;
   playerState: PlayerState;
 
   tokenSubscription: Subscription;

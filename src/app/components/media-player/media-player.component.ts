@@ -1,7 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { SpotifyToken } from '../../models/SpotifyToken';
 import { PlayerState } from '../../models/PlayerState';
-import { CurrentTrack } from '../../models/CurrentTrack';
 import { get } from 'scriptjs';
 import { MusicService } from '../../services/music.service';
 import { Store } from '@ngrx/store';
@@ -41,14 +40,6 @@ export class MediaPlayerComponent implements OnInit {
   transferPlayback(): void {
     this.musicService.transferPlayback(this.deviceId, this.token.value).subscribe(
       () => {}
-    );
-  }
-
-  startPlayback(): void {
-    this.musicService.startPlayback('spotify:track:2UkLrrYuDlnVTWPOqVt5uI', this.deviceId, this.token.value).subscribe(
-      res => {
-        console.log(res);
-      }
     );
   }
 

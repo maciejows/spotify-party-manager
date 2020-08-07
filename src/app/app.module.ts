@@ -10,9 +10,11 @@ import { MDBBootstrapModule } from 'angular-bootstrap-md';
 import { StoreModule } from '@ngrx/store';
 import { authReducer } from './store/auth.reducer';
 import { mediaReducer } from './store/player.reducer';
+import { playlistReducer } from './store/playlist.reducer';
 // NgRx Effects
 import { EffectsModule } from '@ngrx/effects';
 import { AuthEffects } from './store/auth.effects';
+import { PlaylistEffects } from './store/playlist.effects';
 // Components
 import { AppComponent } from './app.component';
 import { AuthorizationComponent } from './components/authorization/authorization.component';
@@ -22,6 +24,7 @@ import { MediaPlayerComponent } from './components/media-player/media-player.com
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { CurrentTrackInfoComponent } from './components/current-track-info/current-track-info.component';
 import { TrackQueueComponent } from './components/track-queue/track-queue.component';
+import { PlaylistsComponent } from './components/playlists/playlists.component';
 
 const routes: Routes = [
   { path: '', component: AuthorizationComponent},
@@ -39,15 +42,16 @@ const routes: Routes = [
     MediaPlayerComponent,
     NavbarComponent,
     CurrentTrackInfoComponent,
-    TrackQueueComponent
+    TrackQueueComponent,
+    PlaylistsComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     FormsModule,
     RouterModule.forRoot(routes),
-    StoreModule.forRoot({auth: authReducer, media: mediaReducer}),
-    EffectsModule.forRoot([AuthEffects]),
+    StoreModule.forRoot({auth: authReducer, media: mediaReducer, playlist: playlistReducer}),
+    EffectsModule.forRoot([AuthEffects, PlaylistEffects]),
     MDBBootstrapModule.forRoot()
   ],
   providers: [],

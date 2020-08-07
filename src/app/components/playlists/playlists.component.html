@@ -1,0 +1,13 @@
+<div *ngFor="let playlist of playlistState.playlists | keyvalue">
+    <p class="clickable font-weight-bolder playlist-text"
+    (click)="selectPlaylist(playlist.key, playlist.value)">{{playlist.value.name}}</p>
+    <ul *ngIf="playlistState.currentPlaylist === playlist.key && playlistState.show" class="list-group w-50 mt-1 mb-2" >
+        <li *ngFor="let track of playlist.value.items; index as i"
+        (click)="playPlaylistTrack(playlist.value.uri, i)"
+        class="list-group-item dark-bg clickable waves-light track-text"
+        [ngClass]="{'dark-bg': track.id === currentTrack.id}" mdbWavesEffect>
+            {{track.name}}
+            <mdb-icon *ngIf="track.id === currentTrack.id" fas size="lg" icon="play-circle" class="ml-1 play-icon"></mdb-icon>
+        </li>
+    </ul>
+</div>

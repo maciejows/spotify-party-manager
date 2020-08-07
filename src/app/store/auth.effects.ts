@@ -17,7 +17,7 @@ export class AuthEffects {
             ofType(loadUserData),
             mergeMap( (action) =>
                 this.dataService.getUserData(action.token).pipe(
-                map(user => storeUserData({user}))
+                    map(user => storeUserData({user}))
                 )       
             )
         )

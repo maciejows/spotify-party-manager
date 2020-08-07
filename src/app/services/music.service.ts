@@ -22,13 +22,13 @@ export class MusicService {
     return this.http.post(`${this.apiUrl}/queue?uri=${uri}&device_id=${deviceId}`,{}, {headers: httpHeaders})
   }
 
-  startPlayback(uri: string, deviceId: string, token: string): Observable<any> {
-    let body = JSON.stringify({uris: [uri]});
+  startPlayback(uri: string, trackOffset: number, token: string): Observable<any> {
+    let body = JSON.stringify({context_uri: uri, offset: {position: trackOffset}});
     let httpHeaders = new HttpHeaders({
       'Authorization': 'Bearer ' + token,
       'Content-Type': 'application/json'
     })
-    return this.http.put(`${this.apiUrl}/play?device_id=${deviceId}`,body, {headers: httpHeaders})
+    return this.http.put(`${this.apiUrl}/play`,body, {headers: httpHeaders})
   }
 
   transferPlayback(deviceId: string, token: string): Observable<any> {
@@ -50,16 +50,16 @@ export class MusicService {
   stateToPlayerObject(state: any): PlayerState {
     let trackWindow = state.track_window;
     let currentTrack = trackWindow.current_track;
-    let track = this.spotifyTrackToTrackObject(currentTrack);
+    let track = new Track(currentTrack);
     let nextTracks: Track[] = [];
     let previousTracks: Track[] = [];
 
     (trackWindow.next_tracks).forEach(element => {
-      nextTracks.push(this.spotifyTrackToTrackObject(element));
+      nextTracks.push(new Track(element));
     });
 
     (trackWindow.previous_tracks).forEach(element => {
-      previousTracks.push(this.spotifyTrackToTrackObject(element));
+      previousTracks.push(new Track(element));
     });
 
     return {
@@ -73,19 +73,5 @@ export class MusicService {
     }
   }
 
-  spotifyTrackToTrackObject(track): Track {
-    let album = track.album;
-    return {
-      duration: track.duration_ms,
-      id: track.id,
-      name: track.name,
-      uri: track.uri,
-      album: {
-        image: album.images[0].url,
-        name: album.name,
-        uri: album.uri
-      }
-    }
-  }
 
 }
