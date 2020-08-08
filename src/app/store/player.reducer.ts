@@ -4,7 +4,7 @@ import { PlayerState } from '../models/PlayerState';
 
 export const initialState: PlayerState = {
     track: {
-        name: "No track",
+        name: undefined,
         id: "",
         uri: "",
         duration: 0,
