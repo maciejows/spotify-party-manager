@@ -8,7 +8,7 @@
             <div class="col-12"></div>
             <div class="col-10">
                <input type="range" min="1" [max]="playerState.track.duration" step="10" class="custom-range pl-2 pr-2" 
-                    id="position" [(ngModel)]="trackProgress" (change)="seek()"> {{trackProgress}} {{playerState.track.duration}}
+                    id="position" [(ngModel)]="trackProgress" (change)="seek()"> {{trackProgress | timeSeconds}} {{playerState.track.duration | timeSeconds}}
             </div>
             <div class="col-12"></div>
             <mdb-icon fas [icon]="volumeIcon"></mdb-icon>

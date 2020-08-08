@@ -20,7 +20,7 @@ export class MediaPlayerComponent implements OnInit, OnDestroy {
   volume: number = 0.2;
   trackProgress: number = 0;
 
-  intervalSource = interval(500);
+  intervalSource = interval(200);
   intervalSub: Subscription;
 
   togglePlayIcon: "play" | "stop" = "play";
@@ -36,7 +36,7 @@ export class MediaPlayerComponent implements OnInit, OnDestroy {
     this.intervalSub = this.intervalSource.subscribe(
       _ => {
         if(this.playerState.track.paused) {}
-        else this.trackProgress += 500;
+        else this.trackProgress += 200;
       }
     );
   }

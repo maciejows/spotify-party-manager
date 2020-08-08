@@ -25,6 +25,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { CurrentTrackInfoComponent } from './components/current-track-info/current-track-info.component';
 import { TrackQueueComponent } from './components/track-queue/track-queue.component';
 import { PlaylistsComponent } from './components/playlists/playlists.component';
+import { TimeSecondsPipe } from './pipes/time-seconds.pipe';
 
 const routes: Routes = [
   { path: '', component: AuthorizationComponent},
@@ -43,7 +44,8 @@ const routes: Routes = [
     NavbarComponent,
     CurrentTrackInfoComponent,
     TrackQueueComponent,
-    PlaylistsComponent
+    PlaylistsComponent,
+    TimeSecondsPipe
   ],
   imports: [
     BrowserModule,
