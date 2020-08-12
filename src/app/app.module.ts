@@ -26,6 +26,7 @@ import { CurrentTrackInfoComponent } from './components/current-track-info/curre
 import { TrackQueueComponent } from './components/track-queue/track-queue.component';
 import { PlaylistsComponent } from './components/playlists/playlists.component';
 import { TimeSecondsPipe } from './pipes/time-seconds.pipe';
+import { LyricsComponent } from './components/lyrics/lyrics.component';
 
 const routes: Routes = [
   { path: '', component: AuthorizationComponent},
@@ -45,7 +46,8 @@ const routes: Routes = [
     CurrentTrackInfoComponent,
     TrackQueueComponent,
     PlaylistsComponent,
-    TimeSecondsPipe
+    TimeSecondsPipe,
+    LyricsComponent
   ],
   imports: [
     BrowserModule,
