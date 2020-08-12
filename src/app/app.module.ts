@@ -15,6 +15,7 @@ import { playlistReducer } from './store/playlist.reducer';
 import { EffectsModule } from '@ngrx/effects';
 import { AuthEffects } from './store/auth.effects';
 import { PlaylistEffects } from './store/playlist.effects';
+import { PlayerEffects } from './store/player.effects';
 // Components
 import { AppComponent } from './app.component';
 import { AuthorizationComponent } from './components/authorization/authorization.component';
@@ -55,7 +56,7 @@ const routes: Routes = [
     FormsModule,
     RouterModule.forRoot(routes),
     StoreModule.forRoot({auth: authReducer, media: mediaReducer, playlist: playlistReducer}),
-    EffectsModule.forRoot([AuthEffects, PlaylistEffects]),
+    EffectsModule.forRoot([AuthEffects, PlaylistEffects, PlayerEffects]),
     MDBBootstrapModule.forRoot()
   ],
   providers: [],

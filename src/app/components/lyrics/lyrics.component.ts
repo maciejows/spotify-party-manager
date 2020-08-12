@@ -1,50 +1,34 @@
-import { Component, OnInit } from '@angular/core';
-import { LyricsService } from 'src/app/services/lyrics.service';
-import { NgxXml2jsonService } from 'ngx-xml2json';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { CurrentTrack } from 'src/app/models/CurrentTrack';
+import { Store } from '@ngrx/store';
+import { getLyrics } from '../../store/player.actions';
+import { PlayerState } from '../../models/PlayerState';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-lyrics',
   templateUrl: './lyrics.component.html',
   styleUrls: ['./lyrics.component.scss']
 })
-export class LyricsComponent implements OnInit {
-  constructor(
-    private lyricService: LyricsService,
-    private xmlToJsonService: NgxXml2jsonService) { }
+export class LyricsComponent implements OnInit, OnDestroy {
+  currentTrack: CurrentTrack;
+  mediaSubscription: Subscription;
+  constructor(private store: Store<{media: PlayerState}>) { }
 
   ngOnInit(): void {
-    
-  }
-
-  getLyricsId(): void {
-    this.lyricService.getLyricsId('eminem', 'not-afraid').subscribe(
-      data => {
-        let lyricId = this.parseResult(data, 'LyricId');
-        let lyricChecksum = this.parseResult(data, 'LyricChecksum');
-        this.getLyrics(lyricId, lyricChecksum);
+    this.mediaSubscription = this.store.select(state => state.media.track).subscribe(
+      track => {
+        this.currentTrack = track;
+        if(!this.currentTrack.lyrics && this.currentTrack.name) this.store.dispatch(getLyrics({artist: track.artist, song: track.name}));
+        console.log("Calling: " + track.artist, track.name);
       }
     )
   }
 
-  getLyrics(lyricsId: string, checksum: string){
-    this.lyricService.getLyrics(lyricsId, checksum).subscribe(
-      data => {
-        const parser = new DOMParser();
-        const xml = parser.parseFromString(data, 'text/xml');
-        const obj = this.xmlToJsonService.xmlToJson(xml);
-        const lyricsResult = obj['GetLyricResult'];
-        const lyrics = lyricsResult['Lyric'];
-        console.log(lyrics);
-      }
-    )
+  ngOnDestroy(): void {
+    this.mediaSubscription.unsubscribe();
   }
-
-  parseResult(xmlResult: string, tag: string) {
-    const parser = new DOMParser();
-    const xml = parser.parseFromString(xmlResult, 'text/xml');
-    const obj = this.xmlToJsonService.xmlToJson(xml);
-    let resultArray = obj['ArrayOfSearchLyricResult']
-    let firstResult = resultArray['SearchLyricResult'][0];
-    return firstResult[tag]
+  log(){
+    console.log(this.currentTrack.lyrics);
   }
 }
