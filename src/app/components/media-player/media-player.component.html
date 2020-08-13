@@ -1,29 +1,24 @@
 <div *ngIf="playerState.track.name; else loading" class="row">
-    <div class="col-6">
-        <app-current-track-info [currentTrack]="playerState.track"></app-current-track-info>
-        <div class="row justify-content-center">
-            <button mdbBtn size="sm" class="dark-bg-surface" mdbWavesEffect (click)="previousTrack()"> <mdb-icon fas icon="backward"></mdb-icon></button> 
-            <button mdbBtn size="sm" class="dark-bg-surface" mdbWavesEffect (click)="togglePlay()"> <mdb-icon fas [icon]="togglePlayIcon"></mdb-icon> </button>
-            <button mdbBtn size="sm" class="dark-bg-surface" mdbWavesEffect (click)="nextTrack()"> <mdb-icon fas icon="forward"></mdb-icon></button> 
-            <div class="col-12"></div>
-            <div class="col-10">
-               <input type="range" min="1" [max]="playerState.track.duration" step="10" class="custom-range pl-2 pr-2" 
-                    id="position" [(ngModel)]="trackProgress" (change)="seek()">
-                <div class="row"> 
-                    <div class="col">{{trackProgress | timeSeconds}}</div>
-                    <div class="col text-right">{{playerState.track.duration | timeSeconds}}</div>
-                </div>
-            </div>
-            <div class="col-12"></div>
-            <mdb-icon fas [icon]="volumeIcon"></mdb-icon>
-            <div class="col-3">
-                <input type="range" min="0" max="1" step="0.05" class="custom-range pl-2 pr-2" 
-                    id="volume" [(ngModel)]="volume" (input)="setVolume()">
+    <app-current-track-info [currentTrack]="playerState.track"></app-current-track-info>
+    <div class="row justify-content-center">
+        <button mdbBtn size="sm" class="dark-bg-surface" mdbWavesEffect (click)="previousTrack()"> <mdb-icon fas icon="backward"></mdb-icon></button> 
+        <button mdbBtn size="sm" class="dark-bg-surface" mdbWavesEffect (click)="togglePlay()"> <mdb-icon fas [icon]="togglePlayIcon"></mdb-icon> </button>
+        <button mdbBtn size="sm" class="dark-bg-surface" mdbWavesEffect (click)="nextTrack()"> <mdb-icon fas icon="forward"></mdb-icon></button> 
+        <div class="col-12"></div>
+        <div class="col-10">
+            <input type="range" min="1" [max]="playerState.track.duration" step="10" class="custom-range pl-2 pr-2" 
+                id="position" [(ngModel)]="trackProgress" (change)="seek()">
+            <div class="row"> 
+                <div class="col">{{trackProgress | timeSeconds}}</div>
+                <div class="col text-right">{{playerState.track.duration | timeSeconds}}</div>
             </div>
         </div>
-    </div>
-    <div class="col-6">
-        <app-track-queue [nextTracks]="playerState.nextTracks" [previousTracks]="playerState.previousTracks"></app-track-queue>
+        <div class="col-12"></div>
+        <mdb-icon fas [icon]="volumeIcon"></mdb-icon>
+        <div class="col-3">
+            <input type="range" min="0" max="1" step="0.05" class="custom-range pl-2 pr-2" 
+                id="volume" [(ngModel)]="volume" (input)="setVolume()">
+        </div>
     </div>
 </div>
 

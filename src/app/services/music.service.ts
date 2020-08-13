@@ -47,31 +47,4 @@ export class MusicService {
     return this.http.get<any>('https://api.spotify.com/v1/me/player/', {headers: httpHeaders});
   }
   
-  stateToPlayerObject(state: any): PlayerState {
-    let trackWindow = state.track_window;
-    let currentTrack = trackWindow.current_track;
-    let track = new Track(currentTrack);
-    let nextTracks: Track[] = [];
-    let previousTracks: Track[] = [];
-
-    (trackWindow.next_tracks).forEach(element => {
-      nextTracks.push(new Track(element));
-    });
-
-    (trackWindow.previous_tracks).forEach(element => {
-      previousTracks.push(new Track(element));
-    });
-
-    return {
-      track: {
-        progress: state.position,
-        paused: state.paused,
-        ...track
-      },
-      nextTracks: nextTracks,
-      previousTracks: previousTracks
-    }
-  }
-
-
 }

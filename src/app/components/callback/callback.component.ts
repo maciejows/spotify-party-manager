@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { SpotifyToken } from '../../models/SpotifyToken';
 import { storeSpotifyToken, loadUserData } from '../../store/auth.actions';
+import { LyricsService } from 'src/app/services/lyrics.service';
 
 
 @Component({
@@ -14,10 +15,12 @@ export class CallbackComponent implements OnInit {
 
   constructor(
     private _router: Router,
-    private store: Store<{auth: SpotifyToken}>
+    private store: Store<{auth: SpotifyToken}>,
+    private lyricsService: LyricsService
     ) { }
 
   ngOnInit(): void {
+     
     var hash = window.location.hash.substring(1);
     let params = this.getParamsFromHash(hash);
     let spotifyToken: SpotifyToken = {
@@ -25,8 +28,12 @@ export class CallbackComponent implements OnInit {
       tokenType: params['token_type'],
       expiresIn: params['expires_in']
     };
+    
     this.store.dispatch(storeSpotifyToken({token: spotifyToken}));
     this.store.dispatch(loadUserData({token: spotifyToken.value}));
+
+    // Uncomment for GENIUS
+    // this.lyricsService.token = params['access_token'];
     this._router.navigateByUrl('/app');
   }
 
