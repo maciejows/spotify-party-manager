@@ -17,8 +17,8 @@ export class PlaylistEffects {
     loadUserPlaylists$ = createEffect(() => 
         this.actions$.pipe(
             ofType(loadUserPlaylists),
-            mergeMap( (action) => 
-                this.playlistService.getCurrentUserPlaylists(action.token).pipe(
+            mergeMap(() => 
+                this.playlistService.getCurrentUserPlaylists().pipe(
                     map( playlists => storePlaylists({playlists: this.mapDataToPlaylistArray(playlists)}))
                 )
             )
@@ -29,7 +29,7 @@ export class PlaylistEffects {
         this.actions$.pipe(
             ofType(loadPlaylistTracks),
             mergeMap( (action) =>
-                this.playlistService.getPlaylistTracks(action.href, action.token).pipe(
+                this.playlistService.getPlaylistTracks(action.href).pipe(
                     map( tracks => storePlaylistTracks({tracks: tracks, id: action.id}))
                 )
             )

@@ -12,7 +12,4 @@ export class TrackQueueComponent {
 
   constructor() { }
 
-  log() {
-    console.log(this.nextTracks, this.previousTracks)
-  }
 }

@@ -39,9 +39,4 @@ export class AppCoreComponent implements OnInit, OnDestroy {
     this.tokenSubscription.unsubscribe();
     this.mediaSubscription.unsubscribe();
   }
-
-  log(): void {
-    console.log(this.playerState);
-  }
-
 }
