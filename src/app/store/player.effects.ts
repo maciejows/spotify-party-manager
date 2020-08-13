@@ -16,12 +16,8 @@ export class PlayerEffects {
         this.actions$.pipe(
             ofType(getLyrics),
             mergeMap( (action) => 
-                this.lyricsService.getLyricsId(action.artist, action.song).pipe(
-                    mergeMap( (action) => 
-                        this.lyricsService.getLyrics(action.lyricId, action.lyricChecksum).pipe(
-                            map ( lyrics => storeLyrics({lyrics}))
-                        )
-                    )
+                this.lyricsService.getLyrics(action.artist, action.song).pipe(
+                    map ( lyrics => storeLyrics({lyrics}))
                 )
             )
         )
