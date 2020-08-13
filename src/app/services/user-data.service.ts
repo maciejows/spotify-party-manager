@@ -7,7 +7,7 @@ import { User } from '../models/User';
 @Injectable({
   providedIn: 'root'
 })
-export class DataService {
+export class UserDataService {
   api_url: string = 'https://api.spotify.com/v1/me'
   httpHeaders: HttpHeaders;
 
