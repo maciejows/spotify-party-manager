@@ -18,9 +18,11 @@ export class LyricsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.mediaSubscription = this.store.select(state => state.media.track).subscribe(
       track => {
-        this.currentTrack = track;
-        if(!this.currentTrack.lyrics && this.currentTrack.name) this.store.dispatch(getLyrics({artist: track.artist, song: track.name}));
+        if(this.currentTrack?.name != track.name) {
+        this.store.dispatch(getLyrics({artist: track.artist, song: track.name}));
         console.log("Calling: " + track.artist, track.name);
+        }
+        this.currentTrack = track;
       }
     )
   }

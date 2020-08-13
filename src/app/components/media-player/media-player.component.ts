@@ -4,7 +4,7 @@ import { PlayerState } from '../../models/PlayerState';
 import { get } from 'scriptjs';
 import { MusicService } from '../../services/music.service';
 import { Store } from '@ngrx/store';
-import { storePlayerState } from 'src/app/store/player.actions';
+import { storePlayerState, storeProgress, storePausedValue } from 'src/app/store/player.actions';
 import { interval, Subscription } from 'rxjs';
 
 @Component({
@@ -108,6 +108,16 @@ export class MediaPlayerComponent implements OnInit, OnDestroy {
     });
   }
 
+  changePlayerState(state: PlayerState){
+    const track = state.track;
+    if(this.playerState.track.id != track.id){
+      console.log("New track: " + state);
+      this.store.dispatch(storePlayerState({playerState: state}));
+    }
+    this.store.dispatch(storeProgress({progress: track.progress}));
+    this.store.dispatch(storePausedValue({paused: track.paused}));
+  }
+
   loadSpotifySdk(): void {
     get('https://sdk.scdn.co/spotify-player.js', ()=>{
       (window as any).onSpotifyWebPlaybackSDKReady = () => {
@@ -126,11 +136,8 @@ export class MediaPlayerComponent implements OnInit, OnDestroy {
       
         // Playback status updates
         this.player.addListener('player_state_changed', state => {
-          let currentPlayerState: PlayerState = this.musicService.stateToPlayerObject(state);
-          this.trackProgress = currentPlayerState.track.progress;
-          this.store.dispatch(storePlayerState({playerState: currentPlayerState}));
-          console.log(currentPlayerState);
-          console.log(state);
+          let currentPlayerState: PlayerState = new PlayerState(state);
+          this.changePlayerState(currentPlayerState);
           this.togglePlayIcon = currentPlayerState.track.paused? "play" : "stop";
         });
       

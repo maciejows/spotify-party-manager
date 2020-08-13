@@ -1,5 +1,5 @@
 import { createReducer, on} from '@ngrx/store';
-import { storePlayerState, storeLyrics} from './player.actions';
+import { storePlayerState, storeLyrics, storePausedValue, storeProgress} from './player.actions';
 import { PlayerState } from '../models/PlayerState';
 
 export const initialState: PlayerState = {
@@ -29,7 +29,9 @@ const _mediaReducer = createReducer(initialState,
         nextTracks: playerState.nextTracks,
         previousTracks: playerState.previousTracks
     })),
-    on(storeLyrics, (state, {lyrics}) => ({...state, track: {...state.track, lyrics: lyrics}}))
+    on(storeLyrics, (state, {lyrics}) => ({...state, track: {...state.track, lyrics: lyrics}})),
+    on(storePausedValue, (state, {paused}) => ({...state, track: {...state.track, paused: paused}})),
+    on(storeProgress, (state, {progress}) => ({...state, track: {...state.track, progress: progress}})),
     );
 
 export function mediaReducer(state, action) {
