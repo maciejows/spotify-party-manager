@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Playlist } from 'src/app/models/Playlist';
 import { PlaylistState } from 'src/app/models/PlaylistState';
 import { loadUserPlaylists } from '../../store/playlist.actions';
-import { MusicService } from 'src/app/services/music.service';
+import { PlayerService } from 'src/app/services/player.service';
 import { Store } from '@ngrx/store';
 import { loadPlaylistTracks, selectPlaylist } from '../../store/playlist.actions';
 import { CurrentTrack } from 'src/app/models/CurrentTrack';
@@ -18,7 +18,7 @@ export class PlaylistsComponent implements OnInit {
   playlistState: PlaylistState = {playlists: {}, currentPlaylist: "", show: false};
 
   constructor(
-    private musicService: MusicService,
+    private playerService: PlayerService,
     private store: Store<{playlist: PlaylistState}>
     ) { }
 
@@ -32,7 +32,7 @@ export class PlaylistsComponent implements OnInit {
   }
 
   playPlaylistTrack(playlistUri: string, trackOffset: number){
-    this.musicService.startPlayback(playlistUri, trackOffset).subscribe(
+    this.playerService.startPlayback(playlistUri, trackOffset).subscribe(
       data => {}
     );
   }

@@ -2,7 +2,7 @@ import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { SpotifyToken } from '../../models/SpotifyToken';
 import { PlayerState } from '../../models/PlayerState';
 import { get } from 'scriptjs';
-import { MusicService } from '../../services/music.service';
+import { PlayerService } from '../../services/player.service';
 import { Store } from '@ngrx/store';
 import { storePlayerState, storeProgress, storePausedValue } from 'src/app/store/player.actions';
 import { interval, Subscription } from 'rxjs';
@@ -27,7 +27,7 @@ export class MediaPlayerComponent implements OnInit, OnDestroy {
   volumeIcon: "volume-mute" | "volume-down" | "volume-up" = "volume-down";
 
   constructor(
-    private musicService: MusicService,
+    private playerService: PlayerService,
     private store: Store<{media: PlayerState}>
     ) { }
 
@@ -46,20 +46,20 @@ export class MediaPlayerComponent implements OnInit, OnDestroy {
   }
 
   addItemToPlayback(): void {
-    this.musicService.addItemToPlayback('spotify:track:2UkLrrYuDlnVTWPOqVt5uI', this.deviceId).subscribe(
+    this.playerService.addItemToPlayback('spotify:track:2UkLrrYuDlnVTWPOqVt5uI', this.deviceId).subscribe(
       res => {
       }
     );
   }
 
   transferPlayback(): void {
-    this.musicService.transferPlayback(this.deviceId).subscribe(
+    this.playerService.transferPlayback(this.deviceId).subscribe(
       () => {}
     );
   }
 
   getCurrentPlaybackInfo(): void {
-    this.musicService.getCurrentPlaybackInfo().subscribe(
+    this.playerService.getCurrentPlaybackInfo().subscribe(
       data => {}
     )
   }
@@ -71,15 +71,15 @@ export class MediaPlayerComponent implements OnInit, OnDestroy {
   }
 
   nextTrack(): void {
-    this.player.nextTrack().then( () => {
-      console.log('Next');
-    }); 
+    this.playerService.nextTrack().subscribe(
+      data => console.log('Next track ' + data)
+    )
   }
 
   previousTrack(): void {
-    this.player.previousTrack().then( () => {
-      console.log('Previous');
-    }); 
+    this.playerService.previousTrack().subscribe(
+      data => console.log('Next track ' + data)
+    ) 
   }
 
   seek(): void {
@@ -109,9 +109,9 @@ export class MediaPlayerComponent implements OnInit, OnDestroy {
   changePlayerState(state: PlayerState){
     const track = state.track;
     if(this.playerState.track.id != track.id){
-      console.log("New track: " + state);
       this.store.dispatch(storePlayerState({playerState: state}));
     }
+    this.trackProgress = track.progress;
     this.store.dispatch(storeProgress({progress: track.progress}));
     this.store.dispatch(storePausedValue({paused: track.paused}));
   }

@@ -6,7 +6,7 @@ import { AuthService } from './auth.service';
 @Injectable({
   providedIn: 'root'
 })
-export class MusicService {
+export class PlayerService {
   apiUrl: string = 'https://api.spotify.com/v1/me/player';
   httpHeaders: HttpHeaders;
 
@@ -37,7 +37,15 @@ export class MusicService {
   }
 
   getCurrentPlaybackInfo(): Observable<any> {
-    return this.http.get<any>('https://api.spotify.com/v1/me/player/', {headers: this.httpHeaders});
+    return this.http.get<any>(`${this.apiUrl}`, {headers: this.httpHeaders});
+  }
+
+  nextTrack(): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/next`, {}, {headers: this.httpHeaders});
+  }
+  
+  previousTrack(): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/previous`, {}, {headers: this.httpHeaders});
   }
   
 }
