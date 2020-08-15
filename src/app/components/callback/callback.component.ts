@@ -4,6 +4,7 @@ import { Store } from '@ngrx/store';
 import { SpotifyToken } from '../../models/SpotifyToken';
 import { storeSpotifyToken, loadUserData } from '../../store/auth.actions';
 import { LyricsService } from 'src/app/services/lyrics.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 
 @Component({
@@ -16,7 +17,7 @@ export class CallbackComponent implements OnInit {
   constructor(
     private _router: Router,
     private store: Store<{auth: SpotifyToken}>,
-    private lyricsService: LyricsService
+    private authService: AuthService
     ) { }
 
   ngOnInit(): void {
@@ -28,7 +29,7 @@ export class CallbackComponent implements OnInit {
       tokenType: params['token_type'],
       expiresIn: params['expires_in']
     };
-    
+    this.authService.setSpotifyTokenValue(spotifyToken.value);
     this.store.dispatch(storeSpotifyToken({token: spotifyToken}));
     this.store.dispatch(loadUserData({token: spotifyToken.value}));
 

@@ -6,9 +6,10 @@ import { SPOTIFY_CLIENT_ID, GENIUS_CLIENT_ID, REDIRECT_URI } from '../../environ
 })
 export class AuthService {
 
-  authUrl: string = `https://accounts.spotify.com/authorize`
+  authUrl: string = `https://accounts.spotify.com/authorize`;
+  // TODO: get only needed scopes
   scopes = `&scope=ugc-image-upload user-read-playback-state user-modify-playback-state user-read-currently-playing streaming app-remote-control user-read-email user-read-private playlist-read-collaborative playlist-modify-public playlist-read-private playlist-modify-private user-library-modify user-library-read user-top-read user-read-playback-position user-read-recently-played user-follow-read user-follow-modify` 
-  
+
   params = {
     client_id: `?client_id=${SPOTIFY_CLIENT_ID}`,
     response_type: `&response_type=token`,
@@ -17,15 +18,13 @@ export class AuthService {
     showDialog: `&show_dialog=true`
   }
 
-  geniusAuthUrl: string = `https://api.genius.com/oauth/authorize`
-  geniusParams = {
-    client_id: `?client_id=${GENIUS_CLIENT_ID}`,
-    response_type: `&response_type=token`,
-    redirect_uri: `&redirect_uri=${REDIRECT_URI}`,
-    state: `123`
-  }
-
+  spotifyTokenValue = "";
+  
   constructor() {}
+
+  setSpotifyTokenValue(token: string){
+    this.spotifyTokenValue = token;
+  }
 
   getSpotifyAuthToken(): void {
     window.location.href = 
@@ -35,8 +34,15 @@ export class AuthService {
     this.params.redirect_uri +
     this.scopes;
   }
-
-  getGeniusAuthToken(): void {
+  /* 
+  geniusAuthUrl: string = `https://api.genius.com/oauth/authorize`
+  geniusParams = {
+    client_id: `?client_id=${GENIUS_CLIENT_ID}`,
+    response_type: `&response_type=token`,
+    redirect_uri: `&redirect_uri=${REDIRECT_URI}`,
+    state: `123`
+  }
+   getGeniusAuthToken(): void {
     window.location.href = 
     this.geniusAuthUrl + 
     this.geniusParams.client_id +
@@ -44,5 +50,5 @@ export class AuthService {
     this.geniusParams.redirect_uri + 
     '&scope=me create_annotation manage_annotation vote';
   }
-
+  */
 }

@@ -46,23 +46,21 @@ export class MediaPlayerComponent implements OnInit, OnDestroy {
   }
 
   addItemToPlayback(): void {
-    console.log("Play uri")
-    this.musicService.addItemToPlayback('spotify:track:2UkLrrYuDlnVTWPOqVt5uI', this.deviceId, this.token.value).subscribe(
+    this.musicService.addItemToPlayback('spotify:track:2UkLrrYuDlnVTWPOqVt5uI', this.deviceId).subscribe(
       res => {
-        console.log(res);
       }
     );
   }
 
   transferPlayback(): void {
-    this.musicService.transferPlayback(this.deviceId, this.token.value).subscribe(
+    this.musicService.transferPlayback(this.deviceId).subscribe(
       () => {}
     );
   }
 
   getCurrentPlaybackInfo(): void {
-    this.musicService.getCurrentPlaybackInfo('2UkLrrYuDlnVTWPOqVt5uI', this.token.value).subscribe(
-      data => console.log(data)
+    this.musicService.getCurrentPlaybackInfo().subscribe(
+      data => {}
     )
   }
 
@@ -159,5 +157,5 @@ export class MediaPlayerComponent implements OnInit, OnDestroy {
       };
     });
   }
-
+  
 }

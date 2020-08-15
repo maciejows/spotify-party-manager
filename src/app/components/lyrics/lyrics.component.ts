@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CurrentTrack } from 'src/app/models/CurrentTrack';
 import { Store } from '@ngrx/store';
 import { getLyrics } from '../../store/player.actions';
@@ -20,7 +20,6 @@ export class LyricsComponent implements OnInit, OnDestroy {
       track => {
         if(this.currentTrack?.name != track.name) {
         this.store.dispatch(getLyrics({artist: track.artist, song: track.name}));
-        console.log("Calling: " + track.artist, track.name);
         }
         this.currentTrack = track;
       }
@@ -29,8 +28,5 @@ export class LyricsComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.mediaSubscription.unsubscribe();
-  }
-  log(){
-    console.log(this.currentTrack.lyrics);
   }
 }

@@ -12,7 +12,6 @@ export class LyricsService {
   constructor(private http: HttpClient) { }
 
   getLyrics(artist: string, song: string): Observable<any>{
-    console.log(`${this.apiUrl}/lyrics?search=${artist}${song}`);
     return this.http.get(`${this.apiUrl}/lyrics?search=${artist}${song}`, {responseType: 'text'});
   }
 
