@@ -24,13 +24,5 @@ export class Playlist {
         this.items = [];
     }
 
-    setProperties(object){
-       this.name = object.name;
-       this.description = object.description;
-       this.collaborative = object.collaborative;
-       this.image = object.images[0].url;
-       this.ownerId = object.owner.id;
-       this.tracksTotal = object.tracks.total;
-       this.tracksHref = object.tracks.href;
-    }
+    
 }

@@ -17,15 +17,8 @@ export class UserDataService {
     this.httpHeaders = new HttpHeaders({
       'Authorization': 'Bearer ' + token
     })
-    return this.http.get<User>(this.api_url, {
-      headers: this.httpHeaders
-    }).pipe(
-      map( user => this.objectToUser(user))
+    return this.http.get<User>(this.api_url, {headers: this.httpHeaders}).pipe(
+      map( user => new User(user))
     );
   }
-
-  objectToUser(object: any): User {
-    return {name: object.display_name, imgUrl: object.images[0].url, id: object.id}
-  }
-
 }

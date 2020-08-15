@@ -8,6 +8,7 @@ export class Track {
     lyrics: string;
     album: Album;
     artist: string;
+    
     constructor(track?){
         this.duration = track.duration_ms,
         this.id = track.id,

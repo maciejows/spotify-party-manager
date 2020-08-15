@@ -18,6 +18,7 @@ export class MusicService {
         'Authorization': `Bearer ${this.authService.spotifyTokenValue}`,
         'Content-Type': 'application/json'
       });
+      console.log(this.httpHeaders);
     }
 
   addItemToPlayback(uri: string, deviceId: string): Observable<any> {
@@ -32,7 +33,6 @@ export class MusicService {
 
   transferPlayback(deviceId: string): Observable<any> {
     let body = JSON.stringify({device_ids: [deviceId], play: false});
-    console.log(this.httpHeaders);
     return this.http.put(`${this.apiUrl}`,body, {headers: this.httpHeaders})
   }
 
