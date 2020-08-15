@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { SpotifyToken } from '../../models/SpotifyToken';
-import { storeSpotifyToken, loadUserData } from '../../store/auth.actions';
-import { LyricsService } from 'src/app/services/lyrics.service';
+import { loadUserData } from '../../store/auth.actions';
 import { AuthService } from 'src/app/services/auth.service';
 
 
@@ -15,27 +14,22 @@ import { AuthService } from 'src/app/services/auth.service';
 export class CallbackComponent implements OnInit {
 
   constructor(
-    private _router: Router,
+    private router: Router,
     private store: Store<{auth: SpotifyToken}>,
     private authService: AuthService
     ) { }
 
   ngOnInit(): void {
-     
     var hash = window.location.hash.substring(1);
     let params = this.getParamsFromHash(hash);
     let spotifyToken: SpotifyToken = {
       value: params['access_token'],
-      tokenType: params['token_type'],
       expiresIn: params['expires_in']
     };
-    this.authService.setSpotifyTokenValue(spotifyToken.value);
-    this.store.dispatch(storeSpotifyToken({token: spotifyToken}));
-    this.store.dispatch(loadUserData({token: spotifyToken.value}));
 
-    // Uncomment for GENIUS
-    // this.lyricsService.token = params['access_token'];
-    this._router.navigateByUrl('/app');
+    window.localStorage.setItem('token', spotifyToken.value);
+    this.store.dispatch(loadUserData({token: spotifyToken.value}));
+    this.router.navigateByUrl('/app');
   }
 
   getParamsFromHash(hash: string){

@@ -12,7 +12,6 @@ export class AuthorizationComponent {
     ) { }
 
   startApp(): void {
-    //this._authService.getGeniusAuthToken();
     this._authService.getSpotifyAuthToken();
   }
 }

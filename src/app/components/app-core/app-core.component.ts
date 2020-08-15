@@ -4,6 +4,8 @@ import { PlayerState } from '../../models/PlayerState';
 import { SpotifyToken } from '../../models/SpotifyToken';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
+import { Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-app-core',
@@ -12,22 +14,25 @@ import { Subscription } from 'rxjs';
 })
 export class AppCoreComponent implements OnInit, OnDestroy {
 
-  token: SpotifyToken;
+  token: SpotifyToken = {value: "", expiresIn: 0};
   playerState: PlayerState;
 
-  tokenSubscription: Subscription;
   mediaSubscription: Subscription;
 
   constructor(
-    private store: Store<{auth: AuthState, media: PlayerState}>
+    private store: Store<{auth: AuthState, media: PlayerState}>,
+    private router: Router, 
+    private authService: AuthService
   ) { }
 
   ngOnInit(): void {
-    this.tokenSubscription = this.store.select(state => state.auth.token).subscribe(
-      (token) => {
-        this.token = token;
-      }
-    )
+    let cachedToken = window.localStorage.getItem('token');
+    if(cachedToken) {
+      this.token.value = cachedToken;
+      this.authService.setSpotifyTokenValue(this.token.value);
+    }
+    else this.router.navigateByUrl('/');
+
     this.mediaSubscription = this.store.select(state => state.media).subscribe(
       media => {
         this.playerState = media
@@ -36,7 +41,7 @@ export class AppCoreComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.tokenSubscription.unsubscribe();
     this.mediaSubscription.unsubscribe();
   }
+
 }

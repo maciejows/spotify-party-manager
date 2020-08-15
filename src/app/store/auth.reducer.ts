@@ -3,7 +3,7 @@ import { storeSpotifyToken, storeUserData } from './auth.actions';
 import { AuthState } from '../models/AuthState';
 
 export const initialState: AuthState = {
-    token: {value:"", expiresIn: 0, tokenType:""},
+    token: {value:"", expiresIn: 0},
     user: {name: "", imgUrl: "", id: ""}
 };
 
