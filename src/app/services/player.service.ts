@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -9,16 +8,16 @@ import { AuthService } from './auth.service';
 export class PlayerService {
   apiUrl: string = 'https://api.spotify.com/v1/me/player';
   httpHeaders: HttpHeaders;
+  token: string;
 
   constructor(
-    private http: HttpClient,
-    private authService: AuthService
+    private http: HttpClient
     ) {
+      this.token = window.localStorage.getItem('token');
       this.httpHeaders = new HttpHeaders({
-        'Authorization': `Bearer ${this.authService.spotifyTokenValue}`,
-        'Content-Type': 'application/json'
-      });
-      console.log(this.httpHeaders);
+      'Authorization': `Bearer ${this.token}`,
+      'Content-Type': 'application/json'
+      })
     }
 
   addItemToPlayback(uri: string, deviceId: string): Observable<any> {
@@ -31,7 +30,7 @@ export class PlayerService {
     return this.http.put(`${this.apiUrl}/play`,body, {headers: this.httpHeaders});
   }
 
-  transferPlayback(deviceId: string): Observable<any> {
+  transferPlayback(deviceId: string, token: string): Observable<any> {
     let body = JSON.stringify({device_ids: [deviceId], play: false});
     return this.http.put(`${this.apiUrl}`,body, {headers: this.httpHeaders})
   }

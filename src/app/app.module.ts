@@ -6,6 +6,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { RouterModule, Routes } from '@angular/router';
 //MDBBootstrap
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
+// NgRx devtools
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { environment } from '../environments/environment'; // Angular CLI environment
 // NgRx store
 import { StoreModule } from '@ngrx/store';
 import { authReducer } from './store/auth.reducer';
@@ -57,7 +60,11 @@ const routes: Routes = [
     RouterModule.forRoot(routes),
     StoreModule.forRoot({auth: authReducer, media: mediaReducer, playlist: playlistReducer}),
     EffectsModule.forRoot([AuthEffects, PlaylistEffects, PlayerEffects]),
-    MDBBootstrapModule.forRoot()
+    MDBBootstrapModule.forRoot(),
+    StoreDevtoolsModule.instrument({
+      maxAge: 25, // Retains last 25 states
+      logOnly: environment.production, // Restrict extension to log-only mode
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]

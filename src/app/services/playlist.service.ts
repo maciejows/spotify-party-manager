@@ -3,7 +3,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Track } from '../models/Track';
-import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,22 +10,28 @@ import { AuthService } from './auth.service';
 export class PlaylistService {
   apiUrl: string = 'https://api.spotify.com/v1';
   httpHeaders: HttpHeaders;
+  token: string;
 
   constructor(
-    private http: HttpClient,
-    private authService: AuthService
-    ) { }
+    private http: HttpClient
+    ) { 
+      console.log("Playlist service constructor")
+      this.token = window.localStorage.getItem('token');
+      this.httpHeaders = new HttpHeaders({
+      'Authorization': `Bearer ${this.token}`
+      })
+    }
 
-  getCurrentUserPlaylists(): Observable<any> {
+  getCurrentUserPlaylists(token: string): Observable<any> {
     let httpHeaders = new HttpHeaders({
-      'Authorization': `Bearer ${this.authService.spotifyTokenValue}`
+      'Authorization': `Bearer ${token}`
     });
     return this.http.get(`${this.apiUrl}/me/playlists`, {headers: httpHeaders});
   }
 
-  getPlaylistTracks(href: string): Observable<any>{
+  getPlaylistTracks(href: string, token: string): Observable<any>{
     let httpHeaders = new HttpHeaders({
-      'Authorization': `Bearer ${this.authService.spotifyTokenValue}`
+      'Authorization': `Bearer ${token}`
     });
     return this.http.get(`${href}?limit=20`, {headers: httpHeaders}).pipe(
       map( data => Track.mapDataToTrackArray(data))

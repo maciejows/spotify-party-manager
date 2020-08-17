@@ -13,7 +13,6 @@ import { interval, Subscription } from 'rxjs';
   styleUrls: ['./media-player.component.scss']
 })
 export class MediaPlayerComponent implements OnInit, OnDestroy {
-  @Input() token: SpotifyToken;
   @Input() playerState: PlayerState;
   deviceId: string;
   player: any;
@@ -53,7 +52,7 @@ export class MediaPlayerComponent implements OnInit, OnDestroy {
   }
 
   transferPlayback(): void {
-    this.playerService.transferPlayback(this.deviceId).subscribe(
+    this.playerService.transferPlayback(this.deviceId, window.localStorage.getItem('token')).subscribe(
       () => {}
     );
   }
@@ -106,20 +105,26 @@ export class MediaPlayerComponent implements OnInit, OnDestroy {
     });
   }
 
-  changePlayerState(state: PlayerState){
+  changePlayerState(state: PlayerState): void {
     const track = state.track;
     if(this.playerState.track.id != track.id){
       this.store.dispatch(storePlayerState({playerState: state}));
     }
-    this.trackProgress = track.progress;
-    this.store.dispatch(storeProgress({progress: track.progress}));
-    this.store.dispatch(storePausedValue({paused: track.paused}));
+
+    if(this.playerState.track.progress != track.progress){
+      this.trackProgress = track.progress;
+      this.store.dispatch(storeProgress({progress: track.progress}));
+    }
+
+    if(this.playerState.track.paused != track.paused){
+      this.store.dispatch(storePausedValue({paused: track.paused}));
+    }
   }
 
   loadSpotifySdk(): void {
     get('https://sdk.scdn.co/spotify-player.js', ()=>{
       (window as any).onSpotifyWebPlaybackSDKReady = () => {
-        const token = this.token.value;
+        const token = window.localStorage.getItem('token');
         // @ts-ignore
         this.player = new Spotify.Player({
           name: 'Spotify Genius',
@@ -142,9 +147,7 @@ export class MediaPlayerComponent implements OnInit, OnDestroy {
         // Ready
         this.player.addListener('ready', ({ device_id }) => {
           this.deviceId = device_id;
-          console.log('Ready with Device ID', device_id);
           this.transferPlayback();
-          console.log('Loading playback');
         });
       
         // Not Ready

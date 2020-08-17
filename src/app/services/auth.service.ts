@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { SPOTIFY_CLIENT_ID, GENIUS_CLIENT_ID, REDIRECT_URI } from '../../environments/environment';
+import { SPOTIFY_CLIENT_ID, REDIRECT_URI } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -18,13 +18,7 @@ export class AuthService {
     showDialog: `&show_dialog=true`
   }
 
-  spotifyTokenValue = "";
-  
   constructor() {}
-
-  setSpotifyTokenValue(token: string){
-    this.spotifyTokenValue = token;
-  }
 
   getSpotifyAuthToken(): void {
     window.location.href = 
@@ -34,21 +28,5 @@ export class AuthService {
     this.params.redirect_uri +
     this.scopes;
   }
-  /* 
-  geniusAuthUrl: string = `https://api.genius.com/oauth/authorize`
-  geniusParams = {
-    client_id: `?client_id=${GENIUS_CLIENT_ID}`,
-    response_type: `&response_type=token`,
-    redirect_uri: `&redirect_uri=${REDIRECT_URI}`,
-    state: `123`
-  }
-   getGeniusAuthToken(): void {
-    window.location.href = 
-    this.geniusAuthUrl + 
-    this.geniusParams.client_id +
-    this.geniusParams.response_type +
-    this.geniusParams.redirect_uri + 
-    '&scope=me create_annotation manage_annotation vote';
-  }
-  */
+ 
 }

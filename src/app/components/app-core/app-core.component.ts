@@ -1,9 +1,12 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AuthState } from '../../models/AuthState';
 import { PlayerState } from '../../models/PlayerState';
-import { SpotifyToken } from '../../models/SpotifyToken';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
+import { Router } from '@angular/router';
+import { loadUserData, storeSpotifyToken } from 'src/app/store/auth.actions';
+import { AuthService } from 'src/app/services/auth.service';
+import { SpotifyToken } from 'src/app/models/SpotifyToken';
 
 @Component({
   selector: 'app-app-core',
@@ -12,31 +15,46 @@ import { Subscription } from 'rxjs';
 })
 export class AppCoreComponent implements OnInit, OnDestroy {
 
-  token: SpotifyToken;
   playerState: PlayerState;
+  token: SpotifyToken;
 
-  tokenSubscription: Subscription;
   mediaSubscription: Subscription;
+  userSubscription: Subscription;
+  tokenSubscription: Subscription;
 
   constructor(
-    private store: Store<{auth: AuthState, media: PlayerState}>
-  ) { }
+    private store: Store<{auth: AuthState, media: PlayerState}>,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
-    this.tokenSubscription = this.store.select(state => state.auth.token).subscribe(
-      (token) => {
-        this.token = token;
-      }
-    )
+    let cachedToken = window.localStorage.getItem('token');
+    if(!cachedToken) this.router.navigateByUrl('/');
+
     this.mediaSubscription = this.store.select(state => state.media).subscribe(
       media => {
         this.playerState = media
       }
     )
+
+    this.userSubscription = this.store.select(state => state.auth.user).subscribe(
+      user => {
+        if (!user.id) this.store.dispatch(loadUserData({token: cachedToken}))
+      }
+    )
+
+    this.tokenSubscription = this.store.select(state => state.auth.token).subscribe(
+      token => {
+        if(!token.value) this.store.dispatch(storeSpotifyToken({token: {value: cachedToken, expiresIn: 0}}));
+        else this.token = token;
+      }
+    )
   }
 
   ngOnDestroy(): void {
-    this.tokenSubscription.unsubscribe();
     this.mediaSubscription.unsubscribe();
+    this.userSubscription.unsubscribe();
+    this,this.tokenSubscription.unsubscribe();
   }
+
 }

@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { PlaylistService } from '../services/playlist.service';
-import { loadUserPlaylists, storePlaylists, storePlaylistTracks, loadPlaylistTracks} from './playlist.actions';
-import { mergeMap, map } from 'rxjs/operators';
+import * as PlaylistActions from './playlist.actions';
+import { mergeMap, map, catchError } from 'rxjs/operators';
 import { PlaylistState } from '../models/PlaylistState';
 import { Playlist } from '../models/Playlist';
+import { of } from 'rxjs';
 
 @Injectable()
 export class PlaylistEffects {
@@ -16,10 +17,11 @@ export class PlaylistEffects {
 
     loadUserPlaylists$ = createEffect(() => 
         this.actions$.pipe(
-            ofType(loadUserPlaylists),
-            mergeMap(() => 
-                this.playlistService.getCurrentUserPlaylists().pipe(
-                    map( playlists => storePlaylists({playlists: this.mapDataToPlaylistArray(playlists)}))
+            ofType(PlaylistActions.loadPlaylists),
+            mergeMap((action) => 
+                this.playlistService.getCurrentUserPlaylists(action.token).pipe(
+                    map( playlists => PlaylistActions.loadPlaylistsSuccess({playlists: this.mapDataToPlaylistArray(playlists)})),
+                    catchError(error => of(PlaylistActions.loadPlaylistsError({error: error.error.error.message})))
                 )
             )
         )
@@ -27,10 +29,11 @@ export class PlaylistEffects {
 
     loadPlaylistTracks$ = createEffect(() => 
         this.actions$.pipe(
-            ofType(loadPlaylistTracks),
+            ofType(PlaylistActions.loadPlaylistTracks),
             mergeMap( (action) =>
-                this.playlistService.getPlaylistTracks(action.href).pipe(
-                    map( tracks => storePlaylistTracks({tracks: tracks, id: action.id}))
+                this.playlistService.getPlaylistTracks(action.href, action.token).pipe(
+                    map( tracks => PlaylistActions.loadPlaylistTracksSuccess({tracks: tracks, id: action.id})),
+                    catchError(error => of(PlaylistActions.loadPlaylistTracksError({error: error.error.error.message})))
                 )
             )
         )
@@ -38,7 +41,7 @@ export class PlaylistEffects {
     
     mapDataToPlaylistArray(data): PlaylistState {
         let arr = data.items;
-        let playlists: PlaylistState = {playlists: {}, currentPlaylist: "", show: false};
+        let playlists: PlaylistState = {playlists: {}, currentPlaylist: "", show: false, error: ""};
         arr.forEach(element => {
             playlists.playlists[element.id] = new Playlist(element);
         });

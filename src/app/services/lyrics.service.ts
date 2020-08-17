@@ -9,7 +9,7 @@ export class LyricsService {
 
   apiUrl = `http://localhost:3000`;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   getLyrics(artist: string, song: string): Observable<any>{
     return this.http.get(`${this.apiUrl}/lyrics?search=${artist}${song}`, {responseType: 'text'});

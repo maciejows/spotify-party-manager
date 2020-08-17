@@ -1,9 +1,9 @@
 <div class="row justify-content-center mt-5 rmpm">
     <div class="col-4">
-        <app-playlists [token]="token.value" [currentTrack]="playerState.track"></app-playlists>
+        <app-playlists [currentTrack]="playerState.track" [token]="token.value"></app-playlists>
     </div>
     <div class="col-4">
-        <app-media-player [token]="token" [playerState]="playerState"></app-media-player>
+        <app-media-player [playerState]="playerState"></app-media-player>
     </div>
     <div class="col-4">
         <!--<app-lyrics></app-lyrics>-->
