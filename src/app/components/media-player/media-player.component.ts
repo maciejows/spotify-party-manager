@@ -105,14 +105,20 @@ export class MediaPlayerComponent implements OnInit, OnDestroy {
     });
   }
 
-  changePlayerState(state: PlayerState){
+  changePlayerState(state: PlayerState): void {
     const track = state.track;
     if(this.playerState.track.id != track.id){
       this.store.dispatch(storePlayerState({playerState: state}));
     }
-    this.trackProgress = track.progress;
-    this.store.dispatch(storeProgress({progress: track.progress}));
-    this.store.dispatch(storePausedValue({paused: track.paused}));
+
+    if(this.playerState.track.progress != track.progress){
+      this.trackProgress = track.progress;
+      this.store.dispatch(storeProgress({progress: track.progress}));
+    }
+
+    if(this.playerState.track.paused != track.paused){
+      this.store.dispatch(storePausedValue({paused: track.paused}));
+    }
   }
 
   loadSpotifySdk(): void {

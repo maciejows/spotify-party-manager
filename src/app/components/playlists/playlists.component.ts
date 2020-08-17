@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Playlist } from 'src/app/models/Playlist';
 import { PlaylistState } from 'src/app/models/PlaylistState';
-import { loadUserPlaylists } from '../../store/playlist.actions';
+import { loadPlaylists } from '../../store/playlist.actions';
 import { PlayerService } from 'src/app/services/player.service';
 import { Store } from '@ngrx/store';
 import { loadPlaylistTracks, selectPlaylist } from '../../store/playlist.actions';
@@ -14,15 +14,16 @@ import { CurrentTrack } from 'src/app/models/CurrentTrack';
 })
 export class PlaylistsComponent implements OnInit {
   @Input() currentTrack: CurrentTrack;
+  @Input() token: string
   playlistState: PlaylistState;
 
   constructor(
     private playerService: PlayerService,
     private store: Store<{playlist: PlaylistState}>
-    ) { }
+    ) {}
 
   ngOnInit(): void {
-    this.store.dispatch(loadUserPlaylists());
+    this.store.dispatch(loadPlaylists({token: this.token}));
     this.store.select( (state) => state.playlist).subscribe(
       data => {
         this.playlistState = data;
@@ -45,7 +46,7 @@ export class PlaylistsComponent implements OnInit {
   }
 
   getTracks(key: string, value: Playlist): void {
-    this.store.dispatch(loadPlaylistTracks({href: value.tracksHref, id: key}));
+    this.store.dispatch(loadPlaylistTracks({href: value.tracksHref, id: key, token: this.token}));
   }
 
 }

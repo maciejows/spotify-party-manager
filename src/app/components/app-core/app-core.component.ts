@@ -4,7 +4,9 @@ import { PlayerState } from '../../models/PlayerState';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
-import { loadUserData } from 'src/app/store/auth.actions';
+import { loadUserData, storeSpotifyToken } from 'src/app/store/auth.actions';
+import { AuthService } from 'src/app/services/auth.service';
+import { SpotifyToken } from 'src/app/models/SpotifyToken';
 
 @Component({
   selector: 'app-app-core',
@@ -14,14 +16,16 @@ import { loadUserData } from 'src/app/store/auth.actions';
 export class AppCoreComponent implements OnInit, OnDestroy {
 
   playerState: PlayerState;
+  token: SpotifyToken;
 
   mediaSubscription: Subscription;
   userSubscription: Subscription;
+  tokenSubscription: Subscription;
 
   constructor(
     private store: Store<{auth: AuthState, media: PlayerState}>,
     private router: Router
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     let cachedToken = window.localStorage.getItem('token');
@@ -38,11 +42,19 @@ export class AppCoreComponent implements OnInit, OnDestroy {
         if (!user.id) this.store.dispatch(loadUserData({token: cachedToken}))
       }
     )
+
+    this.tokenSubscription = this.store.select(state => state.auth.token).subscribe(
+      token => {
+        if(!token.value) this.store.dispatch(storeSpotifyToken({token: {value: cachedToken, expiresIn: 0}}));
+        else this.token = token;
+      }
+    )
   }
 
   ngOnDestroy(): void {
     this.mediaSubscription.unsubscribe();
     this.userSubscription.unsubscribe();
+    this,this.tokenSubscription.unsubscribe();
   }
 
 }

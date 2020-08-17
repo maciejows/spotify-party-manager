@@ -2,9 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { SpotifyToken } from '../../models/SpotifyToken';
-import { loadUserData } from '../../store/auth.actions';
-import { AuthService } from 'src/app/services/auth.service';
-
+import { loadUserData, storeSpotifyToken } from '../../store/auth.actions';
 
 @Component({
   selector: 'app-callback',
@@ -15,9 +13,8 @@ export class CallbackComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private store: Store<{auth: SpotifyToken}>,
-    private authService: AuthService
-    ) { }
+    private store: Store<{auth: SpotifyToken}>
+    ) {}
 
   ngOnInit(): void {
     var hash = window.location.hash.substring(1);
@@ -28,6 +25,7 @@ export class CallbackComponent implements OnInit {
     };
 
     window.localStorage.setItem('token', spotifyToken.value);
+    this.store.dispatch(storeSpotifyToken({token: spotifyToken}));
     this.store.dispatch(loadUserData({token: spotifyToken.value}));
     this.router.navigateByUrl('/app');
   }

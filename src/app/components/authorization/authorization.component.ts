@@ -7,11 +7,10 @@ import { AuthService } from '../../services/auth.service';
   styleUrls: ['./authorization.component.scss']
 })
 export class AuthorizationComponent {
-  constructor(
-    private _authService: AuthService,
-    ) { }
+  constructor(private authService: AuthService) {}
 
   startApp(): void {
-    this._authService.getSpotifyAuthToken();
+    this.authService.getSpotifyAuthToken();
   }
+
 }
