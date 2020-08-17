@@ -4,7 +4,7 @@ import { AuthState } from '../models/AuthState';
 
 export const initialState: AuthState = {
     token: {value:"", expiresIn: 0},
-    user: {name: "", imgUrl: "", id: ""}
+    user: {name: "", imgUrl: "", id: undefined}
 };
 
 const _authReducer = createReducer(initialState, 

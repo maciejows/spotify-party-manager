@@ -13,7 +13,6 @@ import { interval, Subscription } from 'rxjs';
   styleUrls: ['./media-player.component.scss']
 })
 export class MediaPlayerComponent implements OnInit, OnDestroy {
-  @Input() token: SpotifyToken;
   @Input() playerState: PlayerState;
   deviceId: string;
   player: any;
@@ -117,7 +116,6 @@ export class MediaPlayerComponent implements OnInit, OnDestroy {
   }
 
   loadSpotifySdk(): void {
-    console.log(this.token);
     get('https://sdk.scdn.co/spotify-player.js', ()=>{
       (window as any).onSpotifyWebPlaybackSDKReady = () => {
         const token = window.localStorage.getItem('token');

@@ -13,7 +13,6 @@ import { CurrentTrack } from 'src/app/models/CurrentTrack';
   styleUrls: ['./playlists.component.scss']
 })
 export class PlaylistsComponent implements OnInit {
-  @Input() token: string;
   @Input() currentTrack: CurrentTrack;
   playlistState: PlaylistState = {playlists: {}, currentPlaylist: "", show: false};
 

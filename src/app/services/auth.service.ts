@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { SPOTIFY_CLIENT_ID, GENIUS_CLIENT_ID, REDIRECT_URI } from '../../environments/environment';
+import { SPOTIFY_CLIENT_ID, REDIRECT_URI } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -18,13 +18,7 @@ export class AuthService {
     showDialog: `&show_dialog=true`
   }
 
-  spotifyTokenValue = "";
-  
   constructor() {}
-
-  setSpotifyTokenValue(token: string){
-    this.spotifyTokenValue = token;
-  }
 
   getSpotifyAuthToken(): void {
     window.location.href = 

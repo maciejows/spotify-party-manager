@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -9,58 +8,43 @@ import { AuthService } from './auth.service';
 export class PlayerService {
   apiUrl: string = 'https://api.spotify.com/v1/me/player';
   httpHeaders: HttpHeaders;
+  token: string;
 
   constructor(
-    private http: HttpClient,
-    private authService: AuthService
-    ) {}
+    private http: HttpClient
+    ) {
+      this.token = window.localStorage.getItem('token');
+      this.httpHeaders = new HttpHeaders({
+      'Authorization': `Bearer ${this.token}`,
+      'Content-Type': 'application/json'
+      })
+    }
 
   addItemToPlayback(uri: string, deviceId: string): Observable<any> {
     let body = JSON.stringify({device_ids: [deviceId]});
-    let httpHeaders = new HttpHeaders({
-      'Authorization': `Bearer ${this.authService.spotifyTokenValue}`,
-      'Content-Type': 'application/json'
-    });
-    return this.http.post(`${this.apiUrl}/queue?uri=${uri}&device_id=${deviceId}`,{}, {headers: httpHeaders});
+    return this.http.post(`${this.apiUrl}/queue?uri=${uri}&device_id=${deviceId}`,{}, {headers: this.httpHeaders});
   }
 
   startPlayback(uri: string, trackOffset: number): Observable<any> {
-    let httpHeaders = new HttpHeaders({
-      'Authorization': `Bearer ${this.authService.spotifyTokenValue}`,
-      'Content-Type': 'application/json'
-    });
     let body = JSON.stringify({context_uri: uri, offset: {position: trackOffset}});
-    return this.http.put(`${this.apiUrl}/play`,body, {headers: httpHeaders});
+    return this.http.put(`${this.apiUrl}/play`,body, {headers: this.httpHeaders});
   }
 
   transferPlayback(deviceId: string, token: string): Observable<any> {
     let body = JSON.stringify({device_ids: [deviceId], play: false});
-    let httpHeaders = new HttpHeaders({
-      'Authorization': `Bearer ${this.authService.spotifyTokenValue}`,
-      'Content-Type': 'application/json'
-    });
-    return this.http.put(`${this.apiUrl}`,body, {headers: httpHeaders})
+    return this.http.put(`${this.apiUrl}`,body, {headers: this.httpHeaders})
   }
 
   getCurrentPlaybackInfo(): Observable<any> {
-    let httpHeaders = new HttpHeaders({
-      'Authorization': `Bearer ${this.authService.spotifyTokenValue}`
-    });
-    return this.http.get<any>(`${this.apiUrl}`, {headers: httpHeaders});
+    return this.http.get<any>(`${this.apiUrl}`, {headers: this.httpHeaders});
   }
 
   nextTrack(): Observable<any> {
-    let httpHeaders = new HttpHeaders({
-      'Authorization': `Bearer ${this.authService.spotifyTokenValue}`
-    });
-    return this.http.post<any>(`${this.apiUrl}/next`, {}, {headers: httpHeaders});
+    return this.http.post<any>(`${this.apiUrl}/next`, {}, {headers: this.httpHeaders});
   }
   
   previousTrack(): Observable<any> {
-    let httpHeaders = new HttpHeaders({
-      'Authorization': `Bearer ${this.authService.spotifyTokenValue}`
-    });
-    return this.http.post<any>(`${this.apiUrl}/previous`, {}, {headers: httpHeaders});
+    return this.http.post<any>(`${this.apiUrl}/previous`, {}, {headers: this.httpHeaders});
   }
   
 }
