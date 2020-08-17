@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { PlaylistService } from '../services/playlist.service';
-import { loadUserPlaylists, storePlaylists, storePlaylistTracks, loadPlaylistTracks} from './playlist.actions';
-import { mergeMap, map } from 'rxjs/operators';
+import { loadUserPlaylists, storePlaylists, storePlaylistTracks, loadPlaylistTracks, loadPlaylistsError} from './playlist.actions';
+import { mergeMap, map, catchError } from 'rxjs/operators';
 import { PlaylistState } from '../models/PlaylistState';
 import { Playlist } from '../models/Playlist';
+import { of } from 'rxjs';
 
 @Injectable()
 export class PlaylistEffects {
@@ -19,7 +20,8 @@ export class PlaylistEffects {
             ofType(loadUserPlaylists),
             mergeMap(() => 
                 this.playlistService.getCurrentUserPlaylists().pipe(
-                    map( playlists => storePlaylists({playlists: this.mapDataToPlaylistArray(playlists)}))
+                    map( playlists => storePlaylists({playlists: this.mapDataToPlaylistArray(playlists)})),
+                    catchError(error => of(loadPlaylistsError({error: error.error.error.message})))
                 )
             )
         )
@@ -30,7 +32,7 @@ export class PlaylistEffects {
             ofType(loadPlaylistTracks),
             mergeMap( (action) =>
                 this.playlistService.getPlaylistTracks(action.href).pipe(
-                    map( tracks => storePlaylistTracks({tracks: tracks, id: action.id}))
+                    map( tracks => storePlaylistTracks({tracks: tracks, id: action.id})),
                 )
             )
         )
@@ -38,7 +40,7 @@ export class PlaylistEffects {
     
     mapDataToPlaylistArray(data): PlaylistState {
         let arr = data.items;
-        let playlists: PlaylistState = {playlists: {}, currentPlaylist: "", show: false};
+        let playlists: PlaylistState = {playlists: {}, currentPlaylist: "", show: false, error: ""};
         arr.forEach(element => {
             playlists.playlists[element.id] = new Playlist(element);
         });

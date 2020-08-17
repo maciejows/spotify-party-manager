@@ -14,7 +14,7 @@ import { CurrentTrack } from 'src/app/models/CurrentTrack';
 })
 export class PlaylistsComponent implements OnInit {
   @Input() currentTrack: CurrentTrack;
-  playlistState: PlaylistState = {playlists: {}, currentPlaylist: "", show: false};
+  playlistState: PlaylistState;
 
   constructor(
     private playerService: PlayerService,
