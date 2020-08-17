@@ -5,6 +5,7 @@ export class PlayerState {
     track: CurrentTrack;
     nextTracks: Track[] = [];
     previousTracks: Track[] = [];
+    error: string;
 
     constructor(state: any) {
         let trackWindow = state.track_window;

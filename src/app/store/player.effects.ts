@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { createEffect, ofType, Actions} from '@ngrx/effects';
-import { getLyrics, storeLyrics} from './player.actions';
+import { getLyrics, getLyricsSuccess, getLyricsError} from './player.actions';
 import { LyricsService } from '../services/lyrics.service';
-import { mergeMap, map } from 'rxjs/operators';
+import { mergeMap, map, catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 @Injectable()
 export class PlayerEffects {
@@ -15,9 +16,10 @@ export class PlayerEffects {
     loadTrackLyrics$ = createEffect(() =>
         this.actions$.pipe(
             ofType(getLyrics),
-            mergeMap( (action) => 
+            mergeMap((action) => 
                 this.lyricsService.getLyrics(action.artist, action.song).pipe(
-                    map ( lyrics => storeLyrics({lyrics}))
+                    map (lyrics => getLyricsSuccess({lyrics: lyrics})),
+                    catchError(error => of(getLyricsError({error: error.error.message})))
                 )
             )
         )
