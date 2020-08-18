@@ -1,5 +1,4 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
-import { SpotifyToken } from '../../models/SpotifyToken';
 import { PlayerState } from '../../models/PlayerState';
 import { get } from 'scriptjs';
 import { PlayerService } from '../../services/player.service';
@@ -19,11 +18,10 @@ export class MediaPlayerComponent implements OnInit, OnDestroy {
   volume: number = 0.2;
   trackProgress: number = 0;
 
-  intervalSource = interval(200);
+  intervalSource = interval(100);
   intervalSub: Subscription;
 
   togglePlayIcon: "play" | "stop" = "play";
-  volumeIcon: "volume-mute" | "volume-down" | "volume-up" = "volume-down";
 
   constructor(
     private playerService: PlayerService,
@@ -35,7 +33,7 @@ export class MediaPlayerComponent implements OnInit, OnDestroy {
     this.intervalSub = this.intervalSource.subscribe(
       _ => {
         if(this.playerState.track.paused) {}
-        else this.trackProgress += 200;
+        else this.trackProgress += 100;
       }
     );
   }
@@ -46,8 +44,7 @@ export class MediaPlayerComponent implements OnInit, OnDestroy {
 
   addItemToPlayback(): void {
     this.playerService.addItemToPlayback('spotify:track:2UkLrrYuDlnVTWPOqVt5uI', this.deviceId).subscribe(
-      res => {
-      }
+      () => {}
     );
   }
 
@@ -59,54 +56,33 @@ export class MediaPlayerComponent implements OnInit, OnDestroy {
 
   getCurrentPlaybackInfo(): void {
     this.playerService.getCurrentPlaybackInfo().subscribe(
-      data => {}
-    )
+      () => {}
+    );
   }
 
   togglePlay(): void {
-    this.player.togglePlay().then( () => { 
-      console.log('Toggle play');
-    });
+    this.player.togglePlay();
   }
 
   nextTrack(): void {
-    this.playerService.nextTrack().subscribe(
-      data => console.log('Next track ' + data)
-    )
+    this.player.nextTrack();
   }
 
   previousTrack(): void {
-    this.playerService.previousTrack().subscribe(
-      data => console.log('Next track ' + data)
-    ) 
+    this.player.previousTrack();
   }
 
   seek(): void {
-    this.player.seek(this.trackProgress).then(() => {
-      console.log('Changed position!');
-    });
+    this.player.seek(this.trackProgress);
   }
 
-  incrementAudioPosition(trackPaused: boolean): void {
-    if (trackPaused) {
-      this.intervalSub = this.intervalSource.subscribe( val=> {
-        console.log(val);
-      })
-    }
-    else {
-      this.intervalSub.unsubscribe();
-    }
-  }
-  
   setVolume(){
-    this.player.setVolume(this.volume).then(() => {
-      console.log("Volume");
-      this.volumeIcon = this.volume === 0? "volume-mute" : (this.volume < 0.40? "volume-down" : "volume-up");
-    });
+    this.player.setVolume(this.volume);
   }
 
   changePlayerState(state: PlayerState): void {
     const track = state.track;
+    
     if(this.playerState.track.id != track.id){
       this.store.dispatch(storePlayerState({playerState: state}));
     }
@@ -135,7 +111,7 @@ export class MediaPlayerComponent implements OnInit, OnDestroy {
         this.player.addListener('initialization_error', ({ message }) => { console.error(message); });
         this.player.addListener('authentication_error', ({ message }) => { console.error(message); });
         this.player.addListener('account_error', ({ message }) => { console.error(message); });
-        this.player.addListener('playback_error', ({ message }) => { console.error(message); });
+        this.player.addListener('playback_error', ({ message }) => { console.log(message); });
       
         // Playback status updates
         this.player.addListener('player_state_changed', state => {
