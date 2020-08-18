@@ -5,7 +5,6 @@ export class Track {
     id: string;
     uri: string;
     duration: number;
-    lyrics: string;
     album: Album;
     artist: string;
     
@@ -14,7 +13,6 @@ export class Track {
         this.id = track.id,
         this.name = track.name,
         this.uri = track.uri,
-        this.lyrics = undefined;
         this.album = {
         image: track.album.images[0].url,
         name: track.album.name,

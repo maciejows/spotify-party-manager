@@ -1,8 +1,7 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { CurrentTrack } from 'src/app/models/CurrentTrack';
+import { Component, OnInit} from '@angular/core';
+import { PlayerState } from 'src/app/models/PlayerState';
 import { Store } from '@ngrx/store';
 import { getLyrics } from '../../store/player.actions';
-import { PlayerState } from '../../models/PlayerState';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -10,23 +9,32 @@ import { Subscription } from 'rxjs';
   templateUrl: './lyrics.component.html',
   styleUrls: ['./lyrics.component.scss']
 })
-export class LyricsComponent implements OnInit, OnDestroy {
-  currentTrack: CurrentTrack;
-  mediaSubscription: Subscription;
+export class LyricsComponent implements OnInit {
+  playerState: PlayerState;
+  playerSub: Subscription;
+  
   constructor(private store: Store<{media: PlayerState}>) { }
 
-  ngOnInit(): void {
-    this.mediaSubscription = this.store.select(state => state.media.track).subscribe(
-      track => {
-        if(this.currentTrack?.name != track.name) {
-        this.store.dispatch(getLyrics({artist: track.artist, song: track.name}));
+  ngOnInit(){
+
+    this.playerSub = this.store.select(state => state.media).subscribe(
+      state => {
+        this.playerState = state;
+        let track = this.playerState.track;
+        if(track.id) {
+          if (!this.playerState.tracksLyrics[track.id]){
+            console.log("Iszjoboj dispeczing for: " + track.id, track.name, track.artist);
+            this.store.dispatch(getLyrics({id: track.id, song: track.name, artist: track.artist}));
+          }
         }
-        this.currentTrack = track;
       }
     )
-  }
-
-  ngOnDestroy(): void {
-    this.mediaSubscription.unsubscribe();
+      /*
+    console.log("Changes");
+    let track = this.playerState.track 
+    if (!this.playerState.tracksLyrics[track.id])
+      this.store.dispatch(getLyrics({id: track.id, song: track.name, artist: track.artist}));
+    else console.log(this.playerState.tracksLyrics[track.id]);
+     */
   }
 }
