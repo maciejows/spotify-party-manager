@@ -24,9 +24,8 @@
         <li class="nav-item avatar dropdown" dropdown>
           <a *ngIf="(user$ | async).name!=''" dropdownToggle mdbWavesEffect type="button" class="nav-link dropdown-toggle waves-light" mdbWavesEffect>
             <img [src]="(user$ | async).imgUrl" style="height:50px"alt="" class="img-fluid rounded-circle z-depth-0"> {{(user$ | async).name}} </a>
-          <div *dropdownMenu class="dropdown-menu dropdown-menu-right dropdown dropdown-primary" role="menu">
-            <a class="dropdown-item waves-light" mdbWavesEffect >My account</a>
-            <a class="dropdown-item waves-light" mdbWavesEffect >Log out</a>
+          <div *dropdownMenu class="dropdown-menu dropdown-menu-right dropdown dark-bg-surface" role="menu">
+            <a class="dropdown-item waves-light text-white" mdbWavesEffect >Log out</a>
           </div>
         </li>
       </ul>

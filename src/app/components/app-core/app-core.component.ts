@@ -5,7 +5,6 @@ import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import { loadUserData, storeSpotifyToken } from 'src/app/store/auth.actions';
-import { AuthService } from 'src/app/services/auth.service';
 import { SpotifyToken } from 'src/app/models/SpotifyToken';
 
 @Component({
@@ -54,7 +53,7 @@ export class AppCoreComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.mediaSubscription.unsubscribe();
     this.userSubscription.unsubscribe();
-    this,this.tokenSubscription.unsubscribe();
+    this.tokenSubscription.unsubscribe();
   }
 
 }

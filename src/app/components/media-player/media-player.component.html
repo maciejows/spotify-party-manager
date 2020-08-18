@@ -1,4 +1,4 @@
-<div *ngIf="playerState.track.name; else loading" class="row">
+<div *ngIf="playerState.track.name; else loading" class="row justify-content-center">
     <app-current-track-info [currentTrack]="playerState.track"></app-current-track-info>
     <div class="row justify-content-center">
         <button mdbBtn size="sm" class="dark-bg-surface" mdbWavesEffect (click)="previousTrack()"> <mdb-icon fas icon="backward"></mdb-icon></button> 
@@ -14,7 +14,7 @@
             </div>
         </div>
         <div class="col-12"></div>
-        <mdb-icon fas [icon]="volumeIcon"></mdb-icon>
+        <mdb-icon fas [icon]="this.volume === 0? 'volume-mute' : (this.volume < 0.40? 'volume-down' : 'volume-up')"></mdb-icon>
         <div class="col-3">
             <input type="range" min="0" max="1" step="0.05" class="custom-range pl-2 pr-2" 
                 id="volume" [(ngModel)]="volume" (input)="setVolume()">
@@ -23,7 +23,7 @@
 </div>
 
 <ng-template #loading>
-    <div class="col-6 text-center mt-5">
+    <div class="col-12 text-center mt-5">
         <div class="spinner-border spinner" role="status">
             <span class="sr-only">Loading...</span>
         </div>
