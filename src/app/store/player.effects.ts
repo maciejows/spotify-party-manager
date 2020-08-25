@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { createEffect, ofType, Actions} from '@ngrx/effects';
 import { getLyrics, getLyricsSuccess, getLyricsError} from './player.actions';
 import { LyricsService } from '../services/lyrics.service';
-import { mergeMap, map, tap, catchError } from 'rxjs/operators';
+import { mergeMap, map, debounceTime, catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 
 @Injectable()
