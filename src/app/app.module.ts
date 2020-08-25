@@ -11,7 +11,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment'; // Angular CLI environment
 // NgRx store
 import { StoreModule } from '@ngrx/store';
-import { authReducer } from './store/auth.reducer';
+import { authReducer, clearState } from './store/auth.reducer';
 import { mediaReducer } from './store/player.reducer';
 import { playlistReducer } from './store/playlist.reducer';
 // NgRx Effects
@@ -58,7 +58,10 @@ const routes: Routes = [
     HttpClientModule,
     FormsModule,
     RouterModule.forRoot(routes),
-    StoreModule.forRoot({auth: authReducer, media: mediaReducer, playlist: playlistReducer}),
+    StoreModule.forRoot(
+      {auth: authReducer, media: mediaReducer, playlist: playlistReducer},
+      {metaReducers: [clearState]}
+      ),
     EffectsModule.forRoot([AuthEffects, PlaylistEffects, PlayerEffects]),
     MDBBootstrapModule.forRoot(),
     StoreDevtoolsModule.instrument({

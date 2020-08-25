@@ -36,24 +36,24 @@ export class AppCoreComponent implements OnInit, OnDestroy {
       }
     )
 
-    this.userSubscription = this.store.select(state => state.auth.user).subscribe(
+    this.store.select(state => state.auth.user).subscribe(
       user => {
-        if (!user.id) this.store.dispatch(loadUserData({token: cachedToken}))
+        if (!user.id) this.store.dispatch(loadUserData({token: cachedToken}));
       }
-    )
+    ).unsubscribe();
 
-    this.tokenSubscription = this.store.select(state => state.auth.token).subscribe(
+    this.store.select(state => state.auth.token).subscribe(
       token => {
-        if(!token.value) this.store.dispatch(storeSpotifyToken({token: {value: cachedToken, expiresIn: 0}}));
+        if(!token.value) {
+          this.store.dispatch(storeSpotifyToken({token: {value: cachedToken, expiresIn: 0}}));
+        }
         else this.token = token;
       }
-    )
+    ).unsubscribe();
   }
 
   ngOnDestroy(): void {
     this.mediaSubscription.unsubscribe();
-    this.userSubscription.unsubscribe();
-    this.tokenSubscription.unsubscribe();
   }
 
 }

@@ -18,18 +18,15 @@
         </li>
       </ul>
       <!-- Links -->
-  <!-- TODO: Update for account-->
       <ul class="navbar-nav ml-auto nav-flex-icons">
-        
-        <li class="nav-item avatar dropdown" dropdown>
-          <a *ngIf="(user$ | async).name!=''" dropdownToggle mdbWavesEffect type="button" class="nav-link dropdown-toggle waves-light" mdbWavesEffect>
+        <li class="nav-item avatar dropdown" #dropdown='bs-dropdown' mdbDropdown>
+          <a *ngIf="(user$ | async).name!=''" mdbDropdownToggle mdbWavesEffect type="button" class="nav-link dropdown-toggle waves-light" mdbWavesEffect>
             <img [src]="(user$ | async).imgUrl" style="height:50px"alt="" class="img-fluid rounded-circle z-depth-0"> {{(user$ | async).name}} </a>
-          <div *dropdownMenu class="dropdown-menu dropdown-menu-right dropdown dark-bg-surface" role="menu">
-            <a class="dropdown-item waves-light text-white" mdbWavesEffect >Log out</a>
+          <div  class="dropdown-menu dropdown-menu-right dropdown dark-bg-surface" role="menu">
+            <a class="dropdown-item text-white" type="button" (click)="logout(); dropdown.hide()">Log out</a>
           </div>
         </li>
       </ul>
-
-  
+      
   </mdb-navbar>
   <!--/.Navbar-->
