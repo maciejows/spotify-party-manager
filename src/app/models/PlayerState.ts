@@ -3,6 +3,7 @@ import { CurrentTrack } from './CurrentTrack';
 
 export class PlayerState {
     track: CurrentTrack;
+    tracksLyrics: {[id: string]: string};
     nextTracks: Track[] = [];
     previousTracks: Track[] = [];
     error: string;
