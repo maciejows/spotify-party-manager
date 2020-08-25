@@ -1,5 +1,5 @@
-import { createReducer, on } from '@ngrx/store';
-import { storeSpotifyToken, storeUserData } from './auth.actions';
+import { createReducer, on, ActionReducer, MetaReducer } from '@ngrx/store';
+import { storeSpotifyToken, storeUserData, logout } from './auth.actions';
 import { AuthState } from '../models/AuthState';
 
 export const initialState: AuthState = {
@@ -14,4 +14,14 @@ const _authReducer = createReducer(initialState,
 
 export function authReducer(state, action){
     return _authReducer(state, action);
+}
+
+// Meta-reducer
+export function clearState(reducer: ActionReducer<any>): ActionReducer<any>{
+    return function(state, action) {
+        if (action != null && action.type === logout.type) {
+            return reducer(undefined, action);
+        }
+        return reducer(state, action);
+      };    
 }

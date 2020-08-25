@@ -21,7 +21,7 @@ export class LyricsComponent implements OnInit, OnDestroy {
       state => {
         let track = state.track;
         this.lyrics = state.tracksLyrics[track.id];
-        if(track.id !== this.trackId) {
+        if(track.id && track.id !== this.trackId) {
           this.trackId = track.id;
           if (!state.tracksLyrics[track.id]){
             console.log("Dispatching: " + track.id, track.name, track.artist);

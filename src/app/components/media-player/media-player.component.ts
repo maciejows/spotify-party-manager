@@ -40,6 +40,7 @@ export class MediaPlayerComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.intervalSub.unsubscribe();
+    this.player.disconnect();
   }
 
   addItemToPlayback(): void {
