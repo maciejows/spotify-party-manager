@@ -1,15 +1,17 @@
-import { createReducer, on, ActionReducer, MetaReducer } from '@ngrx/store';
-import { storeSpotifyToken, storeUserData, logout } from './auth.actions';
+import { createReducer, on, ActionReducer} from '@ngrx/store';
+import { storeSpotifyToken, loadUserDataError, loadUserDataSuccess, logout } from './auth.actions';
 import { AuthState } from '../models/AuthState';
 
 export const initialState: AuthState = {
     token: {value:"", expiresIn: 0},
-    user: {name: "", imgUrl: "", id: undefined}
+    user: {name: "", imgUrl: "", id: undefined},
+    error: ""
 };
 
 const _authReducer = createReducer(initialState, 
     on(storeSpotifyToken, (state, {token}) => ({...state, token: token })),
-    on(storeUserData, (state, {user}) => ({...state, user: user}))
+    on(loadUserDataSuccess, (state, {user}) => ({...state, user: user})),
+    on(loadUserDataError, (state, {error}) => ({...state, error: error}))
     );
 
 export function authReducer(state, action){
