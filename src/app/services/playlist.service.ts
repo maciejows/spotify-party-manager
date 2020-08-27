@@ -15,7 +15,6 @@ export class PlaylistService {
   constructor(
     private http: HttpClient
     ) { 
-      console.log("Playlist service constructor")
       this.token = window.localStorage.getItem('token');
       this.httpHeaders = new HttpHeaders({
       'Authorization': `Bearer ${this.token}`

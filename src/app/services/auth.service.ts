@@ -26,7 +26,8 @@ export class AuthService {
     this.params.client_id +
     this.params.response_type +
     this.params.redirect_uri +
-    this.scopes;
+    this.scopes +
+    this.params.showDialog;
   }
  
 }

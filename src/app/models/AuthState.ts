@@ -3,5 +3,6 @@ import { User } from './User';
 
 export interface AuthState {
     token: SpotifyToken,
-    user: User
+    user: User,
+    error: string
 }
