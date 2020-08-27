@@ -18,16 +18,26 @@ export class CallbackComponent implements OnInit {
 
   ngOnInit(): void {
     var hash = window.location.hash.substring(1);
-    let params = this.getParamsFromHash(hash);
-    let spotifyToken: SpotifyToken = {
-      value: params['access_token'],
-      expiresIn: params['expires_in']
-    };
+    if (hash) {
+      let params = this.getParamsFromHash(hash);
+      let spotifyToken: SpotifyToken = {
+        value: params['access_token'],
+        expiresIn: params['expires_in']
+      };
+      this.setStorage(spotifyToken);
+      this.router.navigateByUrl('/app');
+    }
+    else {
+      this.router.navigateByUrl('/');
+      //TODO: Display toast or sth
+      console.log("Access denied");
+    }
+  }
 
+  setStorage(spotifyToken: SpotifyToken){
     window.localStorage.setItem('token', spotifyToken.value);
     this.store.dispatch(storeSpotifyToken({token: spotifyToken}));
     this.store.dispatch(loadUserData({token: spotifyToken.value}));
-    this.router.navigateByUrl('/app');
   }
 
   getParamsFromHash(hash: string){
