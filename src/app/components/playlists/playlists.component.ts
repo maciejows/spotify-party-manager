@@ -43,7 +43,7 @@ export class PlaylistsComponent implements OnInit, OnDestroy {
   }
 
   selectPlaylist(key: string, value: Playlist): void {
-    this.getTracks(key, value);
+    if(!this.playlistState.playlists[key].items.length) this.getTracks(key, value);
     let currentPlaylist = this.playlistState.currentPlaylist;
     let show = this.playlistState.show;
     show = currentPlaylist === key? !show : true;
