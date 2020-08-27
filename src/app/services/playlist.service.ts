@@ -32,7 +32,6 @@ export class PlaylistService {
     let httpHeaders = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
-    console.log("Http call");
     return this.http.get(`${href}?limit=20`, {headers: httpHeaders}).pipe(
       map( data => Track.mapDataToTrackArray(data))
     );
