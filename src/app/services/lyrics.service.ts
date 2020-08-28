@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class LyricsService {
 
-  apiUrl = `http://localhost:3000`;
+  apiUrl = `https://molyricify.herokuapp.com`;
 
   constructor(private http: HttpClient) {}
 
