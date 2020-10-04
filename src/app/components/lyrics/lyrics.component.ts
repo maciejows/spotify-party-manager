@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy} from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { PlayerState } from 'src/app/models/PlayerState';
 import { Store } from '@ngrx/store';
 import { getLyrics } from '../../store/player.actions';
@@ -14,26 +14,34 @@ export class LyricsComponent implements OnInit, OnDestroy {
   playerSub: Subscription;
   trackId: string;
 
-  constructor(private store: Store<{media: PlayerState}>) { }
+  constructor(private store: Store<{ media: PlayerState }>) {}
 
-  ngOnInit(){
-    this.playerSub = this.store.select(state => state.media).subscribe(
-      state => {
-        let track = state.track;
+  ngOnInit() {
+    this.playerSub = this.store
+      .select((state) => state.media)
+      .subscribe((state) => {
+        const track = state.track;
         this.lyrics = state.tracksLyrics[track.id];
-        if(track.id && track.id !== this.trackId) {
+        if (track.id && track.id !== this.trackId) {
           this.trackId = track.id;
-          if (!state.tracksLyrics[track.id]){
-            console.log("Dispatching: " + track.id, track.name, track.artist);
-            this.store.dispatch(getLyrics({id: track.id, song: track.name, artist: track.artist}));
-          }
-          else console.log(`Loading cached lyrics [${track.name} ${track.artist}]`)
+          if (!state.tracksLyrics[track.id]) {
+            console.log('Dispatching: ' + track.id, track.name, track.artist);
+            this.store.dispatch(
+              getLyrics({
+                id: track.id,
+                song: track.name,
+                artist: track.artist
+              })
+            );
+          } else
+            console.log(
+              `Loading cached lyrics [${track.name} ${track.artist}]`
+            );
         }
-      }
-    )
+      });
   }
 
-  ngOnDestroy(){
+  ngOnDestroy() {
     this.playerSub.unsubscribe();
   }
 }

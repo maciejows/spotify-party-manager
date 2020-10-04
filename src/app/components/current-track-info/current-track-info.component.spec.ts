@@ -8,9 +8,8 @@ describe('CurrentTrackInfoComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CurrentTrackInfoComponent ]
-    })
-    .compileComponents();
+      declarations: [CurrentTrackInfoComponent]
+    }).compileComponents();
   }));
 
   beforeEach(() => {
