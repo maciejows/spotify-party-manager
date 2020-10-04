@@ -12,4 +12,5 @@ input[type=range].horizontal {
 
  .custom-range::-moz-range-track {
     background-color: $dark-surface;
+    width: 100%;
  }

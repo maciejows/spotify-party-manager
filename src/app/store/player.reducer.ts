@@ -4,15 +4,15 @@ import { PlayerState } from '../models/PlayerState';
 
 export const initialState: PlayerState = {
   track: {
-    name: undefined,
+    name: 'Szakira',
     id: undefined,
     uri: '',
-    duration: 0,
+    duration: 30000,
     progress: 0,
     paused: true,
-    artist: '',
+    artist: 'Szakira',
     album: {
-      name: '',
+      name: 'Life of Szakira',
       image: '',
       uri: ''
     }

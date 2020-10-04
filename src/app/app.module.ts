@@ -32,6 +32,7 @@ import { PlaylistsComponent } from './components/playlists/playlists.component';
 import { TimeSecondsPipe } from './pipes/time-seconds.pipe';
 import { LyricsComponent } from './components/lyrics/lyrics.component';
 
+// TODO: Move to app.routing.module
 const routes: Routes = [
   { path: '', component: AuthorizationComponent },
   { path: 'callback', component: CallbackComponent },
