@@ -8,17 +8,17 @@ import { User } from '../models/User';
   providedIn: 'root'
 })
 export class UserDataService {
-  api_url: string = 'https://api.spotify.com/v1/me'
+  api_url = 'https://api.spotify.com/v1/me';
   httpHeaders: HttpHeaders;
 
   constructor(private http: HttpClient) {}
 
   getUserData(token: string): Observable<User> {
     this.httpHeaders = new HttpHeaders({
-      'Authorization': 'Bearer ' + token
-    })
-    return this.http.get<User>(this.api_url, {headers: this.httpHeaders}).pipe(
-      map( user => new User(user))
-    );
+      Authorization: 'Bearer ' + token
+    });
+    return this.http
+      .get<User>(this.api_url, { headers: this.httpHeaders })
+      .pipe(map((user) => new User(user)));
   }
 }

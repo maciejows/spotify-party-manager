@@ -1,4 +1,4 @@
 export interface SpotifyToken {
-    value: string;
-    expiresIn: number;
+  value: string;
+  expiresIn: number;
 }

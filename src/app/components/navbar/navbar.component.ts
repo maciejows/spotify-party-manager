@@ -15,15 +15,15 @@ export class NavbarComponent implements OnInit {
   user$: Observable<User>;
 
   constructor(
-    private store: Store<{auth: AuthState}>,
+    private store: Store<{ auth: AuthState }>,
     private router: Router
-    ) { }
+  ) {}
 
   ngOnInit(): void {
-    this.user$ = this.store.select(state => state.auth.user);
+    this.user$ = this.store.select((state) => state.auth.user);
   }
 
-  logout(){
+  logout() {
     window.localStorage.removeItem('token');
     //TODO: Disconnect player
     this.router.navigateByUrl('/');

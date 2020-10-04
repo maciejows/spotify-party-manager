@@ -6,6 +6,10 @@ export const environment = {
   production: false
 };
 
+export const SPOTIFY_CLIENT_ID = `05583622f75742cba401af14c9872bb6`;
+export const REDIRECT_URI = `http://localhost:4200/callback`;
+export const GENIUS_CLIENT_ID = `E8Gh1vmTo7PcSYkuLWnJVJj9mfpqgKeI5ML7DuiTLvWDmZFLTrXNLSgmf1-XxIhA`;
+
 /*
  * For easier debugging in development mode, you can import the following file
  * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.

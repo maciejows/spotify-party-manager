@@ -7,9 +7,7 @@ import { CurrentTrack } from 'src/app/models/CurrentTrack';
   styleUrls: ['./current-track-info.component.scss']
 })
 export class CurrentTrackInfoComponent {
-
   @Input() currentTrack: CurrentTrack;
 
-  constructor() { }
-
+  constructor() {}
 }

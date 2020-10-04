@@ -10,6 +10,5 @@ export class TrackQueueComponent {
   @Input() nextTracks: Track;
   @Input() previousTracks: Track;
 
-  constructor() { }
-
+  constructor() {}
 }

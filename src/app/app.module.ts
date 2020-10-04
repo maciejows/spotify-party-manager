@@ -33,11 +33,11 @@ import { TimeSecondsPipe } from './pipes/time-seconds.pipe';
 import { LyricsComponent } from './components/lyrics/lyrics.component';
 
 const routes: Routes = [
-  { path: '', component: AuthorizationComponent},
-  { path: 'callback', component: CallbackComponent},
-  { path: 'app', component: AppCoreComponent},
-  { path: '**', redirectTo:''}
-]
+  { path: '', component: AuthorizationComponent },
+  { path: 'callback', component: CallbackComponent },
+  { path: 'app', component: AppCoreComponent },
+  { path: '**', redirectTo: '' }
+];
 
 @NgModule({
   declarations: [
@@ -59,17 +59,17 @@ const routes: Routes = [
     FormsModule,
     RouterModule.forRoot(routes),
     StoreModule.forRoot(
-      {auth: authReducer, media: mediaReducer, playlist: playlistReducer},
-      {metaReducers: [clearState]}
-      ),
+      { auth: authReducer, media: mediaReducer, playlist: playlistReducer },
+      { metaReducers: [clearState] }
+    ),
     EffectsModule.forRoot([AuthEffects, PlaylistEffects, PlayerEffects]),
     MDBBootstrapModule.forRoot(),
     StoreDevtoolsModule.instrument({
       maxAge: 25, // Retains last 25 states
-      logOnly: environment.production, // Restrict extension to log-only mode
+      logOnly: environment.production // Restrict extension to log-only mode
     })
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}
