@@ -29,7 +29,7 @@ export class MediaPlayerComponent implements OnInit, OnDestroy {
 
   constructor(
     private playerService: PlayerService,
-    private store: Store<{ media: PlayerState }>
+    private store: Store<{ player: PlayerState }>
   ) {}
 
   ngOnInit(): void {
@@ -127,7 +127,7 @@ export class MediaPlayerComponent implements OnInit, OnDestroy {
 
         // Playback status updates
         this.player.addListener('player_state_changed', (state) => {
-          const currentPlayerState: PlayerState = new PlayerState(state);
+          const currentPlayerState = new PlayerState(state);
           this.changePlayerState(currentPlayerState);
           this.togglePlayIcon = currentPlayerState.track.paused
             ? 'play'

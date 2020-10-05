@@ -1,3 +1,3 @@
 <mdb-card class="force-overflow scrollbar scrollbar-danger">
-    {{lyrics}}
+    <ng-container *ngIf="(lyrics$ | async) as lyrics"> {{lyrics}} </ng-container>
 </mdb-card>

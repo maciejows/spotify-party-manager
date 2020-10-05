@@ -12,7 +12,7 @@ import { environment } from '../environments/environment'; // Angular CLI enviro
 // NgRx store
 import { StoreModule } from '@ngrx/store';
 import { authReducer, clearState } from './store/auth.reducer';
-import { mediaReducer } from './store/player.reducer';
+import { playerReducer } from './store/player.reducer';
 import { playlistReducer } from './store/playlist.reducer';
 // NgRx Effects
 import { EffectsModule } from '@ngrx/effects';
@@ -60,7 +60,7 @@ const routes: Routes = [
     FormsModule,
     RouterModule.forRoot(routes),
     StoreModule.forRoot(
-      { auth: authReducer, media: mediaReducer, playlist: playlistReducer },
+      { auth: authReducer, player: playerReducer, playlist: playlistReducer },
       { metaReducers: [clearState] }
     ),
     EffectsModule.forRoot([AuthEffects, PlaylistEffects, PlayerEffects]),

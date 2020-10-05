@@ -8,17 +8,17 @@ export class Track {
   album: Album;
   artist: string;
 
-  constructor(track?) {
-    this.duration = track.duration_ms;
-    this.id = track.id;
-    this.name = track.name;
-    this.uri = track.uri;
+  constructor(track?: any) {
+    this.duration = track.duration_ms || 0;
+    this.id = track.id || '';
+    this.name = track.name || '';
+    this.uri = track.uri || '';
     this.album = {
-      image: track.album.images[0].url,
-      name: track.album.name,
-      uri: track.album.uri
+      image: track.album.images[0].url || '',
+      name: track.album.name || '',
+      uri: track.album.uri || ''
     };
-    this.artist = track.artists[0].name;
+    this.artist = track.artists[0].name || '';
   }
 
   static mapDataToTrackArray(data): Track[] {

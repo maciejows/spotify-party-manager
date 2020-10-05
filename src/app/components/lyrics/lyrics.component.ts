@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { PlayerState } from 'src/app/models/PlayerState';
 import { Store } from '@ngrx/store';
 import { getLyrics } from '../../store/player.actions';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-lyrics',
@@ -10,38 +10,39 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./lyrics.component.scss']
 })
 export class LyricsComponent implements OnInit, OnDestroy {
-  lyrics: string;
+  lyrics$: Observable<string>;
   playerSub: Subscription;
   trackId: string;
 
-  constructor(private store: Store<{ media: PlayerState }>) {}
+  constructor(private store: Store<{ player: PlayerState }>) {}
 
-  ngOnInit() {
+  //TODO: Move to effects
+  ngOnInit(): void {
+    this.listenForTrackIdChanges();
+    this.lyrics$ = this.store.select(
+      (state) => state.player.tracksLyrics[this.trackId]
+    );
+  }
+
+  listenForTrackIdChanges(): void {
     this.playerSub = this.store
-      .select((state) => state.media)
-      .subscribe((state) => {
-        const track = state.track;
-        this.lyrics = state.tracksLyrics[track.id];
+      .select((state) => state.player.track)
+      .subscribe((track) => {
         if (track.id && track.id !== this.trackId) {
           this.trackId = track.id;
-          if (!state.tracksLyrics[track.id]) {
-            console.log('Dispatching: ' + track.id, track.name, track.artist);
-            this.store.dispatch(
-              getLyrics({
-                id: track.id,
-                song: track.name,
-                artist: track.artist
-              })
-            );
-          } else
-            console.log(
-              `Loading cached lyrics [${track.name} ${track.artist}]`
-            );
+          console.log('Dispatching: ' + track.id, track.name, track.artist);
+          this.store.dispatch(
+            getLyrics({
+              id: track.id,
+              song: track.name,
+              artist: track.artist
+            })
+          );
         }
       });
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.playerSub.unsubscribe();
   }
 }
