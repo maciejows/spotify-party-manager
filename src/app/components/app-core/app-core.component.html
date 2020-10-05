@@ -1,11 +1,17 @@
 <div class="row justify-content-center mt-5 rmpm">
-    <div class="col-4">
+    <div class="col-3">
         <app-playlists [currentTrack]="playerState.track" [token]="token.value"></app-playlists>
     </div>
-    <div class="col-4">
-        <app-media-player [playerState]="playerState"></app-media-player>
-    </div>
-    <div class="col-4">
+    <div class="col-6">
         <app-lyrics></app-lyrics>
     </div>
+    <div class="col-3">
+        Placeholder
+    </div>
+    <div id="player" class="dark-bg">
+        <app-media-player [playerState]="playerState"></app-media-player>
+    </div>
 </div>
+
+<!-- TODO: Remove later -->
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>

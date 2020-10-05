@@ -19,7 +19,7 @@ export class MediaPlayerComponent implements OnInit, OnDestroy {
   @Input() playerState: PlayerState;
   deviceId: string;
   player: any;
-  volume = 0.2;
+  volume = 0.5;
   trackProgress = 0;
 
   intervalSource = interval(100);
@@ -33,6 +33,7 @@ export class MediaPlayerComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    console.log(this.volume);
     this.loadSpotifySdk();
     this.intervalSub = this.intervalSource.subscribe((_) => {
       if (this.playerState.track.paused) {
@@ -108,7 +109,7 @@ export class MediaPlayerComponent implements OnInit, OnDestroy {
           getOAuthToken: (cb) => {
             cb(token);
           },
-          volume: 0.5
+          volume: this.volume
         });
         // Error handling
         this.player.addListener('initialization_error', ({ message }) => {

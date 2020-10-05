@@ -1,4 +1,18 @@
 .album-img {
-    height: 200px;
-    width: 200px;
+    height: 80px;
+    width: 80px;
+    margin-left: 20px;
+}
+
+#track-name {
+    font-size: 0.8rem;
+    font-weight: 400;
+    width: 100%;
+    display: inline-block;
+}
+
+#artist-name {
+    font-size: 0.7rem;
+    font-weight: 300;
+    display: inline-block;
 }
