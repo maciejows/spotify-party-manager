@@ -3,7 +3,7 @@ import { StoreModule } from '@ngrx/store';
 import { authReducer } from '@store/auth/auth.reducer';
 import { playerReducer } from '@store/player/player.reducer';
 import { AppCoreComponent } from './app-core.component';
-
+import { AppRoutingModule } from 'app/app-routing.module';
 describe('AppCoreComponent', () => {
   let component: AppCoreComponent;
   let fixture: ComponentFixture<AppCoreComponent>;
@@ -12,7 +12,8 @@ describe('AppCoreComponent', () => {
     TestBed.configureTestingModule({
       declarations: [AppCoreComponent],
       imports: [
-        StoreModule.forRoot({ auth: authReducer, player: playerReducer })
+        StoreModule.forRoot({ auth: authReducer, player: playerReducer }),
+        AppRoutingModule
       ]
     }).compileComponents();
   }));

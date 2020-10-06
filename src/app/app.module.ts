@@ -31,14 +31,7 @@ import { TrackQueueComponent } from '@components/track-queue/track-queue.compone
 import { PlaylistsComponent } from '@components/playlists/playlists.component';
 import { TimeSecondsPipe } from '@pipes/time-seconds.pipe';
 import { LyricsComponent } from '@components/lyrics/lyrics.component';
-
-// TODO: Move to app.routing.module
-const routes: Routes = [
-  { path: '', component: AuthorizationComponent },
-  { path: 'callback', component: CallbackComponent },
-  { path: 'app', component: AppCoreComponent },
-  { path: '**', redirectTo: '' }
-];
+import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
   declarations: [
@@ -58,7 +51,7 @@ const routes: Routes = [
     BrowserModule,
     HttpClientModule,
     FormsModule,
-    RouterModule.forRoot(routes),
+    AppRoutingModule,
     StoreModule.forRoot(
       { auth: authReducer, player: playerReducer, playlist: playlistReducer },
       { metaReducers: [clearState] }
