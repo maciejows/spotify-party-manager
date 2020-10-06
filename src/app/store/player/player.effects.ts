@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { createEffect, ofType, Actions } from '@ngrx/effects';
 import { getLyrics, getLyricsSuccess, getLyricsError } from './player.actions';
-import { LyricsService } from '../services/lyrics.service';
 import {
   mergeMap,
   map,
@@ -10,8 +9,9 @@ import {
   filter
 } from 'rxjs/operators';
 import { of } from 'rxjs';
-import { PlayerState } from '../models/PlayerState';
 import { Store } from '@ngrx/store';
+import { LyricsService } from '@services/lyrics.service';
+import { PlayerState } from '@models/PlayerState';
 
 @Injectable()
 export class PlayerEffects {

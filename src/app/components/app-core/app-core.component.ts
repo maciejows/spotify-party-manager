@@ -1,11 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { AuthState } from '../../models/AuthState';
-import { PlayerState } from '../../models/PlayerState';
+import { AuthState } from '@models/AuthState';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
-import { loadUserData, storeSpotifyToken } from 'src/app/store/auth.actions';
-import { SpotifyToken } from 'src/app/models/SpotifyToken';
+import { PlayerState } from '@models/PlayerState';
+import { SpotifyToken } from '@models/SpotifyToken';
+import { loadUserData, storeSpotifyToken } from '@store/auth/auth.actions';
 
 @Component({
   selector: 'app-app-core',

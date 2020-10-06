@@ -1,5 +1,5 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { Track } from 'src/app/models/Track';
+import { Component, Input } from '@angular/core';
+import { Track } from '@models/Track';
 
 @Component({
   selector: 'app-track-queue',

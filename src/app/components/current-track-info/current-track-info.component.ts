@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { CurrentTrack } from 'src/app/models/CurrentTrack';
+import { CurrentTrack } from '@models/CurrentTrack';
 
 @Component({
   selector: 'app-current-track-info',

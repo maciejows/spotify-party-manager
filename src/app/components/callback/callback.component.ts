@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { SpotifyToken } from '@models/SpotifyToken';
 import { Store } from '@ngrx/store';
-import { SpotifyToken } from '../../models/SpotifyToken';
-import { loadUserData, storeSpotifyToken } from '../../store/auth.actions';
+import { loadUserData, storeSpotifyToken } from '@store/auth/auth.actions';
 
 @Component({
   selector: 'app-callback',

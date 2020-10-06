@@ -9,8 +9,8 @@ export class PlayerState {
   error: string;
 
   constructor(state: any) {
-    const trackWindow = state.track_window;
-    const currentTrack = trackWindow.current_track;
+    const trackWindow = state.track_window || {};
+    const currentTrack = trackWindow.current_track || {};
     const track = new Track(currentTrack);
 
     trackWindow.next_tracks.forEach((element) => {

@@ -1,5 +1,5 @@
+import { PlayerState } from '@models/PlayerState';
 import { createAction, props } from '@ngrx/store';
-import { PlayerState } from '../models/PlayerState';
 
 export const storePlayerState = createAction(
   '[Media-Player Component] Store current playing track',

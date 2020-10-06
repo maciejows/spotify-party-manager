@@ -1,6 +1,6 @@
-import { createReducer, on } from '@ngrx/store';
+import { PlayerState } from '@models/PlayerState';
+import { createReducer, on, Action } from '@ngrx/store';
 import * as PlayerActions from './player.actions';
-import { PlayerState } from '../models/PlayerState';
 
 export const initialState: PlayerState = {
   track: {
@@ -49,6 +49,6 @@ const _playerReducer = createReducer(
   }))
 );
 
-export function playerReducer(state, action) {
+export function playerReducer(state: PlayerState, action: Action): PlayerState {
   return _playerReducer(state, action);
 }

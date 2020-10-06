@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { PlayerState } from 'src/app/models/PlayerState';
+import { PlayerState } from '@models/PlayerState';
 import { Store } from '@ngrx/store';
-import { getLyrics } from '../../store/player.actions';
+import { getLyrics } from '@store/player/player.actions';
 import { Observable, Subscription } from 'rxjs';
 
 @Component({
@@ -16,7 +16,6 @@ export class LyricsComponent implements OnInit, OnDestroy {
 
   constructor(private store: Store<{ player: PlayerState }>) {}
 
-  //TODO: Move to effects
   ngOnInit(): void {
     this.listenForTrackIdChanges();
     this.lyrics$ = this.store.select(
