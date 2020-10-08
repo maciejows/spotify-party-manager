@@ -1,4 +1,4 @@
-<div *ngIf="playerState.track.name; else loading" class="row justify-content-center">
+<div *ngIf="playerState.track.name !== ''; else loading" class="row justify-content-center">
     <div class="col-3 d-none d-lg-block"> 
         <app-current-track-info [currentTrack]="playerState.track"></app-current-track-info>
     </div>

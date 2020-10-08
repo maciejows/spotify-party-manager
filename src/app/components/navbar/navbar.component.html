@@ -19,9 +19,9 @@
       </ul>
       <!-- Links -->
       <ul class="navbar-nav ml-auto nav-flex-icons">
-        <li class="nav-item avatar dropdown" #dropdown='bs-dropdown' mdbDropdown>
-          <a *ngIf="(user$ | async).name!=''" mdbDropdownToggle mdbWavesEffect type="button" class="nav-link dropdown-toggle waves-light" mdbWavesEffect>
-            <img [src]="(user$ | async).imgUrl" style="height:50px"alt="" class="img-fluid rounded-circle z-depth-0"> {{(user$ | async).name}} </a>
+        <li class="nav-item avatar dropdown" #dropdown mdbDropdown>
+          <a *ngIf="(user$ | async).name !=='' && (user$ | async) as user" mdbDropdownToggle mdbWavesEffect type="button" class="nav-link dropdown-toggle waves-light" mdbWavesEffect>
+            <img [src]="user.imgUrl" style="height:50px"alt="" class="img-fluid rounded-circle z-depth-0"> {{user.name}} </a>
           <div  class="dropdown-menu dropdown-menu-right dropdown dark-bg-surface" role="menu">
             <a class="dropdown-item text-white" type="button" (click)="logout(); dropdown.hide()">Log out</a>
           </div>

@@ -128,6 +128,7 @@ export class MediaPlayerComponent implements OnInit, OnDestroy {
 
         // Playback status updates
         this.player.addListener('player_state_changed', (state) => {
+          console.log(state);
           const currentPlayerState = new PlayerState(state);
           this.changePlayerState(currentPlayerState);
           this.togglePlayIcon = currentPlayerState.track.paused

@@ -1,4 +1,5 @@
 import { TestBed, async } from '@angular/core/testing';
+import { NavbarComponent } from '@components/navbar/navbar.component';
 import { AppComponent } from './app.component';
 
 describe('AppComponent', () => {

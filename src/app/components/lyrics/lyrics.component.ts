@@ -41,6 +41,10 @@ export class LyricsComponent implements OnInit, OnDestroy {
       });
   }
 
+  lyricsTransform(lyrics: string): string {
+    return lyrics.trim().replace(/\n/g, '<br>');
+  }
+
   ngOnDestroy(): void {
     this.playerSub.unsubscribe();
   }

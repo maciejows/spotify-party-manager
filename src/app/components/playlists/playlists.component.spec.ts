@@ -1,4 +1,7 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { StoreModule } from '@ngrx/store';
+import { playlistReducer } from '@store/playlist/playlist.reducer';
 
 import { PlaylistsComponent } from './playlists.component';
 
@@ -16,9 +19,5 @@ describe('PlaylistsComponent', () => {
     fixture = TestBed.createComponent(PlaylistsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-  });
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
   });
 });
