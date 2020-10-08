@@ -9,9 +9,12 @@ export class PlayerState {
   error: string;
 
   constructor(state: any) {
-    const trackWindow = state.track_window;
-    const currentTrack = trackWindow.current_track;
-    const track = new Track(currentTrack);
+    const currentTrack = state?.track_window?.current_track || {};
+    /* TODO: important?
+    const trackWindow = state?.track_window || {
+      next_tracks: [],
+      previous_tracks: []
+    };
 
     trackWindow.next_tracks.forEach((element) => {
       this.nextTracks.push(new Track(element));
@@ -20,10 +23,11 @@ export class PlayerState {
     trackWindow.previous_tracks.forEach((element) => {
       this.previousTracks.push(new Track(element));
     });
-
+    */
+    const track = new Track(currentTrack);
     this.track = {
-      progress: state.position,
-      paused: state.paused,
+      progress: state?.position || 0,
+      paused: state?.paused || null,
       ...track
     };
   }

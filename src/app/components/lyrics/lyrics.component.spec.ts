@@ -1,4 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { StoreModule } from '@ngrx/store';
+import { playerReducer } from '@store/player/player.reducer';
 
 import { LyricsComponent } from './lyrics.component';
 
@@ -16,9 +18,5 @@ describe('LyricsComponent', () => {
     fixture = TestBed.createComponent(LyricsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-  });
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
   });
 });

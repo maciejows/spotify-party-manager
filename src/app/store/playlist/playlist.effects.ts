@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { PlaylistService } from '../services/playlist.service';
 import * as PlaylistActions from './playlist.actions';
 import { mergeMap, map, catchError } from 'rxjs/operators';
-import { PlaylistState } from '../models/PlaylistState';
-import { Playlist } from '../models/Playlist';
 import { of } from 'rxjs';
+import { PlaylistService } from '@services/playlist.service';
+import { PlaylistState } from '@models/PlaylistState';
+import { Playlist } from '@models/Playlist';
 
 @Injectable()
 export class PlaylistEffects {
@@ -59,6 +59,7 @@ export class PlaylistEffects {
     )
   );
 
+  // TODO: Move to class
   mapDataToPlaylistArray(data): PlaylistState {
     const arr = data.items;
     const playlists: PlaylistState = {

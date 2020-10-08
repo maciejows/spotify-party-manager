@@ -1,11 +1,11 @@
-import { createReducer, on, ActionReducer } from '@ngrx/store';
+import { AuthState } from '@models/AuthState';
+import { createReducer, on, ActionReducer, Action } from '@ngrx/store';
 import {
   storeSpotifyToken,
   loadUserDataError,
   loadUserDataSuccess,
   logout
 } from './auth.actions';
-import { AuthState } from '../models/AuthState';
 
 export const initialState: AuthState = {
   token: { value: '', expiresIn: 0 },
@@ -20,7 +20,7 @@ const _authReducer = createReducer(
   on(loadUserDataError, (state, { error }) => ({ ...state, error: error }))
 );
 
-export function authReducer(state, action) {
+export function authReducer(state: AuthState, action: Action): AuthState {
   return _authReducer(state, action);
 }
 

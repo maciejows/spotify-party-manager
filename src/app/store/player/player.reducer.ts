@@ -1,18 +1,18 @@
-import { createReducer, on } from '@ngrx/store';
+import { PlayerState } from '@models/PlayerState';
+import { createReducer, on, Action } from '@ngrx/store';
 import * as PlayerActions from './player.actions';
-import { PlayerState } from '../models/PlayerState';
 
 export const initialState: PlayerState = {
   track: {
-    name: 'Szakira',
-    id: undefined,
+    name: '',
+    id: '',
     uri: '',
-    duration: 30000,
+    duration: 0,
     progress: 0,
     paused: true,
-    artist: 'Szakira',
+    artist: '',
     album: {
-      name: 'Life of Szakira',
+      name: '',
       image: '',
       uri: ''
     }
@@ -23,7 +23,7 @@ export const initialState: PlayerState = {
   error: ''
 };
 
-const _mediaReducer = createReducer(
+const _playerReducer = createReducer(
   initialState,
   on(PlayerActions.storePlayerState, (state, { playerState }) => ({
     ...state,
@@ -49,6 +49,6 @@ const _mediaReducer = createReducer(
   }))
 );
 
-export function mediaReducer(state, action) {
-  return _mediaReducer(state, action);
+export function playerReducer(state: PlayerState, action: Action): PlayerState {
+  return _playerReducer(state, action);
 }

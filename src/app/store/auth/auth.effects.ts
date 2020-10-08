@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { createEffect, ofType, Actions } from '@ngrx/effects';
-import { UserDataService } from '../services/user-data.service';
 import {
   loadUserData,
   loadUserDataError,
@@ -8,6 +7,7 @@ import {
 } from './auth.actions';
 import { mergeMap, map, catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
+import { UserDataService } from '@services/user-data.service';
 
 @Injectable()
 export class AuthEffects {

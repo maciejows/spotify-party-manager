@@ -1,11 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { AuthState } from '../../models/AuthState';
-import { PlayerState } from '../../models/PlayerState';
+import { AuthState } from '@models/AuthState';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
-import { loadUserData, storeSpotifyToken } from 'src/app/store/auth.actions';
-import { SpotifyToken } from 'src/app/models/SpotifyToken';
+import { PlayerState } from '@models/PlayerState';
+import { SpotifyToken } from '@models/SpotifyToken';
+import { loadUserData, storeSpotifyToken } from '@store/auth/auth.actions';
 
 @Component({
   selector: 'app-app-core',
@@ -16,12 +16,12 @@ export class AppCoreComponent implements OnInit, OnDestroy {
   playerState: PlayerState;
   token: SpotifyToken;
 
-  mediaSubscription: Subscription;
+  playerSubscription: Subscription;
   userSubscription: Subscription;
   tokenSubscription: Subscription;
 
   constructor(
-    private store: Store<{ auth: AuthState; media: PlayerState }>,
+    private store: Store<{ auth: AuthState; player: PlayerState }>,
     private router: Router
   ) {}
 
@@ -29,10 +29,10 @@ export class AppCoreComponent implements OnInit, OnDestroy {
     const cachedToken = window.localStorage.getItem('token');
     if (!cachedToken) this.router.navigateByUrl('/');
 
-    this.mediaSubscription = this.store
-      .select((state) => state.media)
-      .subscribe((media) => {
-        this.playerState = media;
+    this.playerSubscription = this.store
+      .select((state) => state.player)
+      .subscribe((player) => {
+        this.playerState = player;
       });
 
     this.store
@@ -55,6 +55,6 @@ export class AppCoreComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.mediaSubscription.unsubscribe();
+    this.playerSubscription.unsubscribe();
   }
 }

@@ -1,14 +1,15 @@
 import { Component, OnInit, OnDestroy, Input } from '@angular/core';
-import { Playlist } from 'src/app/models/Playlist';
-import { PlaylistState } from 'src/app/models/PlaylistState';
-import { loadPlaylists } from '../../store/playlist.actions';
-import { PlayerService } from 'src/app/services/player.service';
+import { CurrentTrack } from '@models/CurrentTrack';
+import { Playlist } from '@models/Playlist';
+import { PlaylistState } from '@models/PlaylistState';
 import { Store } from '@ngrx/store';
+import { PlayerService } from '@services/player.service';
 import {
+  loadPlaylists,
   loadPlaylistTracks,
   selectPlaylist
-} from '../../store/playlist.actions';
-import { CurrentTrack } from 'src/app/models/CurrentTrack';
+} from '@store/playlist/playlist.actions';
+
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -35,11 +36,11 @@ export class PlaylistsComponent implements OnInit, OnDestroy {
       });
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.playlistSub.unsubscribe();
   }
 
-  playPlaylistTrack(playlistUri: string, trackOffset: number) {
+  playPlaylistTrack(playlistUri: string, trackOffset: number): void {
     this.playerService
       .startPlayback(playlistUri, trackOffset)
       .subscribe((data) => {});

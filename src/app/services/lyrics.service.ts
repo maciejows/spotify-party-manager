@@ -7,7 +7,6 @@ import { Observable } from 'rxjs';
 })
 export class LyricsService {
   apiUrl = `https://molyricify.herokuapp.com`;
-
   constructor(private http: HttpClient) {}
 
   getLyrics(artist: string, song: string): Observable<any> {

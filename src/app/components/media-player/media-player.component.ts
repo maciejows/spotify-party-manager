@@ -1,14 +1,14 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
-import { PlayerState } from '../../models/PlayerState';
 import { get } from 'scriptjs';
-import { PlayerService } from '../../services/player.service';
 import { Store } from '@ngrx/store';
 import {
   storePlayerState,
   storeProgress,
   storePausedValue
-} from 'src/app/store/player.actions';
+} from '@store/player/player.actions';
 import { interval, Subscription } from 'rxjs';
+import { PlayerState } from '@models/PlayerState';
+import { PlayerService } from '@services/player.service';
 
 @Component({
   selector: 'app-media-player',
@@ -29,7 +29,7 @@ export class MediaPlayerComponent implements OnInit, OnDestroy {
 
   constructor(
     private playerService: PlayerService,
-    private store: Store<{ media: PlayerState }>
+    private store: Store<{ player: PlayerState }>
   ) {}
 
   ngOnInit(): void {
@@ -46,6 +46,7 @@ export class MediaPlayerComponent implements OnInit, OnDestroy {
     this.player.disconnect();
   }
 
+  // TODO: Move to effects
   addItemToPlayback(): void {
     this.playerService
       .addItemToPlayback('spotify:track:2UkLrrYuDlnVTWPOqVt5uI', this.deviceId)
@@ -127,7 +128,8 @@ export class MediaPlayerComponent implements OnInit, OnDestroy {
 
         // Playback status updates
         this.player.addListener('player_state_changed', (state) => {
-          const currentPlayerState: PlayerState = new PlayerState(state);
+          console.log(state);
+          const currentPlayerState = new PlayerState(state);
           this.changePlayerState(currentPlayerState);
           this.togglePlayIcon = currentPlayerState.track.paused
             ? 'play'

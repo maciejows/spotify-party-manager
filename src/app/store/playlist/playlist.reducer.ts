@@ -1,6 +1,6 @@
-import { createReducer, on } from '@ngrx/store';
+import { PlaylistState } from '@models/PlaylistState';
+import { Action, createReducer, on } from '@ngrx/store';
 import * as PlaylistActions from './playlist.actions';
-import { PlaylistState } from '../models/PlaylistState';
 
 export const initialState: PlaylistState = {
   currentPlaylist: '',
@@ -37,6 +37,9 @@ const _playlistReducer = createReducer(
   }))
 );
 
-export function playlistReducer(state, action) {
+export function playlistReducer(
+  state: PlaylistState,
+  action: Action
+): PlaylistState {
   return _playlistReducer(state, action);
 }

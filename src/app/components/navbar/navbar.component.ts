@@ -1,10 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { User } from '../../models/User';
-import { AuthState } from '../../models/AuthState';
 import { Store } from '@ngrx/store';
-import { logout } from '../../store/auth.actions';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
+import { AuthState } from '@models/AuthState';
+import { User } from '@models/User';
+import { logout } from '@store/auth/auth.actions';
 
 @Component({
   selector: 'app-navbar',
@@ -23,7 +23,7 @@ export class NavbarComponent implements OnInit {
     this.user$ = this.store.select((state) => state.auth.user);
   }
 
-  logout() {
+  logout(): void {
     window.localStorage.removeItem('token');
     //TODO: Disconnect player
     this.router.navigateByUrl('/');

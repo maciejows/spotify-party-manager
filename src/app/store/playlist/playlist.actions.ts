@@ -1,6 +1,6 @@
+import { PlaylistState } from '@models/PlaylistState';
+import { Track } from '@models/Track';
 import { createAction, props } from '@ngrx/store';
-import { PlaylistState } from '../models/PlaylistState';
-import { Track } from '../models/Track';
 
 export const loadPlaylists = createAction(
   '[Playlist Service] Load Playlists',
