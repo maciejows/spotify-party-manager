@@ -46,6 +46,6 @@ export class LyricsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.playerSub.unsubscribe();
+    this.playerSub?.unsubscribe();
   }
 }

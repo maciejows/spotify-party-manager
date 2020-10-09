@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { SpotifyToken } from '@models/SpotifyToken';
 import { Store } from '@ngrx/store';
+import { AuthService } from '@services/auth.service';
 import { loadUserData, storeSpotifyToken } from '@store/auth/auth.actions';
 
 @Component({
@@ -12,7 +13,8 @@ import { loadUserData, storeSpotifyToken } from '@store/auth/auth.actions';
 export class CallbackComponent implements OnInit {
   constructor(
     private router: Router,
-    private store: Store<{ auth: SpotifyToken }>
+    private store: Store<{ auth: SpotifyToken }>,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
@@ -24,6 +26,7 @@ export class CallbackComponent implements OnInit {
         expiresIn: params['expires_in']
       };
       this.setStorage(spotifyToken);
+      this.store.dispatch(loadUserData({ token: spotifyToken.value }));
       this.router.navigateByUrl('/app');
     } else {
       this.router.navigateByUrl('/');
@@ -32,13 +35,12 @@ export class CallbackComponent implements OnInit {
     }
   }
 
-  setStorage(spotifyToken: SpotifyToken) {
-    window.localStorage.setItem('token', spotifyToken.value);
+  setStorage(spotifyToken: SpotifyToken): void {
+    this.authService.setLocalStorageToken(spotifyToken);
     this.store.dispatch(storeSpotifyToken({ token: spotifyToken }));
-    this.store.dispatch(loadUserData({ token: spotifyToken.value }));
   }
 
-  getParamsFromHash(hash: string) {
+  getParamsFromHash(hash: string): any {
     const params = {};
     hash.split('&').map((res) => {
       const temp = res.split('=');

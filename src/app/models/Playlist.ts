@@ -1,3 +1,4 @@
+import { PlaylistState } from './PlaylistState';
 import { Track } from './Track';
 export class Playlist {
   id: string;
@@ -22,5 +23,19 @@ export class Playlist {
     this.tracksTotal = object.tracks.total;
     this.tracksHref = object.tracks.href;
     this.items = [];
+  }
+
+  static mapDataToPlaylistArray(data): PlaylistState {
+    const arr = data.items;
+    const playlists: PlaylistState = {
+      playlists: {},
+      currentPlaylist: '',
+      show: false,
+      error: ''
+    };
+    arr.forEach((element) => {
+      playlists.playlists[element.id] = new Playlist(element);
+    });
+    return playlists;
   }
 }

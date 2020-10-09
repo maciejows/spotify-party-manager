@@ -6,6 +6,8 @@ import { Router } from '@angular/router';
 import { PlayerState } from '@models/PlayerState';
 import { SpotifyToken } from '@models/SpotifyToken';
 import { loadUserData, storeSpotifyToken } from '@store/auth/auth.actions';
+import { take } from 'rxjs/operators';
+import { AuthService } from '@services/auth.service';
 
 @Component({
   selector: 'app-app-core',
@@ -14,7 +16,7 @@ import { loadUserData, storeSpotifyToken } from '@store/auth/auth.actions';
 })
 export class AppCoreComponent implements OnInit, OnDestroy {
   playerState: PlayerState;
-  token: SpotifyToken;
+  spotifyToken: SpotifyToken;
 
   playerSubscription: Subscription;
   userSubscription: Subscription;
@@ -22,39 +24,53 @@ export class AppCoreComponent implements OnInit, OnDestroy {
 
   constructor(
     private store: Store<{ auth: AuthState; player: PlayerState }>,
-    private router: Router
+    private router: Router,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
-    const cachedToken = window.localStorage.getItem('token');
-    if (!cachedToken) this.router.navigateByUrl('/');
+    this.spotifyToken = this.authService.getLocalStorageToken();
+    console.log('Init');
+    if (!this.spotifyToken) {
+      this.router.navigateByUrl('/');
+      console.log('Should navigate back');
+    }
 
     this.playerSubscription = this.store
       .select((state) => state.player)
       .subscribe((player) => {
         this.playerState = player;
       });
-
+    console.log('Gdzies tam dalej');
     this.store
       .select((state) => state.auth.user)
+      .pipe(take(1))
       .subscribe((user) => {
-        if (!user.id) this.store.dispatch(loadUserData({ token: cachedToken }));
-      })
-      .unsubscribe();
+        if (!user.id)
+          this.store.dispatch(
+            loadUserData({ token: this.spotifyToken?.value })
+          );
+      });
 
     this.store
       .select((state) => state.auth.token)
+      .pipe(take(1))
       .subscribe((token) => {
         if (!token.value) {
           this.store.dispatch(
-            storeSpotifyToken({ token: { value: cachedToken, expiresIn: 0 } })
+            storeSpotifyToken({
+              token: {
+                value: this.spotifyToken?.value,
+                expiresIn: this.spotifyToken?.expiresIn
+              }
+            })
           );
-        } else this.token = token;
-      })
-      .unsubscribe();
+        } else this.spotifyToken = token;
+      });
   }
 
   ngOnDestroy(): void {
-    this.playerSubscription.unsubscribe();
+    console.log('Dopiero destroy');
+    this.playerSubscription?.unsubscribe();
   }
 }

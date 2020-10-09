@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { SpotifyToken } from '@models/SpotifyToken';
 import {
   SPOTIFY_CLIENT_ID,
   REDIRECT_URI
@@ -20,7 +21,9 @@ export class AuthService {
     showDialog: `&show_dialog=true`
   };
 
-  constructor() {}
+  constructor() {
+    console.log('service');
+  }
 
   getSpotifyAuthToken(): void {
     window.location.href =
@@ -30,5 +33,18 @@ export class AuthService {
       this.params.redirect_uri +
       this.scopes +
       this.params.showDialog;
+  }
+
+  setLocalStorageToken(spotifyToken: SpotifyToken): void {
+    window.localStorage.setItem('token', JSON.stringify(spotifyToken));
+  }
+
+  getLocalStorageToken(): SpotifyToken {
+    const token = window.localStorage.getItem('token');
+    return JSON.parse(token);
+  }
+
+  removeLocalStorageToken(): void {
+    window.localStorage.removeItem('token');
   }
 }
