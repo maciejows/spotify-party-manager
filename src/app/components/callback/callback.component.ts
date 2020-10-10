@@ -21,9 +21,12 @@ export class CallbackComponent implements OnInit {
     const hash = window.location.hash.substring(1);
     if (hash) {
       const params = this.getParamsFromHash(hash);
+
+      // Get current date in miliseconds and add expiration time
+      const time = new Date().getTime() + params['expires_in'] * 1000;
       const spotifyToken: SpotifyToken = {
         value: params['access_token'],
-        expiresIn: params['expires_in']
+        expiresIn: time
       };
       this.setStorage(spotifyToken);
       this.store.dispatch(loadUserData({ token: spotifyToken.value }));

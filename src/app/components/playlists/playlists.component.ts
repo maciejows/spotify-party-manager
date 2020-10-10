@@ -26,9 +26,7 @@ export class PlaylistsComponent implements OnInit, OnDestroy {
   constructor(
     private playerService: PlayerService,
     private store: Store<{ playlist: PlaylistState }>
-  ) {
-    console.log('Building playlist comp.');
-  }
+  ) {}
 
   ngOnInit(): void {
     this.store.dispatch(loadPlaylists({ token: this.spotifyToken?.value }));

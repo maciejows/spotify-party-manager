@@ -29,7 +29,6 @@ export class LyricsComponent implements OnInit, OnDestroy {
       .subscribe((track) => {
         if (track.id && track.id !== this.trackId) {
           this.trackId = track.id;
-          console.log('Dispatching: ' + track.id, track.name, track.artist);
           this.store.dispatch(
             getLyrics({
               id: track.id,

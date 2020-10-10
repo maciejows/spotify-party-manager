@@ -30,10 +30,8 @@ export class AppCoreComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.spotifyToken = this.authService.getLocalStorageToken();
-    console.log('Init');
     if (!this.spotifyToken) {
       this.router.navigateByUrl('/');
-      console.log('Should navigate back');
     }
 
     this.playerSubscription = this.store
@@ -41,7 +39,6 @@ export class AppCoreComponent implements OnInit, OnDestroy {
       .subscribe((player) => {
         this.playerState = player;
       });
-    console.log('Gdzies tam dalej');
     this.store
       .select((state) => state.auth.user)
       .pipe(take(1))
@@ -70,7 +67,6 @@ export class AppCoreComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    console.log('Dopiero destroy');
     this.playerSubscription?.unsubscribe();
   }
 }

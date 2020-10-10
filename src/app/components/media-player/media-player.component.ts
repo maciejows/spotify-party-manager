@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, NgZone } from '@angular/core';
 import { get } from 'scriptjs';
 import { Store } from '@ngrx/store';
 import {
@@ -10,6 +10,9 @@ import { interval, Subscription } from 'rxjs';
 import { PlayerState } from '@models/PlayerState';
 import { PlayerService } from '@services/player.service';
 import { SpotifyToken } from '@models/SpotifyToken';
+import { Router } from '@angular/router';
+import { logout } from '@store/auth/auth.actions';
+import { AuthService } from '@services/auth.service';
 
 @Component({
   selector: 'app-media-player',
@@ -31,12 +34,13 @@ export class MediaPlayerComponent implements OnInit, OnDestroy {
 
   constructor(
     private playerService: PlayerService,
-    private store: Store<{ player: PlayerState }>
+    private authService: AuthService,
+    private store: Store<{ player: PlayerState }>,
+    private router: Router,
+    private ngZone: NgZone
   ) {}
 
   ngOnInit(): void {
-    console.log('Media init');
-    console.log(this.volume);
     this.loadSpotifySdk();
     this.intervalSub = this.intervalSource.subscribe((_) => {
       if (this.playerState.track.paused) {
@@ -111,6 +115,17 @@ export class MediaPlayerComponent implements OnInit, OnDestroy {
     }
   }
 
+  isTokenExpired(): boolean {
+    const currentTime = new Date().getTime();
+    return this.spotifyToken.expiresIn < currentTime;
+  }
+
+  logout(): void {
+    this.authService.removeLocalStorageToken();
+    this.store.dispatch(logout());
+    this.router.navigateByUrl('/');
+  }
+
   loadSpotifySdk(): void {
     get('https://sdk.scdn.co/spotify-player.js', () => {
       (window as any).onSpotifyWebPlaybackSDKReady = () => {
@@ -138,7 +153,9 @@ export class MediaPlayerComponent implements OnInit, OnDestroy {
 
         // Playback status updates
         this.player.addListener('player_state_changed', (state) => {
-          console.log(state);
+          if (this.isTokenExpired()) {
+            this.ngZone.run(() => this.logout());
+          }
           const currentPlayerState = new PlayerState(state);
           this.changePlayerState(currentPlayerState);
           this.togglePlayIcon = currentPlayerState.track.paused

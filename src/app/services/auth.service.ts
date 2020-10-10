@@ -21,9 +21,7 @@ export class AuthService {
     showDialog: `&show_dialog=true`
   };
 
-  constructor() {
-    console.log('service');
-  }
+  constructor() {}
 
   getSpotifyAuthToken(): void {
     window.location.href =
