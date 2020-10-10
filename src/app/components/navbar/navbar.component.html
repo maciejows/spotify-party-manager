@@ -1,22 +1,22 @@
 <!--Navbar-->
-<mdb-navbar SideClass="navbar navbar-expand-lg navbar-dark dark-bg-surface" [containerInside]="true">
+<mdb-navbar SideClass="navbar navbar-expand-sm navbar-dark dark-bg-surface" [containerInside]="true">
     <!-- Navbar brand -->
     <mdb-navbar-brand><a class="navbar-brand text-white" href="#">Spotify Genius</a></mdb-navbar-brand>
-  
+    <ul class="navbar-nav mr-auto">
+      <!--
+      <li class="nav-item active">
+        <a class="nav-link waves-light" mdbWavesEffect>About<span class="sr-only">(current)</span></a>
+      </li>
+      
+      -->
+      <li class="nav-item">
+        <a class="nav-link waves-light" mdbWavesEffect href="https://github.com/maciejows/spotify-party-manager"><mdb-icon fab icon="github" size="lg"></mdb-icon></a>
+      </li>
+    </ul>
     <!-- Collapsible content -->
     <links>
       <!-- Links -->
-      <ul class="navbar-nav mr-auto">
-        <!--
-        <li class="nav-item active">
-          <a class="nav-link waves-light" mdbWavesEffect>About<span class="sr-only">(current)</span></a>
-        </li>
-        
-        -->
-        <li class="nav-item">
-          <a class="nav-link waves-light" mdbWavesEffect href="https://github.com/maciejows/spotify-party-manager"><mdb-icon fab icon="github" size="lg"></mdb-icon></a>
-        </li>
-      </ul>
+      
       <!-- Links -->
       <ul class="navbar-nav ml-auto nav-flex-icons">
         <li class="nav-item avatar dropdown" #dropdown mdbDropdown>
