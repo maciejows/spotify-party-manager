@@ -1,17 +1,12 @@
-<div class="row justify-content-center mt-5 rmpm">
-    <div class="col-3 dark-bg">
-        <app-playlists [currentTrack]="playerState.track" [spotifyToken]="spotifyToken"></app-playlists>
+<div class="row justify-content-center justify-content-lg-start mt-3 mt-lg-5 rmpm">
+    <div class="col-lg-3 dark-bg">
+        <mdb-icon class="d-block d-lg-none mb-3" size="lg" fas icon="list"></mdb-icon>
+        <app-playlists class="d-none d-lg-block" [currentTrack]="playerState.track" [spotifyToken]="spotifyToken"></app-playlists>
     </div>
-    <div class="col-6 dark-bg">
+    <div class="col-11 col-sm-9 col-lg-6 dark-bg">
         <app-lyrics></app-lyrics>
-    </div>
-    <div class="col-3">
-        Placeholder
     </div>
     <div id="player" class="dark-bg">
         <app-media-player [playerState]="playerState" [spotifyToken]="spotifyToken"></app-media-player>
     </div>
 </div>
-
-<!-- TODO: Remove later -->
-<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>

@@ -33,7 +33,9 @@ export class AppCoreComponent implements OnInit, OnDestroy {
     if (!this.spotifyToken) {
       this.router.navigateByUrl('/');
     }
-
+    this.initStoreSubscriptions();
+  }
+  initStoreSubscriptions(): void {
     this.playerSubscription = this.store
       .select((state) => state.player)
       .subscribe((player) => {
@@ -65,6 +67,8 @@ export class AppCoreComponent implements OnInit, OnDestroy {
         } else this.spotifyToken = token;
       });
   }
+
+  expandSideNavbar() {}
 
   ngOnDestroy(): void {
     this.playerSubscription?.unsubscribe();

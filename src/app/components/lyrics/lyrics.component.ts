@@ -41,7 +41,7 @@ export class LyricsComponent implements OnInit, OnDestroy {
   }
 
   lyricsTransform(lyrics: string): string {
-    return lyrics.trim().replace(/\n/g, '<br>');
+    return lyrics.trim().replace(/\n/g, '<br>') + '<br><br>';
   }
 
   ngOnDestroy(): void {
