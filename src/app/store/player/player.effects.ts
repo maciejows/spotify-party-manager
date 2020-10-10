@@ -29,9 +29,7 @@ export class PlayerEffects {
       mergeMap(([action]) =>
         this.lyricsService.getLyrics(action.artist, action.song).pipe(
           map((lyrics) => getLyricsSuccess({ lyrics: lyrics, id: action.id })),
-          catchError((error) =>
-            of(getLyricsError({ error: error.error.message }))
-          )
+          catchError((error) => of(getLyricsError({ error: error })))
         )
       )
     )

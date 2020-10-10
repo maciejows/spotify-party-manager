@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, NgZone } from '@angular/core';
 import { get } from 'scriptjs';
 import { Store } from '@ngrx/store';
 import {
@@ -9,6 +9,10 @@ import {
 import { interval, Subscription } from 'rxjs';
 import { PlayerState } from '@models/PlayerState';
 import { PlayerService } from '@services/player.service';
+import { SpotifyToken } from '@models/SpotifyToken';
+import { Router } from '@angular/router';
+import { logout } from '@store/auth/auth.actions';
+import { AuthService } from '@services/auth.service';
 
 @Component({
   selector: 'app-media-player',
@@ -17,6 +21,7 @@ import { PlayerService } from '@services/player.service';
 })
 export class MediaPlayerComponent implements OnInit, OnDestroy {
   @Input() playerState: PlayerState;
+  @Input() spotifyToken: SpotifyToken;
   deviceId: string;
   player: any;
   volume = 0.5;
@@ -29,11 +34,13 @@ export class MediaPlayerComponent implements OnInit, OnDestroy {
 
   constructor(
     private playerService: PlayerService,
-    private store: Store<{ player: PlayerState }>
+    private authService: AuthService,
+    private store: Store<{ player: PlayerState }>,
+    private router: Router,
+    private ngZone: NgZone
   ) {}
 
   ngOnInit(): void {
-    console.log(this.volume);
     this.loadSpotifySdk();
     this.intervalSub = this.intervalSource.subscribe((_) => {
       if (this.playerState.track.paused) {
@@ -42,25 +49,33 @@ export class MediaPlayerComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.intervalSub.unsubscribe();
-    this.player.disconnect();
+    this.intervalSub?.unsubscribe();
+    this.player?.disconnect();
   }
 
   // TODO: Move to effects
+  /* 
   addItemToPlayback(): void {
     this.playerService
-      .addItemToPlayback('spotify:track:2UkLrrYuDlnVTWPOqVt5uI', this.deviceId)
+      .addItemToPlayback(
+        'spotify:track:2UkLrrYuDlnVTWPOqVt5uI',
+        this.deviceId,
+        this.spotifyToken.value
+      )
       .subscribe(() => {});
   }
+  */
 
   transferPlayback(): void {
     this.playerService
-      .transferPlayback(this.deviceId, window.localStorage.getItem('token'))
+      .transferPlayback(this.deviceId, this.spotifyToken?.value)
       .subscribe(() => {});
   }
 
   getCurrentPlaybackInfo(): void {
-    this.playerService.getCurrentPlaybackInfo().subscribe(() => {});
+    this.playerService
+      .getCurrentPlaybackInfo(this.spotifyToken?.value)
+      .subscribe(() => {});
   }
 
   togglePlay(): void {
@@ -100,15 +115,25 @@ export class MediaPlayerComponent implements OnInit, OnDestroy {
     }
   }
 
+  isTokenExpired(): boolean {
+    const currentTime = new Date().getTime();
+    return this.spotifyToken.expiresIn < currentTime;
+  }
+
+  logout(): void {
+    this.authService.removeLocalStorageToken();
+    this.store.dispatch(logout());
+    this.router.navigateByUrl('/');
+  }
+
   loadSpotifySdk(): void {
     get('https://sdk.scdn.co/spotify-player.js', () => {
       (window as any).onSpotifyWebPlaybackSDKReady = () => {
-        const token = window.localStorage.getItem('token');
         // @ts-ignore
         this.player = new Spotify.Player({
           name: 'Spotify Genius',
           getOAuthToken: (cb) => {
-            cb(token);
+            cb(this.spotifyToken?.value);
           },
           volume: this.volume
         });
@@ -128,7 +153,9 @@ export class MediaPlayerComponent implements OnInit, OnDestroy {
 
         // Playback status updates
         this.player.addListener('player_state_changed', (state) => {
-          console.log(state);
+          if (this.isTokenExpired()) {
+            this.ngZone.run(() => this.logout());
+          }
           const currentPlayerState = new PlayerState(state);
           this.changePlayerState(currentPlayerState);
           this.togglePlayIcon = currentPlayerState.track.paused

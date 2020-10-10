@@ -1,6 +1,6 @@
 <div class="row justify-content-center mt-5 rmpm">
     <div class="col-3 dark-bg">
-        <app-playlists [currentTrack]="playerState.track" [token]="token.value"></app-playlists>
+        <app-playlists [currentTrack]="playerState.track" [spotifyToken]="spotifyToken"></app-playlists>
     </div>
     <div class="col-6 dark-bg">
         <app-lyrics></app-lyrics>
@@ -9,7 +9,7 @@
         Placeholder
     </div>
     <div id="player" class="dark-bg">
-        <app-media-player [playerState]="playerState"></app-media-player>
+        <app-media-player [playerState]="playerState" [spotifyToken]="spotifyToken"></app-media-player>
     </div>
 </div>
 

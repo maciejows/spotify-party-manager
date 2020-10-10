@@ -6,6 +6,7 @@ import { of } from 'rxjs';
 import { PlaylistService } from '@services/playlist.service';
 import { PlaylistState } from '@models/PlaylistState';
 import { Playlist } from '@models/Playlist';
+import { Track } from '@models/Track';
 
 @Injectable()
 export class PlaylistEffects {
@@ -21,13 +22,13 @@ export class PlaylistEffects {
         this.playlistService.getCurrentUserPlaylists(action.token).pipe(
           map((playlists) =>
             PlaylistActions.loadPlaylistsSuccess({
-              playlists: this.mapDataToPlaylistArray(playlists)
+              playlists: Playlist.mapDataToPlaylistArray(playlists)
             })
           ),
           catchError((error) =>
             of(
               PlaylistActions.loadPlaylistsError({
-                error: error.error.error.message
+                error: error
               })
             )
           )
@@ -43,14 +44,14 @@ export class PlaylistEffects {
         this.playlistService.getPlaylistTracks(action.href, action.token).pipe(
           map((tracks) =>
             PlaylistActions.loadPlaylistTracksSuccess({
-              tracks: tracks,
+              tracks: Track.mapDataToTrackArray(tracks),
               id: action.id
             })
           ),
           catchError((error) =>
             of(
               PlaylistActions.loadPlaylistTracksError({
-                error: error.error.error.message
+                error: error
               })
             )
           )
@@ -58,19 +59,4 @@ export class PlaylistEffects {
       )
     )
   );
-
-  // TODO: Move to class
-  mapDataToPlaylistArray(data): PlaylistState {
-    const arr = data.items;
-    const playlists: PlaylistState = {
-      playlists: {},
-      currentPlaylist: '',
-      show: false,
-      error: ''
-    };
-    arr.forEach((element) => {
-      playlists.playlists[element.id] = new Playlist(element);
-    });
-    return playlists;
-  }
 }

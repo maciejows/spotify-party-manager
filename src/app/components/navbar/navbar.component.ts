@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { AuthState } from '@models/AuthState';
 import { User } from '@models/User';
 import { logout } from '@store/auth/auth.actions';
+import { AuthService } from '@services/auth.service';
 
 @Component({
   selector: 'app-navbar',
@@ -16,7 +17,8 @@ export class NavbarComponent implements OnInit {
 
   constructor(
     private store: Store<{ auth: AuthState }>,
-    private router: Router
+    private router: Router,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
@@ -24,9 +26,8 @@ export class NavbarComponent implements OnInit {
   }
 
   logout(): void {
-    window.localStorage.removeItem('token');
-    //TODO: Disconnect player
-    this.router.navigateByUrl('/');
+    this.authService.removeLocalStorageToken();
     this.store.dispatch(logout());
+    this.router.navigateByUrl('/');
   }
 }
