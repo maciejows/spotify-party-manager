@@ -1,5 +1,5 @@
 <mdb-card *ngIf="(lyrics$ | async) as lyrics; else loading" class="force-overflow scrollbar scrollbar-danger">
-    <span [innerHTML]="lyricsTransform(lyrics)"></span>
+    <span class="m-3 mb-5" [innerHTML]="lyricsTransform(lyrics)"></span>
 </mdb-card>
 <ng-template #loading>
     <div class="center-content force-overflow">

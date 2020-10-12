@@ -1,5 +1,14 @@
-html, body { height: 100%; }
+// Dark theme
+$dark-bg: #19191A;
+$dark-surface: #303031;
+$color-primary: #1DB955;
+
+html, body { 
+    height: 100%; 
+    background-color: $dark-bg;
+}
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
 .spy {
     background-color: mediumaquamarine;
 }
@@ -11,11 +20,6 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .border-rounded {
     border-radius: 5px;
 }
-
-// Dark theme
-$dark-bg: #19191A;
-$dark-surface: #303031;
-$color-primary: #1DB955;
 
 .nav-link {
     color: white;
@@ -56,7 +60,7 @@ a.dropdown-item:hover {
 }
 
 .dark-bg {
-  background-color: $dark-bg !important;
+  background-color: $dark-bg;
   color: #fff !important;
 }
 

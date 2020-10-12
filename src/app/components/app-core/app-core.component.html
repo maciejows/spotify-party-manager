@@ -1,17 +1,12 @@
-<div class="row justify-content-center mt-5 rmpm">
-    <div class="col-3 dark-bg">
-        <app-playlists [currentTrack]="playerState.track" [spotifyToken]="spotifyToken"></app-playlists>
+<div class="row mt-3 mt-lg-5 rmpm">
+    <mdb-icon class="d-lg-none d-block mb-3 p-1" size="lg" fas icon="list" (click)="expandSideNavbar();" style="z-index: 3;"></mdb-icon>
+    <div class="col-12 col-sm-6 col-md-5 col-lg-3 dark-bg" id="playlists" [@showHide]="isOpen ? 'show' : 'hide'">
+        <app-playlists [currentTrack]="playerState.track" [spotifyToken]="spotifyToken" [isOpen]="isOpen"></app-playlists>
     </div>
-    <div class="col-6 dark-bg">
+    <div class="col-11 col-sm-9 col-lg-6 dark-bg mx-auto mx-lg-0" id="lyrics"> 
         <app-lyrics></app-lyrics>
-    </div>
-    <div class="col-3">
-        Placeholder
     </div>
     <div id="player" class="dark-bg">
         <app-media-player [playerState]="playerState" [spotifyToken]="spotifyToken"></app-media-player>
     </div>
 </div>
-
-<!-- TODO: Remove later -->
-<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
