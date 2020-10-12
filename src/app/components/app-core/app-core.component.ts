@@ -8,9 +8,10 @@ import { SpotifyToken } from '@models/SpotifyToken';
 import { loadUserData, storeSpotifyToken } from '@store/auth/auth.actions';
 import { take } from 'rxjs/operators';
 import { AuthService } from '@services/auth.service';
-
+import { showHide } from '../../animations/transition';
 @Component({
   selector: 'app-app-core',
+  animations: [showHide],
   templateUrl: './app-core.component.html',
   styleUrls: ['./app-core.component.scss']
 })
@@ -22,6 +23,7 @@ export class AppCoreComponent implements OnInit, OnDestroy {
   userSubscription: Subscription;
   tokenSubscription: Subscription;
 
+  isOpen = false;
   constructor(
     private store: Store<{ auth: AuthState; player: PlayerState }>,
     private router: Router,
@@ -68,7 +70,9 @@ export class AppCoreComponent implements OnInit, OnDestroy {
       });
   }
 
-  expandSideNavbar() {}
+  expandSideNavbar(): void {
+    this.isOpen = !this.isOpen;
+  }
 
   ngOnDestroy(): void {
     this.playerSubscription?.unsubscribe();

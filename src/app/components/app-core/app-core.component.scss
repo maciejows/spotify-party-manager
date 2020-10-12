@@ -6,8 +6,11 @@
     z-index: 1030;
 }
 
-@media (max-width: 576px) {
-    .test {
-      background-color: red;
-    }
+@media (max-width: 992px) {
+    #playlists {
+      position: absolute;
+      z-index: 2;
+      visibility: hidden;
+      padding: 0
   }
+}

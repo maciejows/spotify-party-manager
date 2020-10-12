@@ -1,9 +1,9 @@
-<div class="row justify-content-center justify-content-lg-start mt-3 mt-lg-5 rmpm">
-    <div class="col-lg-3 dark-bg">
-        <mdb-icon class="d-block d-lg-none mb-3" size="lg" fas icon="list"></mdb-icon>
-        <app-playlists class="d-none d-lg-block" [currentTrack]="playerState.track" [spotifyToken]="spotifyToken"></app-playlists>
+<div class="row mt-3 mt-lg-5 rmpm">
+    <mdb-icon class="d-lg-none d-block mb-3 p-1" size="lg" fas icon="list" (click)="expandSideNavbar();" style="z-index: 3;"></mdb-icon>
+    <div class="col-12 col-sm-6 col-md-5 col-lg-3 dark-bg" id="playlists" [@showHide]="isOpen ? 'show' : 'hide'">
+        <app-playlists [currentTrack]="playerState.track" [spotifyToken]="spotifyToken" [isOpen]="isOpen"></app-playlists>
     </div>
-    <div class="col-11 col-sm-9 col-lg-6 dark-bg">
+    <div class="col-11 col-sm-9 col-lg-6 dark-bg mx-auto mx-lg-0" id="lyrics"> 
         <app-lyrics></app-lyrics>
     </div>
     <div id="player" class="dark-bg">

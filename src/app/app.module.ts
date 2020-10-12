@@ -2,8 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
-// Router
-import { RouterModule, Routes } from '@angular/router';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 //MDBBootstrap
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
 // NgRx devtools
@@ -61,7 +60,8 @@ import { AppRoutingModule } from './app-routing.module';
     StoreDevtoolsModule.instrument({
       maxAge: 25, // Retains last 25 states
       logOnly: environment.production // Restrict extension to log-only mode
-    })
+    }),
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
