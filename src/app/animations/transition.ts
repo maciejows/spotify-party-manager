@@ -2,6 +2,7 @@ import {
   animate,
   group,
   query,
+  sequence,
   state,
   style,
   transition,
@@ -12,32 +13,32 @@ export const showHide = trigger('showHide', [
   state(
     'hide',
     style({
-      height: '30%',
+      minHeight: '100%',
       width: '0px'
     })
   ),
   state(
     'show',
     style({
-      height: '100%',
+      minHeight: '100%',
+      height: 'auto',
       width: '*',
-      visibility: 'visible'
+      visibility: 'visible',
+      opacity: 0.97
     })
   ),
   transition('hide => show', [
-    query('div', [animate('0.01s', style({ opacity: 0 }))]),
-    animate('0.01s', style({ visibility: 'visible' })),
-    animate('0.3s', style({ width: '*' })),
-    group([
-      animate('0.3s', style({ height: '100%' })),
-      query('div', [animate('0.3s', style({ opacity: 1 }))])
+    query('div', style({ opacity: 0 }), {
+      limit: 1
+    }),
+    style({ visibility: 'visible' }),
+    sequence([
+      animate(300, style({ width: '*', opacity: 0.97 })),
+      query('div', animate(300, style({ opacity: 1 })), { limit: 1 })
     ])
   ]),
   transition('show => hide', [
-    group([
-      query('div', [animate('0.3s', style({ opacity: 0 }))]),
-      animate('0.3s', style({ height: '30%' }))
-    ]),
-    animate('0.3s', style({ width: 0 }))
+    query('div', animate(150, style({ opacity: 0 })), { limit: 1 }),
+    animate(300, style({ width: 0 }))
   ])
 ]);

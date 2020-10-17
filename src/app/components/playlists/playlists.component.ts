@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Input, OnChanges } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { CurrentTrack } from '@models/CurrentTrack';
 import { Playlist } from '@models/Playlist';
 import { PlaylistState } from '@models/PlaylistState';
@@ -18,20 +18,15 @@ import { Subscription } from 'rxjs';
   templateUrl: './playlists.component.html',
   styleUrls: ['./playlists.component.scss']
 })
-export class PlaylistsComponent implements OnInit, OnDestroy, OnChanges {
+export class PlaylistsComponent implements OnInit, OnDestroy {
   @Input() currentTrack: CurrentTrack;
   @Input() spotifyToken: SpotifyToken;
-  @Input() isOpen = false;
   playlistState: PlaylistState;
   playlistSub: Subscription;
   constructor(
     private playerService: PlayerService,
     private store: Store<{ playlist: PlaylistState }>
   ) {}
-
-  ngOnChanges(): void {
-    console.log(this.isOpen);
-  }
 
   ngOnInit(): void {
     this.store.dispatch(loadPlaylists({ token: this.spotifyToken?.value }));

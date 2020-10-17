@@ -2,12 +2,12 @@
     <div class="col-3 d-none d-md-block"> 
         <app-current-track-info [currentTrack]="playerState.track"></app-current-track-info>
     </div>
-    <div class="col my-auto">
+    <div class="col">
         <div class="row justify-content-center">
             <div class="col text-center">
-                <button mdbBtn size="sm" class="dark-bg-surface" mdbWavesEffect (click)="previousTrack()"> <mdb-icon fas icon="backward"></mdb-icon></button> 
-                <button mdbBtn size="sm" class="dark-bg-surface" mdbWavesEffect (click)="togglePlay()"> <mdb-icon fas [icon]="togglePlayIcon"></mdb-icon> </button>
-                <button mdbBtn size="sm" class="dark-bg-surface" mdbWavesEffect (click)="nextTrack()"> <mdb-icon fas icon="forward"></mdb-icon></button> 
+                <button mdbBtn size="sm" class="dark-bg-surface"  (click)="previousTrack()"> <mdb-icon fas icon="backward"></mdb-icon></button> 
+                <button mdbBtn size="sm" class="dark-bg-surface"  (click)="togglePlay()"> <mdb-icon fas [icon]="togglePlayIcon"></mdb-icon> </button>
+                <button mdbBtn size="sm" class="dark-bg-surface"  (click)="nextTrack()"> <mdb-icon fas icon="forward"></mdb-icon></button> 
             </div>
             <div class="col-12"></div>
             <div class="col p-0 text-right">{{trackProgress | timeSeconds}}</div>

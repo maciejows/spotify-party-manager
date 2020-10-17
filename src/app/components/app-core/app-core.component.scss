@@ -3,14 +3,18 @@
     right: 0;
     bottom: 0;
     left: 0;
-    z-index: 1030;
+    z-index: 2;
+}
+
+#playlists {
+  padding-bottom: 10vh;
 }
 
 @media (max-width: 992px) {
-    #playlists {
+    .hide-md {
       position: absolute;
-      z-index: 2;
+      z-index: 3;
       visibility: hidden;
-      padding: 0
+      padding: 0;
   }
 }
