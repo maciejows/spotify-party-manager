@@ -2,6 +2,7 @@ import {
   animate,
   group,
   query,
+  sequence,
   state,
   style,
   transition,
@@ -23,16 +24,18 @@ export const showHide = trigger('showHide', [
       height: 'auto',
       width: '*',
       visibility: 'visible',
-      opacity: 0.8
+      opacity: 0.97
     })
   ),
   transition('hide => show', [
     query('div', style({ opacity: 0 }), {
       limit: 1
     }),
-    animate(10, style({ visibility: 'visible' })),
-    animate(300, style({ width: '*', opacity: 0.8 })),
-    query('div', animate(300, style({ opacity: 1 })), { limit: 1 })
+    style({ visibility: 'visible' }),
+    sequence([
+      animate(300, style({ width: '*', opacity: 0.97 })),
+      query('div', animate(300, style({ opacity: 1 })), { limit: 1 })
+    ])
   ]),
   transition('show => hide', [
     query('div', animate(150, style({ opacity: 0 })), { limit: 1 }),
