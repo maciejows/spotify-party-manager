@@ -30,5 +30,5 @@ export const loadPlaylistTracksError = createAction(
 
 export const selectPlaylist = createAction(
   '[Playlist Component] Select playlist',
-  props<{ show: boolean; selected: string }>()
+  props<{ show: boolean; selected?: string }>()
 );

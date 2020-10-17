@@ -1,4 +1,4 @@
-<div class="ml-5 mt-5 m-lg-0">
+<div class="ml-5 mt-5 mt-lg-0 ml-lg-0">
     <div *ngFor="let playlist of playlistState.playlists | keyvalue">
         <p class="clickable font-weight-bolder playlist-text"
         (click)="selectPlaylist(playlist.key, playlist.value)">{{playlist.value.name}}</p>

@@ -27,12 +27,12 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .nav-link:hover{
     color: white;
-    opacity: 70%;
+    opacity: 0.7;
 }
 
 .clickable:hover {
     cursor: pointer;
-    opacity: 80%;
+    opacity: 0.8;
 }
 
 .color-primary {
@@ -45,12 +45,12 @@ button.bg-primary {
 }
 
 a.bg-primary:hover, a.bg-primary:focus, button.bg-primary:hover, button.bg-primary:focus {
-    opacity: 70%;
+    opacity: 0.7;
     background-color: $color-primary !important;
 }
 
 a.dropdown-item:hover {
-    opacity: 50%;
+    opacity: 0.5;
     background-color: inherit;
 }
 

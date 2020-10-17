@@ -9,6 +9,7 @@ import { loadUserData, storeSpotifyToken } from '@store/auth/auth.actions';
 import { take } from 'rxjs/operators';
 import { AuthService } from '@services/auth.service';
 import { showHide } from '../../animations/transition';
+import { selectPlaylist } from '@store/playlist/playlist.actions';
 @Component({
   selector: 'app-app-core',
   animations: [showHide],
@@ -25,7 +26,10 @@ export class AppCoreComponent implements OnInit, OnDestroy {
 
   isOpen = false;
   constructor(
-    private store: Store<{ auth: AuthState; player: PlayerState }>,
+    private store: Store<{
+      auth: AuthState;
+      player: PlayerState;
+    }>,
     private router: Router,
     private authService: AuthService
   ) {}
@@ -71,6 +75,7 @@ export class AppCoreComponent implements OnInit, OnDestroy {
   }
 
   expandSideNavbar(): void {
+    if (this.isOpen) this.store.dispatch(selectPlaylist({ show: false }));
     this.isOpen = !this.isOpen;
   }
 
