@@ -31,6 +31,7 @@ import { PlaylistsComponent } from '@components/playlists/playlists.component';
 import { TimeSecondsPipe } from '@pipes/time-seconds.pipe';
 import { LyricsComponent } from '@components/lyrics/lyrics.component';
 import { AppRoutingModule } from './app-routing.module';
+import { RecommendedComponent } from './components/recommended/recommended.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import { AppRoutingModule } from './app-routing.module';
     TrackQueueComponent,
     PlaylistsComponent,
     TimeSecondsPipe,
-    LyricsComponent
+    LyricsComponent,
+    RecommendedComponent
   ],
   imports: [
     BrowserModule,

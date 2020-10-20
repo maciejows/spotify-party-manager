@@ -35,6 +35,19 @@ export class PlayerService {
     return this.http.put(`${this.apiUrl}`, body, { headers: httpHeaders });
   }
 
+  getRecommended(seeds, token: string): Observable<any> {
+    const httpHeaders = new HttpHeaders({
+      Authorization: `Bearer ${token}`
+    });
+    return this.http.get(
+      `https://api.spotify.com/v1/recommendations?seed_tracks=${seeds.tracks[0]},${seeds.tracks[1]}`,
+      {
+        headers: httpHeaders
+      }
+    );
+  }
+
+  /* TODO: REMOVE? Probably useless 
   getCurrentPlaybackInfo(token: string): Observable<any> {
     const httpHeaders = new HttpHeaders({
       Authorization: `Bearer ${token}`
@@ -63,4 +76,5 @@ export class PlayerService {
       { headers: httpHeaders }
     );
   }
+   */
 }

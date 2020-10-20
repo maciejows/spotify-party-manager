@@ -72,12 +72,13 @@ export class MediaPlayerComponent implements OnInit, OnDestroy {
       .subscribe(() => {});
   }
 
+  /*TODO: remove?
   getCurrentPlaybackInfo(): void {
     this.playerService
       .getCurrentPlaybackInfo(this.spotifyToken?.value)
       .subscribe(() => {});
   }
-
+  */
   togglePlay(): void {
     this.player.togglePlay();
   }

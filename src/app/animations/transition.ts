@@ -1,6 +1,5 @@
 import {
   animate,
-  group,
   query,
   sequence,
   state,
