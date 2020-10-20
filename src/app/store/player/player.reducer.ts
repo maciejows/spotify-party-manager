@@ -18,8 +18,6 @@ export const initialState: PlayerState = {
     }
   },
   tracksLyrics: {},
-  nextTracks: [],
-  previousTracks: [],
   error: ''
 };
 
@@ -27,9 +25,7 @@ const _playerReducer = createReducer(
   initialState,
   on(PlayerActions.storePlayerState, (state, { playerState }) => ({
     ...state,
-    track: { ...playerState.track },
-    nextTracks: playerState.nextTracks,
-    previousTracks: playerState.previousTracks
+    track: { ...playerState.track }
   })),
   on(PlayerActions.storePausedValue, (state, { paused }) => ({
     ...state,

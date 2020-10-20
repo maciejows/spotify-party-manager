@@ -53,32 +53,12 @@ export class MediaPlayerComponent implements OnInit, OnDestroy {
     this.player?.disconnect();
   }
 
-  // TODO: Move to effects
-  /* 
-  addItemToPlayback(): void {
-    this.playerService
-      .addItemToPlayback(
-        'spotify:track:2UkLrrYuDlnVTWPOqVt5uI',
-        this.deviceId,
-        this.spotifyToken.value
-      )
-      .subscribe(() => {});
-  }
-  */
-
   transferPlayback(): void {
     this.playerService
       .transferPlayback(this.deviceId, this.spotifyToken?.value)
       .subscribe(() => {});
   }
 
-  /*TODO: remove?
-  getCurrentPlaybackInfo(): void {
-    this.playerService
-      .getCurrentPlaybackInfo(this.spotifyToken?.value)
-      .subscribe(() => {});
-  }
-  */
   togglePlay(): void {
     this.player.togglePlay();
   }

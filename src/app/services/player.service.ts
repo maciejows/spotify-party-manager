@@ -46,35 +46,4 @@ export class PlayerService {
       }
     );
   }
-
-  /* TODO: REMOVE? Probably useless 
-  getCurrentPlaybackInfo(token: string): Observable<any> {
-    const httpHeaders = new HttpHeaders({
-      Authorization: `Bearer ${token}`
-    });
-    return this.http.get<any>(`${this.apiUrl}`, { headers: httpHeaders });
-  }
-
-  nextTrack(token: string): Observable<any> {
-    const httpHeaders = new HttpHeaders({
-      Authorization: `Bearer ${token}`
-    });
-    return this.http.post<any>(
-      `${this.apiUrl}/next`,
-      {},
-      { headers: httpHeaders }
-    );
-  }
-
-  previousTrack(token: string): Observable<any> {
-    const httpHeaders = new HttpHeaders({
-      Authorization: `Bearer ${token}`
-    });
-    return this.http.post<any>(
-      `${this.apiUrl}/previous`,
-      {},
-      { headers: httpHeaders }
-    );
-  }
-   */
 }

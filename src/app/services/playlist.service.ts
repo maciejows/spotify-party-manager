@@ -20,7 +20,6 @@ export class PlaylistService {
       headers: httpHeaders
     });
   }
-  // TODO: Pipe move to effects
   // TODO: Get all instead of 20
   getPlaylistTracks(href: string, token: string): Observable<any> {
     const httpHeaders = new HttpHeaders({
