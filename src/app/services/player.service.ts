@@ -35,6 +35,7 @@ export class PlayerService {
     return this.http.put(`${this.apiUrl}`, body, { headers: httpHeaders });
   }
 
+  //TODO: Move somewhere else
   getRecommended(seeds, token: string): Observable<any> {
     const httpHeaders = new HttpHeaders({
       Authorization: `Bearer ${token}`

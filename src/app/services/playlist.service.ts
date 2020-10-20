@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class PlaylistService {
-  apiUrl = 'https://api.spotify.com/v1';
+  apiUrl = 'https://api.spotify.com/v1/me/playlists';
   httpHeaders: HttpHeaders;
   token: string;
 
@@ -16,7 +16,7 @@ export class PlaylistService {
     const httpHeaders = new HttpHeaders({
       Authorization: `Bearer ${token}`
     });
-    return this.http.get(`${this.apiUrl}/me/playlists`, {
+    return this.http.get(`${this.apiUrl}`, {
       headers: httpHeaders
     });
   }
