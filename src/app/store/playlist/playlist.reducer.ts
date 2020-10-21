@@ -19,13 +19,20 @@ const _playlistReducer = createReducer(
     ...state,
     error: error
   })),
-  on(PlaylistActions.loadPlaylistTracksSuccess, (state, { tracks, id }) => ({
-    ...state,
-    playlists: {
-      ...state.playlists,
-      [id]: { ...state.playlists[id], items: tracks }
-    }
-  })),
+  on(
+    PlaylistActions.loadPlaylistTracksSuccess,
+    (state, { tracks, id, tracksMetadata }) => ({
+      ...state,
+      playlists: {
+        ...state.playlists,
+        [id]: {
+          ...state.playlists[id],
+          tracks: tracks,
+          tracksMetadata: tracksMetadata
+        }
+      }
+    })
+  ),
   on(PlaylistActions.loadPlaylistTracksError, (state, { error }) => ({
     ...state,
     error: error

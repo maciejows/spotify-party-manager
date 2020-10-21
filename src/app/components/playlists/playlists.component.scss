@@ -11,3 +11,38 @@ $color-primary: #1DB955;
 .play-icon {
     color: $color-primary !important;
 }
+
+$dark-bg: #19191A;
+$dark-surface: #303031;
+$color-primary: #1DB955;
+
+.scrollbar {
+    margin-right: 30px;
+    height: 150px;
+    background: inherit;
+    overflow-y: scroll;
+    margin-bottom: 25px;
+    scrollbar-color: $color-primary $dark-surface;
+    }
+
+//TODO: Breakpoints with 50/80 %?
+.force-overflow {
+    min-height: 50vh;
+    width: 80%;
+}
+
+.scrollbar-danger::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+            box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+    background-color: $dark-surface;
+    border-radius: 10px; }
+
+.scrollbar-danger::-webkit-scrollbar {
+    width: 12px;
+    background-color: $dark-surface; }
+
+.scrollbar-danger::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+            box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+    background-color: $color-primary; }

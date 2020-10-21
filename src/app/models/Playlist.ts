@@ -1,4 +1,5 @@
 import { PlaylistState } from './PlaylistState';
+import { PlaylistTracksMetadata } from './PlaylistTracksMetadata';
 import { Track } from './Track';
 export class Playlist {
   id: string;
@@ -10,7 +11,8 @@ export class Playlist {
   ownerId: string;
   tracksTotal: number;
   tracksHref: string;
-  items: Track[];
+  tracks: Track[];
+  tracksMetadata: PlaylistTracksMetadata;
 
   constructor(object: any) {
     this.name = object.name;
@@ -22,7 +24,8 @@ export class Playlist {
     this.ownerId = object.owner.id;
     this.tracksTotal = object.tracks.total;
     this.tracksHref = object.tracks.href;
-    this.items = [];
+    this.tracks = [];
+    this.tracksMetadata = new PlaylistTracksMetadata();
   }
 
   static mapDataToPlaylistArray(data): PlaylistState {

@@ -22,7 +22,7 @@ export class Track {
   }
 
   static mapDataToTrackArray(data): Track[] {
-    const arr = data.items;
+    const arr = data;
     const playlistArray: Track[] = [];
     arr.forEach((element) => {
       playlistArray.push(new Track(element.track));

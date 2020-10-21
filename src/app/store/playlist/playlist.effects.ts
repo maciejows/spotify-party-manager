@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import * as PlaylistActions from './playlist.actions';
-import { mergeMap, map, catchError } from 'rxjs/operators';
+import { mergeMap, map, catchError, tap } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { PlaylistService } from '@services/playlist.service';
-import { PlaylistState } from '@models/PlaylistState';
 import { Playlist } from '@models/Playlist';
 import { Track } from '@models/Track';
+import { PlaylistTracksMetadata } from '@models/PlaylistTracksMetadata';
 
 @Injectable()
 export class PlaylistEffects {
@@ -42,9 +42,11 @@ export class PlaylistEffects {
       ofType(PlaylistActions.loadPlaylistTracks),
       mergeMap((action) =>
         this.playlistService.getPlaylistTracks(action.href, action.token).pipe(
+          tap((tracks) => console.log(tracks)),
           map((tracks) =>
             PlaylistActions.loadPlaylistTracksSuccess({
-              tracks: Track.mapDataToTrackArray(tracks),
+              tracks: Track.mapDataToTrackArray(tracks.items),
+              tracksMetadata: new PlaylistTracksMetadata(tracks),
               id: action.id
             })
           ),

@@ -12,17 +12,17 @@ import {
 } from '@store/playlist/playlist.actions';
 
 import { Subscription } from 'rxjs';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-playlists',
   templateUrl: './playlists.component.html',
   styleUrls: ['./playlists.component.scss']
 })
-export class PlaylistsComponent implements OnInit, OnDestroy {
+export class PlaylistsComponent implements OnInit {
   @Input() currentTrack: CurrentTrack;
   @Input() spotifyToken: SpotifyToken;
-  playlistState: PlaylistState;
-  playlistSub: Subscription;
+  @Input() playlistState: PlaylistState;
   constructor(
     private playerService: PlayerService,
     private store: Store<{ playlist: PlaylistState }>
@@ -30,25 +30,27 @@ export class PlaylistsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.store.dispatch(loadPlaylists({ token: this.spotifyToken?.value }));
-    this.playlistSub = this.store
-      .select((state) => state.playlist)
-      .subscribe((data) => {
-        this.playlistState = data;
-      });
-  }
-
-  ngOnDestroy(): void {
-    this.playlistSub?.unsubscribe();
   }
 
   playPlaylistTrack(playlistUri: string, trackOffset: number): void {
     this.playerService
       .startPlayback(playlistUri, trackOffset, this.spotifyToken?.value)
+      .pipe(take(1))
       .subscribe((data) => {});
   }
 
+  onPlaylistScroll(element: Element, key): void {
+    const total = element.scrollHeight - element.clientHeight;
+    const percent = (element.scrollTop / total) * 100;
+    console.log(
+      `Currently: ${element.scrollTop}, Total: ${total}, So thats: ${Math.round(
+        percent
+      )}%`
+    );
+  }
+
   selectPlaylist(key: string, value: Playlist): void {
-    if (!this.playlistState.playlists[key].items.length) {
+    if (!this.playlistState.playlists[key].tracks.length) {
       this.getTracks(key, value);
     }
     const currentPlaylist = this.playlistState.currentPlaylist;
