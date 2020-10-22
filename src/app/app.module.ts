@@ -31,6 +31,7 @@ import { TimeSecondsPipe } from '@pipes/time-seconds.pipe';
 import { LyricsComponent } from '@components/lyrics/lyrics.component';
 import { AppRoutingModule } from './app-routing.module';
 import { RecommendedComponent } from './components/recommended/recommended.component';
+import { ScrollListenDirective } from './directives/scroll-listen.directive';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import { RecommendedComponent } from './components/recommended/recommended.compo
     PlaylistsComponent,
     TimeSecondsPipe,
     LyricsComponent,
-    RecommendedComponent
+    RecommendedComponent,
+    ScrollListenDirective
   ],
   imports: [
     BrowserModule,

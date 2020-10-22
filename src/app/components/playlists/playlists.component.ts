@@ -10,8 +10,6 @@ import {
   loadPlaylistTracks,
   selectPlaylist
 } from '@store/playlist/playlist.actions';
-
-import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 
 @Component({
