@@ -15,6 +15,6 @@ export class PlaylistService {
   }
   // TODO: Get all instead of 20
   getPlaylistTracks(href: string): Observable<any> {
-    return this.http.get(`${href}?limit=20`);
+    return this.http.get(`${href}`);
   }
 }

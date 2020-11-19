@@ -27,7 +27,7 @@ const _playlistReducer = createReducer(
         ...state.playlists,
         [id]: {
           ...state.playlists[id],
-          tracks: tracks,
+          tracks: [...state.playlists[id].tracks, ...tracks],
           tracksMetadata: tracksMetadata
         }
       }

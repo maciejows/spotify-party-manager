@@ -35,30 +35,28 @@ export class PlaylistsComponent implements OnInit {
       .subscribe((data) => {});
   }
 
-  onPlaylistScroll(element: Element, key): void {
-    const total = element.scrollHeight - element.clientHeight;
-    const percent = (element.scrollTop / total) * 100;
-    console.log(
-      `Currently: ${element.scrollTop}, Total: ${total}, So thats: ${Math.round(
-        percent
-      )}%`
-    );
+  loadNextTracks(playlistId: string): void {
+    const href = this.playlistState.playlists[playlistId].tracksMetadata.next;
+    if (href) {
+      console.log('Firing: ' + playlistId);
+      this.getTracks(playlistId, href);
+    }
   }
 
-  selectPlaylist(key: string, value: Playlist): void {
-    if (!this.playlistState.playlists[key].tracks.length) {
-      this.getTracks(key, value);
+  selectPlaylist(playlistId: string, value: Playlist): void {
+    if (!this.playlistState.playlists[playlistId].tracks.length) {
+      this.getTracks(playlistId, value.tracksHref);
     }
     const currentPlaylist = this.playlistState.currentPlaylist;
     let show = this.playlistState.show;
-    show = currentPlaylist === key ? !show : true;
-    this.store.dispatch(selectPlaylist({ selected: key, show: show }));
+    show = currentPlaylist === playlistId ? !show : true;
+    this.store.dispatch(selectPlaylist({ selected: playlistId, show: show }));
   }
 
-  getTracks(key: string, value: Playlist): void {
+  getTracks(key: string, tracksHref: string): void {
     this.store.dispatch(
       loadPlaylistTracks({
-        href: value.tracksHref,
+        href: tracksHref,
         id: key
       })
     );

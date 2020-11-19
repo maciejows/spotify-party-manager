@@ -3,8 +3,8 @@
         <p class="clickable font-weight-bolder playlist-text"
         (click)="selectPlaylist(playlist.key, playlist.value)">{{playlist.value.name}}</p>
         <ul *ngIf="playlistState.currentPlaylist === playlist.key && playlistState.show;"
-         class="list-group mt-1 mb-2 force-overflow scrollbar scrollbar-danger" 
-         #element>
+         class="list-group mt-1 mb-2 force-overflow scrollbar scrollbar-danger"
+         (loadNextTracks)="loadNextTracks(playlist.key)">
             <ng-container *ngIf="playlist.value.tracks.length; else loading">
                 <li *ngFor="let track of playlist.value.tracks; index as i"
                 (click)="playPlaylistTrack(playlist.value.uri, i)" 

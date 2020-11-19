@@ -1,4 +1,11 @@
-import { Directive, ElementRef, OnDestroy, OnInit } from '@angular/core';
+import {
+  Directive,
+  ElementRef,
+  OnDestroy,
+  EventEmitter,
+  OnInit,
+  Output
+} from '@angular/core';
 import { fromEvent, Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 
@@ -8,6 +15,7 @@ import { debounceTime } from 'rxjs/operators';
 export class ScrollListenDirective implements OnInit, OnDestroy {
   el: ElementRef;
   sub: Subscription;
+  @Output() loadNextTracks: EventEmitter<any> = new EventEmitter();
   constructor(el: ElementRef) {
     this.el = el;
   }
@@ -24,6 +32,7 @@ export class ScrollListenDirective implements OnInit, OnDestroy {
             target.scrollTop
           }, Total: ${total}, So thats: ${Math.round(percent)}%`
         );
+        if (percent > 98) this.loadNextTracks.emit();
       });
     // switch to new search observable each time the term changes
     // switchMap((term: string) => this.heroService.searchHeroes(term)),
