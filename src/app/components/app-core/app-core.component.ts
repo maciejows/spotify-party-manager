@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AuthState } from '@models/AuthState';
 import { Store } from '@ngrx/store';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import { PlayerState } from '@models/PlayerState';
 import { SpotifyToken } from '@models/SpotifyToken';
@@ -10,6 +10,7 @@ import { take } from 'rxjs/operators';
 import { AuthService } from '@services/auth.service';
 import { showHide } from '../../animations/transition';
 import { selectPlaylist } from '@store/playlist/playlist.actions';
+import { PlaylistState } from '@models/PlaylistState';
 @Component({
   selector: 'app-app-core',
   animations: [showHide],
@@ -20,6 +21,7 @@ export class AppCoreComponent implements OnInit, OnDestroy {
   playerState: PlayerState;
   spotifyToken: SpotifyToken;
 
+  playlists: Observable<PlaylistState>;
   playerSubscription: Subscription;
   userSubscription: Subscription;
   tokenSubscription: Subscription;
@@ -29,6 +31,7 @@ export class AppCoreComponent implements OnInit, OnDestroy {
     private store: Store<{
       auth: AuthState;
       player: PlayerState;
+      playlist: PlaylistState;
     }>,
     private router: Router,
     private authService: AuthService
@@ -42,22 +45,22 @@ export class AppCoreComponent implements OnInit, OnDestroy {
     this.initStoreSubscriptions();
   }
   initStoreSubscriptions(): void {
+    this.playlists = this.store.select((state) => state.playlist);
+
     this.playerSubscription = this.store
       .select((state) => state.player)
       .subscribe((player) => {
         this.playerState = player;
       });
-    this.store
+
+    this.userSubscription = this.store
       .select((state) => state.auth.user)
       .pipe(take(1))
       .subscribe((user) => {
-        if (!user.id)
-          this.store.dispatch(
-            loadUserData({ token: this.spotifyToken?.value })
-          );
+        if (!user.id) this.store.dispatch(loadUserData());
       });
 
-    this.store
+    this.tokenSubscription = this.store
       .select((state) => state.auth.token)
       .pipe(take(1))
       .subscribe((token) => {
@@ -81,5 +84,7 @@ export class AppCoreComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.playerSubscription?.unsubscribe();
+    this.userSubscription?.unsubscribe();
+    this.tokenSubscription?.unsubscribe();
   }
 }

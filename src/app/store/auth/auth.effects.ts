@@ -8,6 +8,7 @@ import {
 import { mergeMap, map, catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { UserDataService } from '@services/user-data.service';
+import { User } from '@models/User';
 
 @Injectable()
 export class AuthEffects {
@@ -19,9 +20,9 @@ export class AuthEffects {
   loadUserInfo$ = createEffect(() =>
     this.actions$.pipe(
       ofType(loadUserData),
-      mergeMap((action) =>
-        this.dataService.getUserData(action.token).pipe(
-          map((user) => loadUserDataSuccess({ user })),
+      mergeMap(() =>
+        this.dataService.getUserData().pipe(
+          map((user) => loadUserDataSuccess({ user: new User(user) })),
           catchError((error) => of(loadUserDataError({ error: error })))
         )
       )

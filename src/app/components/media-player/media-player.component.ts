@@ -54,9 +54,7 @@ export class MediaPlayerComponent implements OnInit, OnDestroy {
   }
 
   transferPlayback(): void {
-    this.playerService
-      .transferPlayback(this.deviceId, this.spotifyToken?.value)
-      .subscribe(() => {});
+    this.playerService.transferPlayback(this.deviceId).subscribe(() => {});
   }
 
   togglePlay(): void {

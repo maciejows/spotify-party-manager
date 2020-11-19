@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 //MDBBootstrap
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
@@ -31,6 +31,8 @@ import { TimeSecondsPipe } from '@pipes/time-seconds.pipe';
 import { LyricsComponent } from '@components/lyrics/lyrics.component';
 import { AppRoutingModule } from './app-routing.module';
 import { RecommendedComponent } from './components/recommended/recommended.component';
+import { ScrollListenDirective } from './directives/scroll-listen.directive';
+import { TokenInterceptor } from './interceptors/token.interceptor';
 
 @NgModule({
   declarations: [
@@ -44,7 +46,8 @@ import { RecommendedComponent } from './components/recommended/recommended.compo
     PlaylistsComponent,
     TimeSecondsPipe,
     LyricsComponent,
-    RecommendedComponent
+    RecommendedComponent,
+    ScrollListenDirective
   ],
   imports: [
     BrowserModule,
@@ -63,7 +66,13 @@ import { RecommendedComponent } from './components/recommended/recommended.compo
     }),
     BrowserAnimationsModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

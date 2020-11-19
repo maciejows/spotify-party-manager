@@ -2,7 +2,6 @@ import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { CurrentTrack } from '@models/CurrentTrack';
 import { Playlist } from '@models/Playlist';
 import { PlaylistState } from '@models/PlaylistState';
-import { SpotifyToken } from '@models/SpotifyToken';
 import { Store } from '@ngrx/store';
 import { PlayerService } from '@services/player.service';
 import {
@@ -10,59 +9,55 @@ import {
   loadPlaylistTracks,
   selectPlaylist
 } from '@store/playlist/playlist.actions';
-
-import { Subscription } from 'rxjs';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-playlists',
   templateUrl: './playlists.component.html',
   styleUrls: ['./playlists.component.scss']
 })
-export class PlaylistsComponent implements OnInit, OnDestroy {
+export class PlaylistsComponent implements OnInit {
   @Input() currentTrack: CurrentTrack;
-  @Input() spotifyToken: SpotifyToken;
-  playlistState: PlaylistState;
-  playlistSub: Subscription;
+  @Input() playlistState: PlaylistState;
   constructor(
     private playerService: PlayerService,
     private store: Store<{ playlist: PlaylistState }>
   ) {}
 
   ngOnInit(): void {
-    this.store.dispatch(loadPlaylists({ token: this.spotifyToken?.value }));
-    this.playlistSub = this.store
-      .select((state) => state.playlist)
-      .subscribe((data) => {
-        this.playlistState = data;
-      });
-  }
-
-  ngOnDestroy(): void {
-    this.playlistSub?.unsubscribe();
+    this.store.dispatch(loadPlaylists());
   }
 
   playPlaylistTrack(playlistUri: string, trackOffset: number): void {
     this.playerService
-      .startPlayback(playlistUri, trackOffset, this.spotifyToken?.value)
+      .startPlayback(playlistUri, trackOffset)
+      .pipe(take(1))
       .subscribe((data) => {});
   }
 
-  selectPlaylist(key: string, value: Playlist): void {
-    if (!this.playlistState.playlists[key].items.length) {
-      this.getTracks(key, value);
+  loadNextTracks(playlistId: string): void {
+    const href = this.playlistState.playlists[playlistId].tracksMetadata.next;
+    if (href) {
+      console.log('Firing: ' + playlistId);
+      this.getTracks(playlistId, href);
+    }
+  }
+
+  selectPlaylist(playlistId: string, value: Playlist): void {
+    if (!this.playlistState.playlists[playlistId].tracks.length) {
+      this.getTracks(playlistId, value.tracksHref);
     }
     const currentPlaylist = this.playlistState.currentPlaylist;
     let show = this.playlistState.show;
-    show = currentPlaylist === key ? !show : true;
-    this.store.dispatch(selectPlaylist({ selected: key, show: show }));
+    show = currentPlaylist === playlistId ? !show : true;
+    this.store.dispatch(selectPlaylist({ selected: playlistId, show: show }));
   }
 
-  getTracks(key: string, value: Playlist): void {
+  getTracks(key: string, tracksHref: string): void {
     this.store.dispatch(
       loadPlaylistTracks({
-        href: value.tracksHref,
-        id: key,
-        token: this.spotifyToken?.value
+        href: tracksHref,
+        id: key
       })
     );
   }
