@@ -7,10 +7,7 @@ export const storeSpotifyToken = createAction(
   props<{ token: SpotifyToken }>()
 );
 
-export const loadUserData = createAction(
-  '[User-Data Service] Load User Data',
-  props<{ token: string }>()
-);
+export const loadUserData = createAction('[User-Data Service] Load User Data');
 export const loadUserDataSuccess = createAction(
   '[User-Data Service] Load User Data Success',
   props<{ user: User }>()

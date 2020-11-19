@@ -1,5 +1,4 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { SpotifyToken } from '@models/SpotifyToken';
 import { PlayerService } from '@services/player.service';
 
 @Component({
@@ -8,7 +7,6 @@ import { PlayerService } from '@services/player.service';
   styleUrls: ['./recommended.component.scss']
 })
 export class RecommendedComponent implements OnInit {
-  @Input() spotifyToken: SpotifyToken;
   seeds = {
     artists: [],
     genres: [],
@@ -20,7 +18,7 @@ export class RecommendedComponent implements OnInit {
 
   hehexd(): void {
     this.playerService
-      .getRecommended(this.seeds, this.spotifyToken.value)
+      .getRecommended(this.seeds)
       .subscribe((data) => console.log(data));
   }
 }

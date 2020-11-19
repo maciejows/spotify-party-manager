@@ -2,7 +2,6 @@ import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { CurrentTrack } from '@models/CurrentTrack';
 import { Playlist } from '@models/Playlist';
 import { PlaylistState } from '@models/PlaylistState';
-import { SpotifyToken } from '@models/SpotifyToken';
 import { Store } from '@ngrx/store';
 import { PlayerService } from '@services/player.service';
 import {
@@ -19,7 +18,6 @@ import { take } from 'rxjs/operators';
 })
 export class PlaylistsComponent implements OnInit {
   @Input() currentTrack: CurrentTrack;
-  @Input() spotifyToken: SpotifyToken;
   @Input() playlistState: PlaylistState;
   constructor(
     private playerService: PlayerService,
@@ -27,12 +25,12 @@ export class PlaylistsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.store.dispatch(loadPlaylists({ token: this.spotifyToken?.value }));
+    this.store.dispatch(loadPlaylists());
   }
 
   playPlaylistTrack(playlistUri: string, trackOffset: number): void {
     this.playerService
-      .startPlayback(playlistUri, trackOffset, this.spotifyToken?.value)
+      .startPlayback(playlistUri, trackOffset)
       .pipe(take(1))
       .subscribe((data) => {});
   }
@@ -61,8 +59,7 @@ export class PlaylistsComponent implements OnInit {
     this.store.dispatch(
       loadPlaylistTracks({
         href: value.tracksHref,
-        id: key,
-        token: this.spotifyToken?.value
+        id: key
       })
     );
   }

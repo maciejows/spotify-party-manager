@@ -57,10 +57,7 @@ export class AppCoreComponent implements OnInit, OnDestroy {
       .select((state) => state.auth.user)
       .pipe(take(1))
       .subscribe((user) => {
-        if (!user.id)
-          this.store.dispatch(
-            loadUserData({ token: this.spotifyToken?.value })
-          );
+        if (!user.id) this.store.dispatch(loadUserData());
       });
 
     this.tokenSubscription = this.store

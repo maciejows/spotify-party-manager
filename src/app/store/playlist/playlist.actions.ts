@@ -3,10 +3,7 @@ import { PlaylistTracksMetadata } from '@models/PlaylistTracksMetadata';
 import { Track } from '@models/Track';
 import { createAction, props } from '@ngrx/store';
 
-export const loadPlaylists = createAction(
-  '[Playlist Service] Load Playlists',
-  props<{ token: string }>()
-);
+export const loadPlaylists = createAction('[Playlist Service] Load Playlists');
 export const loadPlaylistsSuccess = createAction(
   '[Playlist Service] Load Playlists Success',
   props<{ playlists: PlaylistState }>()
@@ -18,7 +15,7 @@ export const loadPlaylistsError = createAction(
 
 export const loadPlaylistTracks = createAction(
   '[Playlist Service] Load playlist tracks',
-  props<{ href: string; id: string; token: string }>()
+  props<{ href: string; id: string }>()
 );
 export const loadPlaylistTracksSuccess = createAction(
   '[Playlist Service] Load playlist Tracks Success',

@@ -29,7 +29,7 @@ export class CallbackComponent implements OnInit {
         expiresIn: time
       };
       this.setStorage(spotifyToken);
-      this.store.dispatch(loadUserData({ token: spotifyToken.value }));
+      this.store.dispatch(loadUserData());
       this.router.navigateByUrl('/app');
     } else {
       this.router.navigateByUrl('/');
