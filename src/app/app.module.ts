@@ -33,6 +33,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { RecommendedComponent } from './components/recommended/recommended.component';
 import { ScrollListenDirective } from './directives/scroll-listen.directive';
 import { TokenInterceptor } from './interceptors/token.interceptor';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -64,7 +65,10 @@ import { TokenInterceptor } from './interceptors/token.interceptor';
       maxAge: 25, // Retains last 25 states
       logOnly: environment.production // Restrict extension to log-only mode
     }),
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    ToastrModule.forRoot({
+      preventDuplicates: true
+    })
   ],
   providers: [
     {
