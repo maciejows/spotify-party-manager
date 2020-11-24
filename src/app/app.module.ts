@@ -34,6 +34,7 @@ import { RecommendedComponent } from './components/recommended/recommended.compo
 import { ScrollListenDirective } from './directives/scroll-listen.directive';
 import { TokenInterceptor } from './interceptors/token.interceptor';
 import { ToastrModule } from 'ngx-toastr';
+import { DestroyListenDirective } from './directives/destroy-listen.directive';
 
 @NgModule({
   declarations: [
@@ -48,7 +49,8 @@ import { ToastrModule } from 'ngx-toastr';
     TimeSecondsPipe,
     LyricsComponent,
     RecommendedComponent,
-    ScrollListenDirective
+    ScrollListenDirective,
+    DestroyListenDirective
   ],
   imports: [
     BrowserModule,

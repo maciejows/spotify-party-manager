@@ -1,4 +1,12 @@
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  ElementRef,
+  ViewChild,
+  OnChanges,
+  ChangeDetectionStrategy
+} from '@angular/core';
 import { CurrentTrack } from '@models/CurrentTrack';
 import { Playlist } from '@models/Playlist';
 import { PlaylistState } from '@models/PlaylistState';
@@ -14,11 +22,18 @@ import { take } from 'rxjs/operators';
 @Component({
   selector: 'app-playlists',
   templateUrl: './playlists.component.html',
-  styleUrls: ['./playlists.component.scss']
+  styleUrls: ['./playlists.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class PlaylistsComponent implements OnInit {
+export class PlaylistsComponent implements OnInit, OnChanges {
   @Input() currentTrack: CurrentTrack;
   @Input() playlistState: PlaylistState;
+  @ViewChild('playlistElement') scrollableElement: ElementRef;
+  scroll = 0;
+  playlistState2: any = {
+    playlists: { '1': { name: 'xd' }, '2': { name: 'xd' }, '3': { name: 'xd' } }
+  };
+
   constructor(
     private playerService: PlayerService,
     private store: Store<{ playlist: PlaylistState }>
@@ -26,6 +41,16 @@ export class PlaylistsComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.dispatch(loadPlaylists());
+    console.log('Playlist init');
+  }
+
+  ngOnChanges() {
+    console.log('State changed');
+  }
+
+  trackByFunction(index, item) {
+    console.log(index, item.key);
+    return item.key;
   }
 
   playPlaylistTrack(playlistUri: string, trackOffset: number): void {
@@ -35,7 +60,8 @@ export class PlaylistsComponent implements OnInit {
       .subscribe((data) => {});
   }
 
-  loadNextTracks(playlistId: string): void {
+  loadNextTracks(event, playlistId: string): void {
+    console.log('Got event: ' + event);
     const href = this.playlistState.playlists[playlistId].tracksMetadata.next;
     if (href) {
       console.log('Firing: ' + playlistId);

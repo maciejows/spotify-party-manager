@@ -1,18 +1,20 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import * as PlaylistActions from './playlist.actions';
-import { mergeMap, map, catchError } from 'rxjs/operators';
+import { mergeMap, map, catchError, tap } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { PlaylistService } from '@services/playlist.service';
 import { Playlist } from '@models/Playlist';
 import { Track } from '@models/Track';
 import { PlaylistTracksMetadata } from '@models/PlaylistTracksMetadata';
+import { PlaylistComponentStore } from '@store/PlaylistComponent.store';
 
 @Injectable()
 export class PlaylistEffects {
   constructor(
     private actions$: Actions,
-    private playlistService: PlaylistService
+    private playlistService: PlaylistService,
+    private playlistComponentStore: PlaylistComponentStore
   ) {}
 
   loadUserPlaylists$ = createEffect(() =>

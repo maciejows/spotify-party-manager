@@ -4,21 +4,20 @@ import {
   OnDestroy,
   EventEmitter,
   OnInit,
-  Output
+  Output,
+  Input
 } from '@angular/core';
 import { fromEvent, Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 
 @Directive({
-  selector: 'ul.force-overflow.scrollbar'
+  selector: '[scrollListen]'
 })
 export class ScrollListenDirective implements OnInit, OnDestroy {
-  el: ElementRef;
   sub: Subscription;
-  @Output() loadNextTracks: EventEmitter<any> = new EventEmitter();
-  constructor(el: ElementRef) {
-    this.el = el;
-  }
+  @Output() loadNextTracks: EventEmitter<number> = new EventEmitter();
+  @Input() playlistId: string;
+  constructor(private el: ElementRef) {}
 
   ngOnInit(): void {
     this.sub = fromEvent(this.el.nativeElement, 'scroll')
@@ -32,11 +31,11 @@ export class ScrollListenDirective implements OnInit, OnDestroy {
             target.scrollTop
           }, Total: ${total}, So thats: ${Math.round(percent)}%`
         );
-        if (percent > 98) this.loadNextTracks.emit();
+        if (percent > 99) {
+          /** */
+          this.loadNextTracks.emit(target.scrollTop);
+        }
       });
-    // switch to new search observable each time the term changes
-    // switchMap((term: string) => this.heroService.searchHeroes(term)),
-    console.log('Init');
   }
 
   ngOnDestroy(): void {

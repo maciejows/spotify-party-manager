@@ -34,3 +34,8 @@ export const selectPlaylist = createAction(
   '[Playlist Component] Select playlist',
   props<{ show: boolean; selected?: string }>()
 );
+
+export const setScrollbarPosition = createAction(
+  '[Scrollbar directive] Set Scrollbar Position',
+  props<{ position: number; id: string }>()
+);

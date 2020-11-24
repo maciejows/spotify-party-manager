@@ -41,6 +41,16 @@ const _playlistReducer = createReducer(
     ...state,
     currentPlaylist: selected,
     show: show
+  })),
+  on(PlaylistActions.setScrollbarPosition, (state, { position, id }) => ({
+    ...state,
+    playlists: {
+      ...state.playlists,
+      [id]: {
+        ...state.playlists[id],
+        scrollbarPosition: position
+      }
+    }
   }))
 );
 

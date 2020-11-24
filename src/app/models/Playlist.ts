@@ -13,6 +13,8 @@ export class Playlist {
   tracksHref: string;
   tracks: Track[];
   tracksMetadata: PlaylistTracksMetadata;
+  // Move somewhere else?
+  scrollbarPosition: number;
 
   constructor(object: any) {
     this.name = object.name;
@@ -26,6 +28,7 @@ export class Playlist {
     this.tracksHref = object.tracks.href;
     this.tracks = [];
     this.tracksMetadata = new PlaylistTracksMetadata();
+    this.scrollbarPosition = 0;
   }
 
   static mapDataToPlaylistArray(data): PlaylistState {
