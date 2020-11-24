@@ -1,11 +1,9 @@
 <div class="mt-5 mt-lg-0 ml-3 ml-md-5 ml-lg-0">
-    <div *ngFor="let playlist of playlistState.playlists | keyvalue; trackBy: trackByFunction">
+    <div *ngFor="let playlist of playlistState.playlists | keyvalue; trackBy: trackByItemKey">
         <p class="clickable font-weight-bolder playlist-text"
         (click)="selectPlaylist(playlist.key, playlist.value)">{{playlist.value.name}}</p>
         <ul *ngIf="playlistState.currentPlaylist === playlist.key && playlistState.show;"
-         class="list-group mt-1 mb-2 force-overflow scrollbar scrollbar-danger"
-         (loadNextTracks)="loadNextTracks($event, playlist.key)"
-         scrollListen>
+         class="list-group mt-1 mb-2 force-overflow scrollbar scrollbar-danger">
             <ng-container *ngIf="playlist.value.tracks.length; else loading">
                 <li *ngFor="let track of playlist.value.tracks; index as i"
                 (click)="playPlaylistTrack(playlist.value.uri, i)" 
@@ -14,6 +12,8 @@
                     {{track.name}}
                     <mdb-icon *ngIf="track.id === currentTrack.id" fas size="lg" icon="play-circle" class="ml-1 play-icon"></mdb-icon>
                 </li>
+                <!-- Listen for scroll reaching bottom of the list -->
+                <li scrollListen #anchor (loadNextTracks)="loadNextTracks($event, playlist.key)"></li>
             </ng-container>
             <ng-template #loading>
                 <div class="spinner-border spinner my-auto mx-auto" role="status">
